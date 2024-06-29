@@ -38,11 +38,31 @@ Use a Git branching model for development. Here's the typical contribution workf
       ```
      cd Identification-Document-Scanning-App
       ```
-   - Create a new branch for your specific changes. Use a descriptive branch name that reflects your contribution (e.g., `fix-login-issue` or `add-new-feature`).
+   - To see the available branches, on the terminal, run
+     ```
+     git branch
+     ```
+     At the moment only the `Production` branch is available
+
+   - Create a new `Development` branch locally. This branch will contain the changes that are ready to be published to the [remote development branch](https://github.com/Vanatel-tech/Identification-Document-Scanning-App/tree/Development)
+     ```
+     git chechout -b Development
+     ```
+   - Next, pull the changes from the remote `Development` branch to the local `Development` branch.
+     ```
+     git pull origin Development
+     ```
+     
+   - Now create a new branch for your specific changes. This is where you will first stage any of your changes. Use a descriptive branch name that reflects your contribution (e.g., `fix-login-issue` or `add-new-feature`).
 
      ```
      git checkout -b add-new-feature
      ```
+   - Finaly, you need to merge the local `Development` branch to your newly created branch (e.g. `add-new-feature`)
+     ```
+     git merge Development
+     ```
+
       
 4. **Make Your Changes:**
    - Make your code changes and write unit tests for your modifications (if applicable).
