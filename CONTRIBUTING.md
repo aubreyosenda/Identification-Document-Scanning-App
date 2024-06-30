@@ -46,7 +46,7 @@ Use a Git branching model for development. Here's the typical contribution workf
 
    - Create a new `Development` branch locally. This branch will contain the changes that are ready to be published to the [remote development branch](https://github.com/Vanatel-tech/Identification-Document-Scanning-App/tree/Development)
      ```
-     git chechout -b Development
+     git checkout -b Development
      ```
    - Next, pull the changes from the remote `Development` branch to the local `Development` branch.
      ```
