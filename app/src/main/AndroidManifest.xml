@@ -29,9 +29,7 @@
             android:name=".PhoneNumberActivity1"
             android:exported="false" />
 
-        <activity
-            android:name=".test1"
-            android:exported="false" />
+
         <activity
             android:name=".DisplayActivity"
             android:exported="false" />
@@ -39,10 +37,10 @@
             android:name=".GetStartedActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".WelcomeActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity1"
+            android:name=".CameraActivity"
             android:exported="true"/>
 
         <activity

@@ -46,7 +46,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
-    implementation ("com.hbb20:ccp:2.6.0")
+    implementation (libs.ccp)
     implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -63,6 +63,7 @@ dependencies {
 
 dependencies {
 
+    implementation(libs.firebase.firestore)
     val camerax_version = "1.4.0-beta02"
     // The following line is optional, as the core library is included indirectly by camera-camera2
     implementation("androidx.camera:camera-core:${camerax_version}")

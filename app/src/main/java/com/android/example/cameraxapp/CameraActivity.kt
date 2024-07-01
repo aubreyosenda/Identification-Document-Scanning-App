@@ -29,12 +29,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
-import androidx.camera.video.FallbackStrategy
-import androidx.camera.video.MediaStoreOutputOptions
-import androidx.camera.video.Quality
-import androidx.camera.video.QualitySelector
-import androidx.camera.video.VideoRecordEvent
-import androidx.core.content.PermissionChecker
 import androidx.fragment.app.DialogFragment
 import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
@@ -42,7 +36,7 @@ import java.util.Locale
 
 //typealias LumaListener = (luma: Double) -> Unit
 
-class MainActivity1 : AppCompatActivity() {
+class CameraActivity : AppCompatActivity() {
     private lateinit var selectedDocumentText: TextView
     private lateinit var viewBinding: ActivityMainBinding
 
