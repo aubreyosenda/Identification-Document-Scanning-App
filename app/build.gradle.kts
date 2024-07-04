@@ -90,7 +90,7 @@ dependencies {
     // To use Standard variant:
     implementation ("cz.adaptech.tesseract4android:tesseract4android:4.7.0")
 //    implementation ("com.rmtheis:tess-two:9.1.0")
-
+    implementation ("com.google.guava:guava:31.0.1-android")
     configurations.all {
         resolutionStrategy {
             force ("com.googlecode.leptonica.android:leptonica:1.77.0") // Replace with the desired version

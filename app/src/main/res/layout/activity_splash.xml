@@ -23,7 +23,7 @@ tools:context=".SplashActivity">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CAMR"
+        android:text="SIDAR"
         android:textSize="35sp"
         android:textColor="@color/white"
         android:textStyle="bold"
