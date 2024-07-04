@@ -40,7 +40,7 @@ public class GetStartedActivity extends AppCompatActivity {
                 String selectedCountry = countryCodePicker.getSelectedCountryName();
 
                 // Start MainActivity1 and pass selected document type
-                Intent intent = new Intent(GetStartedActivity.this, MainActivity1.class);
+                Intent intent = new Intent(GetStartedActivity.this, CameraActivity.class);
                 intent.putExtra("selectedDocument", selectedDocument);
                 intent.putExtra("selectedCountry", selectedCountry);
                 startActivity(intent);

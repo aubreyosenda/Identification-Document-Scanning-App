@@ -11,7 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity {
 
 
     Button button_get_started;
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         button_get_started.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, GetStartedActivity.class);
+                Intent i = new Intent(WelcomeActivity.this, GetStartedActivity.class);
                 startActivity(i);
             }
         });
