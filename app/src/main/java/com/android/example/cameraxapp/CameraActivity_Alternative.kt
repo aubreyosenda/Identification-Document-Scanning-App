@@ -32,7 +32,7 @@ import java.util.Locale
 
 typealias LumaListener = (luma: Double) -> Unit
 
-class MainActivity2: AppCompatActivity() {
+class CameraActivity_Alternative: AppCompatActivity() {
     private lateinit var selectedDocumentText: TextView
     private lateinit var viewBinding: ActivityMain2Binding
 
@@ -144,7 +144,7 @@ class MainActivity2: AppCompatActivity() {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val capturedImageUri = output.savedUri
 
-                    val intent = Intent(this@MainActivity2, DisplayActivity::class.java);  // Use 'this@MainActivity2' for context
+                    val intent = Intent(this@CameraActivity_Alternative, DisplayActivity::class.java);  // Use 'this@MainActivity2' for context
                     intent.putExtra("imageUri", capturedImageUri.toString());
                     startActivity(intent);
 

@@ -22,36 +22,39 @@
         <activity
             android:name=".LoginUsernameActivity"
             android:exported="false" />
+
         <activity
             android:name=".LoginOtpActivity"
             android:exported="false" />
+
         <activity
             android:name=".PhoneNumberActivity1"
             android:exported="false" />
 
         <activity
-            android:name=".test1"
-            android:exported="false" />
-        <activity
             android:name=".DisplayActivity"
             android:exported="false" />
+
         <activity
             android:name=".GetStartedActivity"
             android:exported="false" />
+
         <activity
-            android:name=".MainActivity"
+            android:name=".WelcomeActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity1"
+            android:name=".CameraActivity"
             android:exported="true"/>
 
         <activity
             android:name=".SplashActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
     </application>
