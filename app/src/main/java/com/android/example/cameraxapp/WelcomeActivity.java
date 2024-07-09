@@ -20,7 +20,7 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main1);
+        setContentView(R.layout.activity_welcome);
 
         button_get_started = findViewById(R.id.button_get_started);
         button_get_started.setOnClickListener(new View.OnClickListener() {

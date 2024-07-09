@@ -35,6 +35,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 }
 
@@ -51,6 +52,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation ("com.google.android.gms:play-services-vision:20.1.3")
+
     // Import the BoM for the Firebase platform
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
 
@@ -63,7 +66,6 @@ dependencies {
 
 dependencies {
 
-    implementation(libs.firebase.firestore)
     val camerax_version = "1.4.0-beta02"
     // The following line is optional, as the core library is included indirectly by camera-camera2
     implementation("androidx.camera:camera-core:${camerax_version}")
@@ -91,10 +93,6 @@ dependencies {
     implementation ("cz.adaptech.tesseract4android:tesseract4android:4.7.0")
 //    implementation ("com.rmtheis:tess-two:9.1.0")
     implementation ("com.google.guava:guava:31.0.1-android")
-    configurations.all {
-        resolutionStrategy {
-            force ("com.googlecode.leptonica.android:leptonica:1.77.0") // Replace with the desired version
-        }
-    }
+
 
 }
