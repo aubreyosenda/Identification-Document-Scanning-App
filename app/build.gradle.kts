@@ -66,6 +66,10 @@ dependencies {
 
 dependencies {
 
+   // implementation(libs.firebase.crashlytics.buildtools)
+    implementation ("com.github.yalantis:ucrop:2.2.6")
+
+    implementation(libs.play.services.vision.common)
     val camerax_version = "1.4.0-beta02"
     // The following line is optional, as the core library is included indirectly by camera-camera2
     implementation("androidx.camera:camera-core:${camerax_version}")
@@ -93,6 +97,10 @@ dependencies {
     implementation ("cz.adaptech.tesseract4android:tesseract4android:4.7.0")
 //    implementation ("com.rmtheis:tess-two:9.1.0")
     implementation ("com.google.guava:guava:31.0.1-android")
+
+    implementation ("androidx.appcompat:appcompat:1.3.1")
+
+    implementation ("com.google.mlkit:text-recognition:16.0.0")
 
 
 }

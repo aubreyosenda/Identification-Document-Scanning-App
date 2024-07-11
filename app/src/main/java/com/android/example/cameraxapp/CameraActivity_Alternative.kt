@@ -1,9 +1,11 @@
 package com.android.example.cameraxapp
 
 import android.Manifest
+import android.app.Dialog
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -11,6 +13,7 @@ import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
@@ -23,18 +26,19 @@ import androidx.camera.video.Recorder
 import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
 import androidx.core.content.ContextCompat
-import com.android.example.cameraxapp.databinding.ActivityCameraAlternativeBinding
+import androidx.fragment.app.DialogFragment
+import com.android.example.cameraxapp.databinding.ActivityCameraBinding
 import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-typealias LumaListener = (luma: Double) -> Unit
+//typealias LumaListener = (luma: Double) -> Unit
 
-class CameraActivity_Alternative: AppCompatActivity() {
+class CameraActivity_Alternative : AppCompatActivity() {
     private lateinit var selectedDocumentText: TextView
-    private lateinit var viewBinding: ActivityCameraAlternativeBinding
+    private lateinit var viewBinding: ActivityCameraBinding
 
     private var imageCapture: ImageCapture? = null
 
@@ -45,7 +49,7 @@ class CameraActivity_Alternative: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewBinding = ActivityCameraAlternativeBinding.inflate(layoutInflater)
+        viewBinding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
         // Request camera permissions
@@ -138,23 +142,80 @@ class CameraActivity_Alternative: AppCompatActivity() {
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onError(exc: ImageCaptureException) {
-                    // Handle error
+                    Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
+                    Toast.makeText(baseContext, "Photo capture failed. Retry?", Toast.LENGTH_SHORT).show()
+                    // Handle retry logic here, e.g., show a retry dialog
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val capturedImageUri = output.savedUri
-
-                    val intent = Intent(this@CameraActivity_Alternative, DisplayActivity::class.java);  // Use 'this@MainActivity2' for context
-                    intent.putExtra("imageUri", capturedImageUri.toString());
-                    startActivity(intent);
-
                     val msg = "Photo capture succeeded: ${output.savedUri}"
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, msg);
+                    Log.d(TAG, msg)
+
+                    // Optionally, show preview or proceed to the next activity here
+                    showImagePreviewDialog(output.savedUri) // Example: passing URI to preview function
                 }
             }
         )
     }
+    private fun showImagePreviewDialog(imageUri: Uri?) {
+        imageUri ?: return
+
+        // Create a dialog or activity to display the captured image
+        // Provide options to either move the image to DisplayActivity or retake it
+
+        // Example: Using a DialogFragment to display the image
+        val dialogFragment = ImagePreviewDialogFragment.newInstance(imageUri)
+        dialogFragment.show(supportFragmentManager, "ImagePreviewDialog")
+    }
+
+    // Example of a DialogFragment to display the image preview
+    class ImagePreviewDialogFragment : DialogFragment() {
+
+        companion object {
+            private const val ARG_IMAGE_URI = "arg_image_uri"
+
+            fun newInstance(imageUri: Uri): ImagePreviewDialogFragment {
+                val fragment = ImagePreviewDialogFragment()
+                val args = Bundle()
+                args.putParcelable(ARG_IMAGE_URI, imageUri)
+                fragment.arguments = args
+                return fragment
+            }
+        }
+
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            val imageUri = arguments?.getParcelable<Uri>(ARG_IMAGE_URI)
+            if (imageUri == null) {
+                dismiss()
+            }
+
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Captured Image Preview")
+                .setMessage("Do you want to use this image?")
+                .setPositiveButton("Use") { _, _ ->
+                    // Navigate to DisplayActivity and pass the imageUri
+                    val intent = Intent(requireContext(), DisplayActivity::class.java)
+                    intent.putExtra("imageUri", imageUri.toString())
+                    startActivity(intent)
+                    dismiss()
+                }
+                .setNegativeButton("Retake") { _, _ ->
+                    // Retake the photo
+                    dismiss()
+                    //takePhoto()
+                }
+                .setOnCancelListener {
+                    // Handle cancel (optional)
+                    dismiss()
+                }
+            return builder.create()
+        }
+    }
+
+
+
+
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
@@ -211,7 +272,7 @@ class CameraActivity_Alternative: AppCompatActivity() {
         private val REQUIRED_PERMISSIONS =
             mutableListOf (
                 Manifest.permission.CAMERA,
-                Manifest.permission.RECORD_AUDIO
+                //Manifest.permission.RECORD_AUDIO
             ).apply {
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
                     add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
