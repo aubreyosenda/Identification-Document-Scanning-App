@@ -36,6 +36,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        android:scaleType="fitCenter"
+        app:layout_constraintTop_toBottomOf="@+id/selected_document_text"
+        app:layout_constraintBottom_toTopOf="@+id/bottomControls"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <LinearLayout
         android:id="@+id/bottomControls"
         android:layout_width="410dp"

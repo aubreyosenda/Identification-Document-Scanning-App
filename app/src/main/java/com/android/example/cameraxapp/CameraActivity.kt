@@ -1,7 +1,6 @@
 package com.android.example.cameraxapp
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -10,6 +9,7 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Size
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,7 +18,9 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.android.example.cameraxapp.databinding.ActivityCameraBinding
-import com.yalantis.ucrop.UCrop
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.CropImageOptions
+import com.canhub.cropper.CropImageView
 import java.io.File
 import java.io.FileOutputStream
 import java.util.concurrent.ExecutorService
@@ -27,6 +29,7 @@ import java.util.concurrent.Executors
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
+
 typealias LumaListener = (luma: Double) -> Unit
 
 class CameraActivity : AppCompatActivity() {
@@ -35,6 +38,23 @@ class CameraActivity : AppCompatActivity() {
 
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
+    private lateinit var imageView: ImageView
+
+    private val cropImage = registerForActivityResult(CropImageContract()) { result ->
+        if (result.isSuccessful) {
+            // Use the returned uri.
+            val uriContent = result.uriContent
+            uriContent?.let {
+                imageView.setImageURI(it)
+                imageView.visibility = ImageView.VISIBLE
+                viewBinding.viewFinder.visibility = ImageView.GONE
+            }
+        } else {
+            // An error occurred.
+            val exception = result.error
+            Toast.makeText(baseContext, "Image crop failed: ${exception?.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +99,7 @@ class CameraActivity : AppCompatActivity() {
                     val bitmap = imageProxyToBitmap(image)
                     image.close()
                     val imageUri = saveBitmap(bitmap)
-                    showImagePreviewDialog(imageUri)
+                    startCrop(imageUri)
                 }
             }
         )
@@ -101,9 +121,13 @@ class CameraActivity : AppCompatActivity() {
         return Uri.fromFile(file)
     }
 
-    private fun showImagePreviewDialog(imageUri: Uri) {
-        val dialogFragment = ImagePreviewDialogFragment.newInstance(imageUri)
-        dialogFragment.show(supportFragmentManager, "ImagePreviewDialog")
+    private fun startCrop(imageUri: Uri) {
+        val cropImageOptions = CropImageOptions().apply {
+            guidelines = CropImageView.Guidelines.ON
+            outputCompressFormat = Bitmap.CompressFormat.PNG
+        }
+
+        cropImage.launch(com.canhub.cropper.CropImageContractOptions(imageUri, cropImageOptions))
     }
 
     private fun startCamera() {
