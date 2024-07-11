@@ -13,5 +13,6 @@
     <string name="scan">Scan</string>
     <string name="stop">Stop</string>
     <string name="start">Start</string>
+    <string name="phone_number">Phone Number:</string>
 
 </resources>

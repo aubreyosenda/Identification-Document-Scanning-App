@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"  tools:context=".DisplayActivity">
 
     <ImageView
@@ -42,10 +42,27 @@
 <!--    </LinearLayout>-->
 
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/name_text"
         android:layout_width="match_parent"
-        android:layout_height="0dp"  android:layout_weight="1"  android:padding="16dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:scrollbars="horizontal"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/id_no_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="10dp"
         android:scrollbars="vertical"
         android:text="" />
+
+    <TextView
+        android:id="@+id/phone_number_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:scrollbars="vertical"
+        android:text="@string/phone_number" />
 
 </LinearLayout>
