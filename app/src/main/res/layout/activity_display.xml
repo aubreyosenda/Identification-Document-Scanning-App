@@ -1,45 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    tools:context=".DisplayActivity"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"  tools:context=".DisplayActivity">
+    android:background="@color/background"
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_weight=".1"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside" />
-
-<!--    <LinearLayout-->
+<!--    <ScrollView-->
 <!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="75dp"-->
-<!--        android:layout_marginBottom="20dp"-->
-<!--        android:gravity="center"-->
-<!--        android:orientation="horizontal">-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="1"-->
+<!--        android:padding="16dp">-->
 
-<!--        <Button-->
-<!--            android:id="@+id/retake"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginEnd="4dp"-->
-<!--            android:text="Retake"-->
-<!--            android:textColor="#FFF" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/text"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:hint="There is no text try retaking the picture"-->
+        <!--            android:textSize="18sp"-->
+        <!--            android:inputType="textMultiLine"-->
+        <!--            android:minLines="10"-->
+        <!--            android:gravity="start"-->
+        <!--            android:background="@drawable/textview_border"-->
+        <!--            android:focusable="true"-->
+        <!--            android:focusableInTouchMode="true"-->
+        <!--            android:cursorVisible="true"-->
+        <!--            android:editable="true"-->
+        <!--            android:clickable="true"/>-->
 
 
-<!--        <Button-->
-<!--            android:id="@+id/copy"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="4dp"-->
-<!--            android:text="Copy"-->
-<!--            android:textColor="#FFF" />-->
+<!--    </ScrollView>-->
 
-<!--    </LinearLayout>-->
 
     <TextView
         android:id="@+id/name_text"
@@ -65,4 +57,31 @@
         android:scrollbars="vertical"
         android:text="@string/phone_number" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_retake"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/button_color"
+            android:text="Retake"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/button_copy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/button_color"
+            android:text="Copy Text"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 </LinearLayout>

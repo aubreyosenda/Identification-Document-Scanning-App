@@ -1,6 +1,5 @@
 package com.android.example.cameraxapp;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
