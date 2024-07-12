@@ -1,60 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".DisplayActivity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/background">
+    android:layout_height="wrap_content"
+    android:background="@color/background"
+    android:orientation="vertical">
 
-    <ScrollView
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="1"-->
+<!--        android:padding="16dp">-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/text"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:hint="There is no text try retaking the picture"-->
+        <!--            android:textSize="18sp"-->
+        <!--            android:inputType="textMultiLine"-->
+        <!--            android:minLines="10"-->
+        <!--            android:gravity="start"-->
+        <!--            android:background="@drawable/textview_border"-->
+        <!--            android:focusable="true"-->
+        <!--            android:focusableInTouchMode="true"-->
+        <!--            android:cursorVisible="true"-->
+        <!--            android:editable="true"-->
+        <!--            android:clickable="true"/>-->
+
+
+<!--    </ScrollView>-->
+
+
+    <TextView
+        android:id="@+id/name_text"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="16dp">
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:scrollbars="horizontal"
+        android:text="" />
 
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="There is no text try retaking the picture"
-            android:textSize="18sp"
-            android:inputType="textMultiLine"
-            android:minLines="10"
-            android:gravity="start"
-            android:background="@drawable/textview_border"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:cursorVisible="true"
-            android:editable="true"
-            android:clickable="true"/>
-    </ScrollView>
+    <TextView
+        android:id="@+id/id_no_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:scrollbars="vertical"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/phone_number_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:scrollbars="vertical"
+        android:text="@string/phone_number" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
         android:gravity="center"
-        android:layout_marginTop="16dp">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/button_retake"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:text="Retake"
-            android:textColor="@android:color/white"
             android:backgroundTint="@color/button_color"
-            android:layout_marginEnd="8dp" />
+            android:text="Retake"
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/button_copy"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:text="Copy Text"
-            android:textColor="@android:color/white"
             android:backgroundTint="@color/button_color"
-            android:layout_marginStart="8dp" />
+            android:text="Copy Text"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 </LinearLayout>

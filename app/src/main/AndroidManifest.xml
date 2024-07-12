@@ -6,10 +6,10 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- WRITE_EXTERNAL_STORAGE permission is required for Android 28 and below -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>-->
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" />
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"-->
+<!--        android:maxSdkVersion="28" />-->
 
     <application
         android:allowBackup="true"

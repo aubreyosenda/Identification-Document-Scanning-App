@@ -36,17 +36,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/preview_background"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/selected_document_text"
+        app:layout_constraintBottom_toTopOf="@+id/bottomControls"
+        app:layout_constraintDimensionRatio="16:9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <LinearLayout
         android:id="@+id/bottomControls"
-        android:layout_width="410dp"
-        android:layout_height="116dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="16dp"
         android:background="@drawable/bottom_controls_background"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
 
         <Button
             android:id="@+id/image_capture_button"
@@ -54,8 +67,12 @@
             android:layout_height="72dp"
             android:layout_gravity="center"
             android:background="@drawable/camera"
-            android:elevation="4dp" />
+            android:elevation="4dp"
+            tools:layout_editor_absoluteX="169dp"
+            tools:layout_editor_absoluteY="602dp" />
 
     </LinearLayout>
 
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
