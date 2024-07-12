@@ -5,41 +5,48 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Size
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.*
+import androidx.camera.core.AspectRatio
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.ImageProxy
+import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.android.example.cameraxapp.databinding.ActivityCameraBinding
-import com.yalantis.ucrop.UCrop
-import java.io.File
-import java.io.FileOutputStream
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
-typealias LumaListener = (luma: Double) -> Unit
 
 class CameraActivity : AppCompatActivity() {
     private lateinit var selectedDocumentText: TextView
     private lateinit var viewBinding: ActivityCameraBinding
-
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
+    private lateinit var imageView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+
+        // Initialize the views
+        selectedDocumentText = findViewById(R.id.selected_document_text)
+        imageView = findViewById(R.id.imageView)
 
         // Request camera permissions
         if (allPermissionsGranted()) {
@@ -47,8 +54,6 @@ class CameraActivity : AppCompatActivity() {
         } else {
             requestPermissions()
         }
-
-        selectedDocumentText = findViewById(R.id.selected_document_text)
 
         // Retrieve the selected document type and country name from intent
         val selectedDocument = intent.getStringExtra("selectedDocument")
@@ -78,8 +83,7 @@ class CameraActivity : AppCompatActivity() {
                     super.onCaptureSuccess(image)
                     val bitmap = imageProxyToBitmap(image)
                     image.close()
-                    val imageUri = saveBitmap(bitmap)
-                    showImagePreviewDialog(imageUri)
+                    extractTextFromImage(bitmap)
                 }
             }
         )
@@ -92,18 +96,29 @@ class CameraActivity : AppCompatActivity() {
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
     }
 
-    private fun saveBitmap(bitmap: Bitmap): Uri {
-        val file = File(externalMediaDirs.first(), "${System.currentTimeMillis()}.jpg")
-        val outputStream = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-        outputStream.flush()
-        outputStream.close()
-        return Uri.fromFile(file)
-    }
+    private fun extractTextFromImage(bitmap: Bitmap) {
+        val image = InputImage.fromBitmap(bitmap, 0)
+        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
-    private fun showImagePreviewDialog(imageUri: Uri) {
-        val dialogFragment = ImagePreviewDialogFragment.newInstance(imageUri)
-        dialogFragment.show(supportFragmentManager, "ImagePreviewDialog")
+        recognizer.process(image)
+            .addOnSuccessListener { visionText ->
+                val resultText = visionText.text
+                Toast.makeText(baseContext, "Extracted Text: \$resultText", Toast.LENGTH_LONG)
+                    .show()
+
+
+                // Start DisplayActivity with extracted text for processing
+                val intent = Intent(
+                    this@CameraActivity,
+                    DisplayActivity::class.java
+                )
+                intent.putExtra("extractedText", resultText)
+                startActivity(intent)
+                finish()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(baseContext, "Text extraction failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun startCamera() {
