@@ -1,32 +1,42 @@
 package com.android.example.cameraxapp;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicReference;
+
 public class DisplayActivity extends AppCompatActivity {
 
-    private TextView textNameView, textIdNoView, textPhoneNoView;
+    private TextView textNameView, textDocNoView, textPhoneNoView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display);
 
+//        Get the intent
+        AtomicReference<Intent> intent = new AtomicReference<>(getIntent());
+
         textNameView = findViewById(R.id.name_text);
-        textIdNoView = findViewById(R.id.id_no_text);
+        textDocNoView = findViewById(R.id.doc_no_text);
         textPhoneNoView = findViewById(R.id.phone_number_text);
 
         Button buttonRetake = findViewById(R.id.button_retake);
         Button buttonCopy = findViewById(R.id.button_copy);
 
-        // Get the extracted text passed from CameraActivity
-        String extractedText = getIntent().getStringExtra("extractedText");
+
+        String extractedText = intent.get().getStringExtra("extractedText"); // Get the extracted text passed from CameraActivity
+        String selectedDocument = intent.get().getStringExtra("selectedDocument");
 
         if (extractedText != null) {
             String[] lines = extractedText.split("\n");  // Create a new array to store modified strings
@@ -36,8 +46,18 @@ public class DisplayActivity extends AppCompatActivity {
                 lines[i] = lines[i].replaceAll("\\s", "");
             }
 
-            textNameView.setText(getFullName(lines[lines.length - 1])); // Last line in the scan
-            textIdNoView.setText(getIDNo(lines[lines.length - 2])); // Second last line in the scan
+            if ("ID Card".equals(selectedDocument)){
+                getIDCardDetails(lines);
+            } else if ("Passport".equals(selectedDocument)) {
+                getPassportDetails(lines);
+            } else if ("Driving License".equals(selectedDocument)) {
+                Toast.makeText(DisplayActivity.this, "Selected Doc is DL ", Toast.LENGTH_SHORT).show();
+            } else {
+                intent.set(new Intent(DisplayActivity.this, GetStartedActivity.class));
+                startActivity(intent.get());
+                finish();
+            }
+
 //            Log.d("Info", "Text begins here" + stringBuilder.toString());
         } else {
             Toast.makeText(this, "No text found. Please Retake image", Toast.LENGTH_SHORT).show();
@@ -48,27 +68,52 @@ public class DisplayActivity extends AppCompatActivity {
 
         // Set onClickListener for Retake button
         buttonRetake.setOnClickListener(v -> {
-            Intent intent = new Intent(DisplayActivity.this, CameraActivity.class);
-            startActivity(intent);
+            intent.set(new Intent(DisplayActivity.this, GetStartedActivity.class));
+            startActivity(intent.get());
             finish();
         });
     }
 
-//            textView.setText(stringBuilder.toString());
+    @SuppressLint("SetTextI18n")
+    private void getPassportDetails(String[] text) {
+//        Get Passport name
+        String nameField = text[text.length - 2].substring(5); //Get second last line
+        String[] nameArr = nameField.split("<");
+        StringBuilder sb = new StringBuilder();
 
-//            // Make the TextView editable
-//            textView.setFocusable(true);
-//            textView.setFocusableInTouchMode(true);
-//            textView.setClickable(true);
-//            textView.setCursorVisible(true); // Show the cursor
+        for (int i = 0; i < nameArr.length; i++) {
+            if (nameArr[i].length() > 2) {
+                sb.append(nameArr[i]).append(" ");
+            }
+            if (i == 3) {
+                break;
+            }
+        }
 
+        String fullPassportName = sb.toString().trim();
+        textNameView.setText(fullPassportName);
+        sb.setLength(0);
+
+        // Get the Passport number from the last Line
+        String passNoField = text[text.length - 1].substring(0,8);
+        textDocNoView.setText(passNoField);
+
+
+//        Toast.makeText(DisplayActivity.this, "Finished", Toast.LENGTH_SHORT).show();
+
+    }
+
+    private void getIDCardDetails(String[] lines) {
+        textNameView.setText(replaceSpecial(lines[lines.length - 1])); // Last line in the scan
+        textDocNoView.setText(getIDNo(lines[lines.length - 2])); // Second last line in the scan
+    }
 
 
     public static String reverseString(String text) {
         return new StringBuilder(text).reverse().toString();
     }
 
-    public static String getFullName(String newText){
+    public static String replaceSpecial(String newText){
         // System.out.println(newText);
         return newText.replaceAll("<", " ");
     }

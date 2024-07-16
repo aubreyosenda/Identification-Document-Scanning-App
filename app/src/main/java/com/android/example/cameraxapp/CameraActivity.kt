@@ -33,6 +33,8 @@ import kotlin.math.max
 import kotlin.math.min
 
 class CameraActivity : AppCompatActivity() {
+    private var selectedDocument: String? = null
+    private var selectedCountry: String? = null
     private lateinit var selectedDocumentText: TextView
     private lateinit var viewBinding: ActivityCameraBinding
     private var imageCapture: ImageCapture? = null
@@ -48,6 +50,8 @@ class CameraActivity : AppCompatActivity() {
         selectedDocumentText = findViewById(R.id.selected_document_text)
         imageView = findViewById(R.id.imageView)
 
+
+
         // Request camera permissions
         if (allPermissionsGranted()) {
             startCamera()
@@ -58,6 +62,8 @@ class CameraActivity : AppCompatActivity() {
         // Retrieve the selected document type and country name from intent
         val selectedDocument = intent.getStringExtra("selectedDocument")
         val selectedCountry = intent.getStringExtra("selectedCountry")
+        this.selectedDocument = selectedDocument
+        this.selectedCountry = selectedCountry
 
         // Display the selected document type and country name
         selectedDocumentText.text = "Selected Document: $selectedDocument\nSelected Country: $selectedCountry"
@@ -103,9 +109,7 @@ class CameraActivity : AppCompatActivity() {
         recognizer.process(image)
             .addOnSuccessListener { visionText ->
                 val resultText = visionText.text
-                Toast.makeText(baseContext, "Extracted Text: \$resultText", Toast.LENGTH_LONG)
-                    .show()
-
+//                Toast.makeText(baseContext, "Extracted Text: \n$resultText", Toast.LENGTH_LONG).show()
 
                 // Start DisplayActivity with extracted text for processing
                 val intent = Intent(
@@ -113,6 +117,8 @@ class CameraActivity : AppCompatActivity() {
                     DisplayActivity::class.java
                 )
                 intent.putExtra("extractedText", resultText)
+                intent.putExtra("selectedDocument", selectedDocument)
+                intent.putExtra("selectedCountry", selectedCountry)
                 startActivity(intent)
                 finish()
             }
