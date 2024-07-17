@@ -3,13 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature android:name="android.hardware.camera.any" />
+
     <uses-permission android:name="android.permission.CAMERA" />
-
-    <!-- WRITE_EXTERNAL_STORAGE permission is required for Android 28 and below -->
-<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>-->
-
-<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"-->
-<!--        android:maxSdkVersion="28" />-->
 
     <application
         android:allowBackup="true"
@@ -21,40 +16,42 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CameraXApp"
         tools:targetApi="31">
+        <activity
+            android:name=".DatabaseActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".LoginUsernameActivity"
             android:exported="false" />
-
         <activity
             android:name=".LoginOtpActivity"
             android:exported="false" />
-
         <activity
             android:name=".PhoneNumberActivity1"
             android:exported="false" />
-
         <activity
             android:name=".DisplayActivity"
             android:exported="false" />
-
         <activity
             android:name=".GetStartedActivity"
             android:exported="false" />
-
         <activity
             android:name=".WelcomeActivity"
             android:exported="true" />
-
         <activity
             android:name=".CameraActivity"
-            android:exported="true"/>
-
+            android:exported="true" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

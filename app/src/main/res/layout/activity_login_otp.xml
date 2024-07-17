@@ -6,9 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     android:padding="16dp"
-    tools:context=".LoginOtpActivity">
+    android:gravity="center">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -65,46 +64,61 @@
                 android:text="3"/>
 
         </RelativeLayout>
-
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="158dp"
-        android:layout_height="150dp"
-        android:src="@drawable/logo"
-        app:tint="@color/my_primary" />
+    <!-- User Details Section -->
+    <TextView
+        android:id="@+id/name_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/id_number_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/document_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/country_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/phone_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/otp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter Otp"
+        android:text="Enter OTP"
         android:layout_gravity="center_vertical"
         android:letterSpacing="0.08"
         android:textStyle="bold"
         android:textSize="25sp"
         android:layout_marginTop="16dp"/>
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/otpcode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-
-        <EditText
-            android:id="@+id/otpcode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:hint="OTP"
-            android:inputType="number"
-            android:maxLength="6"
-            android:layout_margin="18dp"
-            android:background="@drawable/edit_text_rounded_corner"
-            android:elevation="5dp" />
-
-    </LinearLayout>
+        android:padding="10dp"
+        android:hint="OTP"
+        android:inputType="number"
+        android:maxLength="6"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edit_text_rounded_corner"
+        android:elevation="5dp" />
 
     <Button
         android:id="@+id/verify_button"
@@ -114,16 +128,24 @@
         android:textColor="@color/white"
         android:layout_marginTop="16dp" />
 
+    <Button
+        android:id="@+id/open_database_activity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Open Database Activity"
+        android:textColor="@color/white"
+        android:layout_marginTop="16dp" />
+
     <ProgressBar
         android:id="@+id/Progressbar"
         android:layout_width="42dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"/>
+
     <TextView
         android:id="@+id/resendotp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="10"
         android:gravity="center"
         android:text="Resend OTP in 45 Sec"/>
 </LinearLayout>
