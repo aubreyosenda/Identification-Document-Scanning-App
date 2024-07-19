@@ -29,6 +29,8 @@ import kotlin.math.max
 import kotlin.math.min
 
 class CameraActivity : AppCompatActivity() {
+    private var selectedDocument: String? = null
+    private var selectedCountry: String? = null
     private lateinit var selectedDocumentText: TextView
     private lateinit var viewBinding: ActivityCameraBinding
     private var imageCapture: ImageCapture? = null
@@ -47,6 +49,8 @@ class CameraActivity : AppCompatActivity() {
         selectedDocumentText = findViewById(R.id.selected_document_text)
         imageView = findViewById(R.id.imageView)
 
+
+
         // Request camera permissions
         if (allPermissionsGranted()) {
             startCamera()
@@ -55,8 +59,11 @@ class CameraActivity : AppCompatActivity() {
         }
 
         // Retrieve the selected document type and country name from intent
-        selectedDocument = intent.getStringExtra("selectedDocument")
-        selectedCountry = intent.getStringExtra("selectedCountry")
+        val selectedDocument = intent.getStringExtra("selectedDocument")
+        val selectedCountry = intent.getStringExtra("selectedCountry")
+        this.selectedDocument = selectedDocument
+        this.selectedCountry = selectedCountry
+
 
         // Display the selected document type and country name
         selectedDocumentText.text = "Selected Document: $selectedDocument\nSelected Country: $selectedCountry"
@@ -96,22 +103,31 @@ class CameraActivity : AppCompatActivity() {
     }
 
 
-        private fun extractTextFromImage(bitmap: Bitmap) {
-            val image = InputImage.fromBitmap(bitmap, 0)
-            val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
-            recognizer.process(image)
-                .addOnSuccessListener { visionText ->
-                    val resultText = visionText.text
-                    Toast.makeText(baseContext, "Extracted Text: $resultText", Toast.LENGTH_LONG).show()
+    private fun extractTextFromImage(bitmap: Bitmap) {
+        val image = InputImage.fromBitmap(bitmap, 0)
+        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
-                    // Show the popup with extracted text
-                    showExtractedTextPopup(resultText)
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(baseContext, "Text extraction failed: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-        }
+        recognizer.process(image)
+            .addOnSuccessListener { visionText ->
+                val resultText = visionText.text
+//                Toast.makeText(baseContext, "Extracted Text: \n$resultText", Toast.LENGTH_LONG).show()
+
+                // Start DisplayActivity with extracted text for processing
+                val intent = Intent(
+                    this@CameraActivity,
+                    DisplayActivity::class.java
+                )
+                intent.putExtra("extractedText", resultText)
+                intent.putExtra("selectedDocument", selectedDocument)
+                intent.putExtra("selectedCountry", selectedCountry)
+                startActivity(intent)
+                finish()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(baseContext, "Text extraction failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
 
         private fun showExtractedTextPopup(extractedText: String) {
             val dialogBuilder = AlertDialog.Builder(this)
@@ -140,36 +156,20 @@ class CameraActivity : AppCompatActivity() {
             buttonNext.setOnClickListener {
                 alertDialog.dismiss()
                 // Start DisplayActivity with extracted text for processing
+                val intent = Intent(
+                    this@CameraActivity,
+                    DisplayActivity::class.java
+                )
                 val intent = Intent(this@CameraActivity, DisplayActivity::class.java)
                 intent.putExtra("extractedText", extractedText)
                 intent.putExtra("selectedDocument", selectedDocument)
                 intent.putExtra("selectedCountry", selectedCountry)
-                // Extract the name and ID number
-                val name = extractNameFromText(extractedText) ?: "Name not available"
-                val idNumber = extractIdNumberFromText(extractedText) ?: "ID No not available"
-                intent.putExtra("name", name)
-                intent.putExtra("idNumber", idNumber)
                 startActivity(intent)
                 finish() // Finish the current activity if you don't want to go back to it
             }
 
             alertDialog.show()
         }
-
-    private fun extractNameFromText(text: String): String? {
-        // Regex pattern to match a name (assumes names are capitalized)
-        val namePattern = Regex("([A-Z][a-z]+(?: [A-Z][a-z]+)*)")
-        val matchResult = namePattern.find(text)
-        return matchResult?.value // Return the matched name or null if not found
-    }
-
-    private fun extractIdNumberFromText(text: String): String? {
-        // Regex pattern to match an ID number (assuming it's a 10-digit number)
-        val idPattern = Regex("\\b\\d{10}\\b")
-        val matchResult = idPattern.find(text)
-        return matchResult?.value // Return the matched ID number or null if not found
-    }
-
 
 
 
