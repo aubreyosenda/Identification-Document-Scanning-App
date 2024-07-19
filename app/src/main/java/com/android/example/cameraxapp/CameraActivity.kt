@@ -1,6 +1,7 @@
 package com.android.example.cameraxapp
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -14,12 +15,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.AspectRatio
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.ImageProxy
-import androidx.camera.core.Preview
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.android.example.cameraxapp.databinding.ActivityCameraBinding
@@ -39,6 +35,9 @@ class CameraActivity : AppCompatActivity() {
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var imageView: ImageView
 
+    private var selectedDocument: String? = null
+    private var selectedCountry: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityCameraBinding.inflate(layoutInflater)
@@ -56,8 +55,8 @@ class CameraActivity : AppCompatActivity() {
         }
 
         // Retrieve the selected document type and country name from intent
-        val selectedDocument = intent.getStringExtra("selectedDocument")
-        val selectedCountry = intent.getStringExtra("selectedCountry")
+        selectedDocument = intent.getStringExtra("selectedDocument")
+        selectedCountry = intent.getStringExtra("selectedCountry")
 
         // Display the selected document type and country name
         selectedDocumentText.text = "Selected Document: $selectedDocument\nSelected Country: $selectedCountry"
@@ -96,30 +95,83 @@ class CameraActivity : AppCompatActivity() {
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
     }
 
-    private fun extractTextFromImage(bitmap: Bitmap) {
-        val image = InputImage.fromBitmap(bitmap, 0)
-        val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
-        recognizer.process(image)
-            .addOnSuccessListener { visionText ->
-                val resultText = visionText.text
-                Toast.makeText(baseContext, "Extracted Text: \$resultText", Toast.LENGTH_LONG)
-                    .show()
+        private fun extractTextFromImage(bitmap: Bitmap) {
+            val image = InputImage.fromBitmap(bitmap, 0)
+            val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
+            recognizer.process(image)
+                .addOnSuccessListener { visionText ->
+                    val resultText = visionText.text
+                    Toast.makeText(baseContext, "Extracted Text: $resultText", Toast.LENGTH_LONG).show()
 
+                    // Show the popup with extracted text
+                    showExtractedTextPopup(resultText)
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(baseContext, "Text extraction failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        }
+
+        private fun showExtractedTextPopup(extractedText: String) {
+            val dialogBuilder = AlertDialog.Builder(this)
+            val inflater = this.layoutInflater
+            val dialogView = inflater.inflate(R.layout.dialog_extracted_text, null)
+            dialogBuilder.setView(dialogView)
+
+            val textViewExtractedText = dialogView.findViewById<TextView>(R.id.text_view_extracted_text)
+            val textViewSelectedDocument = dialogView.findViewById<TextView>(R.id.text_view_selected_document)
+            val textViewSelectedCountry = dialogView.findViewById<TextView>(R.id.text_view_selected_country)
+            val buttonRetake = dialogView.findViewById<TextView>(R.id.button_retake)
+            val buttonNext = dialogView.findViewById<TextView>(R.id.button_next)
+
+            textViewExtractedText.text = extractedText
+            textViewSelectedDocument.text = "Selected Document: $selectedDocument"
+            textViewSelectedCountry.text = "Selected Country: $selectedCountry"
+
+            val alertDialog = dialogBuilder.create()
+
+            buttonRetake.setOnClickListener {
+                alertDialog.dismiss()
+                // Retake the image
+                startCamera()
+            }
+
+            buttonNext.setOnClickListener {
+                alertDialog.dismiss()
                 // Start DisplayActivity with extracted text for processing
-                val intent = Intent(
-                    this@CameraActivity,
-                    DisplayActivity::class.java
-                )
-                intent.putExtra("extractedText", resultText)
+                val intent = Intent(this@CameraActivity, DisplayActivity::class.java)
+                intent.putExtra("extractedText", extractedText)
+                intent.putExtra("selectedDocument", selectedDocument)
+                intent.putExtra("selectedCountry", selectedCountry)
+                // Extract the name and ID number
+                val name = extractNameFromText(extractedText) ?: "Name not available"
+                val idNumber = extractIdNumberFromText(extractedText) ?: "ID No not available"
+                intent.putExtra("name", name)
+                intent.putExtra("idNumber", idNumber)
                 startActivity(intent)
-                finish()
+                finish() // Finish the current activity if you don't want to go back to it
             }
-            .addOnFailureListener { e ->
-                Toast.makeText(baseContext, "Text extraction failed: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
+
+            alertDialog.show()
+        }
+
+    private fun extractNameFromText(text: String): String? {
+        // Regex pattern to match a name (assumes names are capitalized)
+        val namePattern = Regex("([A-Z][a-z]+(?: [A-Z][a-z]+)*)")
+        val matchResult = namePattern.find(text)
+        return matchResult?.value // Return the matched name or null if not found
     }
+
+    private fun extractIdNumberFromText(text: String): String? {
+        // Regex pattern to match an ID number (assuming it's a 10-digit number)
+        val idPattern = Regex("\\b\\d{10}\\b")
+        val matchResult = idPattern.find(text)
+        return matchResult?.value // Return the matched ID number or null if not found
+    }
+
+
+
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
