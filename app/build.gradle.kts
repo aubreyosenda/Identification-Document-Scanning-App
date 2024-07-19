@@ -42,7 +42,7 @@ android {
 
 
 dependencies {
-
+    //classpath ("com.android.tools.build:gradle:8.4.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

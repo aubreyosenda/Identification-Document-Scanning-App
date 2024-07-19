@@ -1,11 +1,13 @@
 package com.android.example.cameraxapp;
 
 
-import android.annotation.SuppressLint;
+import android.util.Log;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
@@ -14,10 +16,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicReference;
+import com.hbb20.CountryCodePicker;
 
 public class DisplayActivity extends AppCompatActivity {
 
-    private TextView textNameView, textDocNoView, textPhoneNoView;
+    private TextView textNameView, textIdNoView, textPhoneNoView, selectedDocumentView, selectedCountryView;
+    private static final int REQUEST_PHONE_VERIFICATION = 1;
+    private CountryCodePicker countryCodePicker;
+    private EditText phoneInput;
+    private Button sendOtpBtn, buttonRetake, buttonCopy, buttonVerifyPhone;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,9 +35,18 @@ public class DisplayActivity extends AppCompatActivity {
 //        Get the intent
         AtomicReference<Intent> intent = new AtomicReference<>(getIntent());
 
+      // Initialize views
+        countryCodePicker = findViewById(R.id.ccp);
+        phoneInput = findViewById(R.id.phone_number_input);
+        sendOtpBtn = findViewById(R.id.verify_button);
+        progressBar = findViewById(R.id.Progressbar);
+        progressBar.setVisibility(View.GONE);
+
         textNameView = findViewById(R.id.name_text);
         textDocNoView = findViewById(R.id.doc_no_text);
         textPhoneNoView = findViewById(R.id.phone_number_text);
+        selectedDocumentView = findViewById(R.id.selected_document_text);
+        selectedCountryView = findViewById(R.id.selected_country_text);
 
         Button buttonRetake = findViewById(R.id.button_retake);
         Button buttonCopy = findViewById(R.id.button_copy);
@@ -58,13 +75,18 @@ public class DisplayActivity extends AppCompatActivity {
                 finish();
             }
 
-//            Log.d("Info", "Text begins here" + stringBuilder.toString());
         } else {
             Toast.makeText(this, "No text found. Please Retake image", Toast.LENGTH_SHORT).show();
             // Handle case where no text is passed
             finish();
         }
 
+
+
+        textNameView.setText("Name: " + (name != null ? name : "Not available"));
+        textIdNoView.setText("ID No: " + (idNumber != null ? idNumber : "Not available"));
+        selectedDocumentView.setText("Selected Document: " + selectedDocument);
+        selectedCountryView.setText("Selected Country: " + selectedCountry);
 
         // Set onClickListener for Retake button
         buttonRetake.setOnClickListener(v -> {
@@ -108,27 +130,43 @@ public class DisplayActivity extends AppCompatActivity {
         textDocNoView.setText(getIDNo(lines[lines.length - 2])); // Second last line in the scan
     }
 
+        // Set onClickListener for Copy button
+        buttonCopy.setOnClickListener(v -> {
+            String copiedText = "Name: " + (name != null ? name : "Not available") +
+                    "\nDoc No: " + (idNumber != null ? idNumber : "Not available") +
+                    "\nSelected Document: " + selectedDocument +
+                    "\nSelected Country: " + selectedCountry;
+            copyToClipboard(copiedText);
+            Toast.makeText(DisplayActivity.this, "Copied to clipboard", Toast.LENGTH_SHORT).show();
+        });
 
-    public static String reverseString(String text) {
-        return new StringBuilder(text).reverse().toString();
+        // Register phone number input with country code picker
+        countryCodePicker.registerCarrierNumberEditText(phoneInput);
+
+        // Set onClickListener for Verify Phone button
+        sendOtpBtn.setOnClickListener(v -> {
+            if (!countryCodePicker.isValidFullNumber()) {
+                phoneInput.setError("Phone number not valid");
+                return;
+            }
+            String fullPhoneNumber = countryCodePicker.getFullNumberWithPlus();
+            Intent intent = new Intent(DisplayActivity.this, LoginOtpActivity.class);
+            intent.putExtra("phone", fullPhoneNumber);
+            intent.putExtra("name", name);
+            intent.putExtra("idNumber", idNumber);
+            intent.putExtra("selectedDocument", selectedDocument);
+            intent.putExtra("selectedCountry", selectedCountry);
+            startActivity(intent);
+        });
     }
+
 
     public static String replaceSpecial(String newText){
-        // System.out.println(newText);
         return newText.replaceAll("<", " ");
-    }
 
-    public static String getIDNo(String text) {
-        String reversedText = reverseString(text);
-        String reversedIdNo = reversedText.substring(4, 13);
-        String dummyIdNo = reverseString(reversedIdNo);
-
-        // Check if dummyIdNo starts with '0' or 'O'
-        if (dummyIdNo.startsWith("0") || dummyIdNo.startsWith("O") || dummyIdNo.startsWith("o")) {
-            // Discard the first character
-            return dummyIdNo.substring(1);
-        } else{
-            return dummyIdNo;
-        }
+    private void copyToClipboard(String text) {
+        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
+        clipboard.setPrimaryClip(clip);
     }
 }

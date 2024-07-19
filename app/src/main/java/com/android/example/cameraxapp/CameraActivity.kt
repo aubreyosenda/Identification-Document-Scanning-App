@@ -1,6 +1,7 @@
 package com.android.example.cameraxapp
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -14,12 +15,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.AspectRatio
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.ImageProxy
-import androidx.camera.core.Preview
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.android.example.cameraxapp.databinding.ActivityCameraBinding
@@ -40,6 +36,9 @@ class CameraActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var imageView: ImageView
+
+    private var selectedDocument: String? = null
+    private var selectedCountry: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +63,7 @@ class CameraActivity : AppCompatActivity() {
         val selectedCountry = intent.getStringExtra("selectedCountry")
         this.selectedDocument = selectedDocument
         this.selectedCountry = selectedCountry
+
 
         // Display the selected document type and country name
         selectedDocumentText.text = "Selected Document: $selectedDocument\nSelected Country: $selectedCountry"
@@ -102,6 +102,8 @@ class CameraActivity : AppCompatActivity() {
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
     }
 
+
+
     private fun extractTextFromImage(bitmap: Bitmap) {
         val image = InputImage.fromBitmap(bitmap, 0)
         val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
@@ -126,6 +128,50 @@ class CameraActivity : AppCompatActivity() {
                 Toast.makeText(baseContext, "Text extraction failed: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
+        private fun showExtractedTextPopup(extractedText: String) {
+            val dialogBuilder = AlertDialog.Builder(this)
+            val inflater = this.layoutInflater
+            val dialogView = inflater.inflate(R.layout.dialog_extracted_text, null)
+            dialogBuilder.setView(dialogView)
+
+            val textViewExtractedText = dialogView.findViewById<TextView>(R.id.text_view_extracted_text)
+            val textViewSelectedDocument = dialogView.findViewById<TextView>(R.id.text_view_selected_document)
+            val textViewSelectedCountry = dialogView.findViewById<TextView>(R.id.text_view_selected_country)
+            val buttonRetake = dialogView.findViewById<TextView>(R.id.button_retake)
+            val buttonNext = dialogView.findViewById<TextView>(R.id.button_next)
+
+            textViewExtractedText.text = extractedText
+            textViewSelectedDocument.text = "Selected Document: $selectedDocument"
+            textViewSelectedCountry.text = "Selected Country: $selectedCountry"
+
+            val alertDialog = dialogBuilder.create()
+
+            buttonRetake.setOnClickListener {
+                alertDialog.dismiss()
+                // Retake the image
+                startCamera()
+            }
+
+            buttonNext.setOnClickListener {
+                alertDialog.dismiss()
+                // Start DisplayActivity with extracted text for processing
+                val intent = Intent(
+                    this@CameraActivity,
+                    DisplayActivity::class.java
+                )
+                val intent = Intent(this@CameraActivity, DisplayActivity::class.java)
+                intent.putExtra("extractedText", extractedText)
+                intent.putExtra("selectedDocument", selectedDocument)
+                intent.putExtra("selectedCountry", selectedCountry)
+                startActivity(intent)
+                finish() // Finish the current activity if you don't want to go back to it
+            }
+
+            alertDialog.show()
+        }
+
+
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
