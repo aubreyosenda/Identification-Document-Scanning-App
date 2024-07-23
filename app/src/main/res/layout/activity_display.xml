@@ -15,7 +15,7 @@
         android:id="@+id/selected_document_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Selected Document"
+        android:text="Document Type"
         android:textSize="16sp"
         android:paddingTop="5dp"
         android:paddingBottom="12dp" />
@@ -24,7 +24,7 @@
         android:id="@+id/selected_country_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Selected Country"
+        android:text="Country"
         android:textSize="16sp"
         android:paddingTop="12dp"
         android:paddingBottom="12dp" />
@@ -33,7 +33,7 @@
         android:id="@+id/name_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"
+        android:text="Full Name: "
         android:textSize="16sp"
         android:paddingTop="12dp"
         android:paddingBottom="12dp" />
@@ -42,7 +42,7 @@
         android:id="@+id/doc_no_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ID No"
+        android:text="Document No: "
         android:textSize="16sp"
         android:paddingTop="12dp"
         android:paddingBottom="12dp" />

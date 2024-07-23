@@ -37,8 +37,6 @@ class CameraActivity : AppCompatActivity() {
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var imageView: ImageView
 
-    private var selectedDocument: String? = null
-    private var selectedCountry: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +46,6 @@ class CameraActivity : AppCompatActivity() {
         // Initialize the views
         selectedDocumentText = findViewById(R.id.selected_document_text)
         imageView = findViewById(R.id.imageView)
-
 
 
         // Request camera permissions
@@ -114,10 +111,10 @@ class CameraActivity : AppCompatActivity() {
 //                Toast.makeText(baseContext, "Extracted Text: \n$resultText", Toast.LENGTH_LONG).show()
 
                 // Start DisplayActivity with extracted text for processing
-                val intent = Intent(
-                    this@CameraActivity,
-                    DisplayActivity::class.java
-                )
+//                val intent = Intent(
+//                    this@CameraActivity,
+//                    DisplayActivity::class.java
+//                )
                 intent.putExtra("extractedText", resultText)
                 intent.putExtra("selectedDocument", selectedDocument)
                 intent.putExtra("selectedCountry", selectedCountry)
@@ -129,7 +126,8 @@ class CameraActivity : AppCompatActivity() {
             }
     }
 
-        private fun showExtractedTextPopup(extractedText: String) {
+
+    private fun showExtractedTextPopup(extractedText: String) {
             val dialogBuilder = AlertDialog.Builder(this)
             val inflater = this.layoutInflater
             val dialogView = inflater.inflate(R.layout.dialog_extracted_text, null)
@@ -155,17 +153,16 @@ class CameraActivity : AppCompatActivity() {
 
             buttonNext.setOnClickListener {
                 alertDialog.dismiss()
-                // Start DisplayActivity with extracted text for processing
-                val intent = Intent(
-                    this@CameraActivity,
-                    DisplayActivity::class.java
-                )
-                val intent = Intent(this@CameraActivity, DisplayActivity::class.java)
-                intent.putExtra("extractedText", extractedText)
-                intent.putExtra("selectedDocument", selectedDocument)
-                intent.putExtra("selectedCountry", selectedCountry)
-                startActivity(intent)
-                finish() // Finish the current activity if you don't want to go back to it
+//                // Start DisplayActivity with extracted text for processing
+//                val intent = Intent(
+//                    this@CameraActivity,
+//                    DisplayActivity::class.java
+//                )
+//                intent.putExtra("extractedText", extractedText)
+//                intent.putExtra("selectedDocument", selectedDocument)
+//                intent.putExtra("selectedCountry", selectedCountry)
+//                startActivity(intent)
+//                finish() // Finish the current activity if you don't want to go back to it
             }
 
             alertDialog.show()
@@ -185,8 +182,8 @@ class CameraActivity : AppCompatActivity() {
                     it.setSurfaceProvider(viewBinding.viewFinder.surfaceProvider)
                 }
 
-            val metrics = DisplayMetrics().also { viewBinding.viewFinder.display.getRealMetrics(it) }
-            val screenAspectRatio = aspectRatio(metrics.widthPixels, metrics.heightPixels)
+//            val metrics = DisplayMetrics().also { viewBinding.viewFinder.display.getRealMetrics(it) }
+//            val screenAspectRatio = aspectRatio(metrics.widthPixels, metrics.heightPixels)
 
             val previewWidth = viewBinding.viewFinder.width
             val previewHeight = viewBinding.viewFinder.height
@@ -206,6 +203,7 @@ class CameraActivity : AppCompatActivity() {
             }
         }, ContextCompat.getMainExecutor(this))
     }
+
 
     private fun aspectRatio(width: Int, height: Int): Int {
         val previewRatio = max(width, height).toDouble() / min(width, height)
@@ -249,3 +247,4 @@ class CameraActivity : AppCompatActivity() {
         private const val RATIO_16_9_VALUE = 16.0 / 9.0
     }
 }
+
