@@ -26,7 +26,7 @@ public class WelcomeActivity extends AppCompatActivity {
         button_get_started.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(WelcomeActivity.this, GetStartedActivity.class);
+                Intent i = new Intent(WelcomeActivity.this, PhoneNumberActivity1.class);
                 startActivity(i);
             }
         });
