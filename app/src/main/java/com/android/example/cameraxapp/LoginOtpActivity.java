@@ -165,27 +165,29 @@ public class LoginOtpActivity extends AppCompatActivity {
         }, 0, 1000);
     }
 
-    private void signIn(PhoneAuthCredential phoneAuthCredential, String name, String idNumber, String document, String country, String phone) {
-        setInProgress(true);
-        mAuth.signInWithCredential(phoneAuthCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                setInProgress(false);
-                if (task.isSuccessful()) {
-                    Intent intent = new Intent(LoginOtpActivity.this, DatabaseActivity.class);
-                    intent.putExtra("name", name);
-                    intent.putExtra("idNumber", idNumber);
-                    intent.putExtra("selectedDocument", document);
-                    intent.putExtra("selectedCountry", country);
-                    intent.putExtra("phone", phone);
-                    intent.putExtra("signUpTime", getCurrentTimestamp());
-                    startActivity(intent);
-                } else {
-                    AndroidUtil.showToast(getApplicationContext(), "OTP verification failed");
-                }
+private void signIn(PhoneAuthCredential phoneAuthCredential, String name, String idNumber, String document, String country, String phone) {
+    setInProgress(true);
+    mAuth.signInWithCredential(phoneAuthCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        @Override
+        public void onComplete(@NonNull Task<AuthResult> task) {
+            setInProgress(false);
+            if(task.isSuccessful()){
+                Intent intent = new Intent(LoginOtpActivity.this, CameraActivity.class);
+                intent.putExtra("phone", PhoneNumber);
+                intent.putExtra("name", name);
+                intent.putExtra("idNumber", idNumber);
+                intent.putExtra("selectedDocument", document);
+                intent.putExtra("selectedCountry", country);
+                intent.putExtra("phone", phone);
+                intent.putExtra("signUpTime", getCurrentTimestamp());
+                startActivity(intent);
+            } else {
+                AndroidUtil.showToast(getApplicationContext(), "OTP verification failed");
             }
-        });
-    }
+        }
+    });
+}
+
 
     void setInProgress(boolean inProgress) {
         if (inProgress) {
