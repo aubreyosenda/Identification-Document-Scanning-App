@@ -54,9 +54,9 @@ public class DisplayActivity extends AppCompatActivity {
         String country = intent.get().getStringExtra("selectedCountry");
         String phoneNumber = intent.get().getStringExtra("phoneNo");
 
-        selectedDocumentView.setText("Document type: " + documentType);
-        selectedCountryView.setText("Country: " + country);
-        textPhoneNoView.setText("Phone Number: " + phoneNumber);
+        selectedDocumentView.setText(documentType);
+        selectedCountryView.setText(country);
+        textPhoneNoView.setText(phoneNumber);
 
 
         if (extractedText != null) {
@@ -123,12 +123,12 @@ public class DisplayActivity extends AppCompatActivity {
             }
         }
 
-        textNameView.setText("Full Name: " + sb.toString().trim());
+        textNameView.setText(sb.toString().trim());
         sb.setLength(0);
 
         // Get the Passport number from the last Line
         String passNoField = text[text.length - 1].substring(0,8);
-        textDocNoView.setText("Passport No: " + passNoField);
+        textDocNoView.setText(passNoField);
 
 //        Toast.makeText(DisplayActivity.this, "Finished", Toast.LENGTH_SHORT).show();
     }
@@ -148,7 +148,7 @@ public class DisplayActivity extends AppCompatActivity {
                 break;
             }
         }
-        textNameView.setText("Full Name: " + sb.toString().trim()); // Last line in the scan
+        textNameView.setText(sb.toString().trim()); // Last line in the scan
         sb.setLength(0);
 
 //        Get ID Card Number
@@ -160,9 +160,9 @@ public class DisplayActivity extends AppCompatActivity {
         // Check if dummyIdNo starts with '0' or 'O' or 'o'
         if (dummyIdNo.startsWith("0") || dummyIdNo.startsWith("O") || dummyIdNo.startsWith("o")) {
             // Discard the first character
-            textDocNoView.setText("ID Number: " + dummyIdNo.substring(1));
+            textDocNoView.setText(dummyIdNo.substring(1));
         } else{
-            textDocNoView.setText("ID Number: " + dummyIdNo);
+            textDocNoView.setText(dummyIdNo);
         }
     }
 
