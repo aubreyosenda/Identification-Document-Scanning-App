@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +44,8 @@ public class DisplayActivity extends AppCompatActivity {
         selectedCountryView = findViewById(R.id.selected_country_text);
 
 //        Buttons
-        Button buttonRetake = findViewById(R.id.button_retake);
+        Button buttonBack = findViewById(R.id.button_retake);
+        ImageView iconBack = findViewById(R.id.back_icon);
         Button buttonSave = findViewById(R.id.save_data);
 
 
@@ -83,8 +85,14 @@ public class DisplayActivity extends AppCompatActivity {
             finish();
         }
 
-        // Set onClickListener for Retake button
-        buttonRetake.setOnClickListener(v -> {
+        // Set onClickListener for back buttons
+        buttonBack.setOnClickListener(v -> {
+            intent.set(new Intent(DisplayActivity.this, GetStartedActivity.class));
+            startActivity(intent.get());
+            finish();
+        });
+
+        iconBack.setOnClickListener(v -> {
             intent.set(new Intent(DisplayActivity.this, GetStartedActivity.class));
             startActivity(intent.get());
             finish();
@@ -160,12 +168,5 @@ public class DisplayActivity extends AppCompatActivity {
 
     public static String reverseString(String text) {
         return new StringBuilder(text).reverse().toString();
-    }
-
-
-    private void copyToClipboard(String text) {
-        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
-        clipboard.setPrimaryClip(clip);
     }
 }
