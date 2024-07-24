@@ -21,6 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CameraXApp"
         tools:targetApi="31">
+<<<<<<< Updated upstream
+=======
+        <activity
+            android:name=".DatabaseActivity"
+            android:exported="false" />
+>>>>>>> Stashed changes
 
         <activity
             android:name=".LoginUsernameActivity"

@@ -133,9 +133,20 @@ public class LoginOtpActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 setInProgress(false);
+<<<<<<< Updated upstream
                 if(task.isSuccessful()){
                     Intent intent = new Intent(LoginOtpActivity.this, CameraActivity.class);
                     intent.putExtra("phone", PhoneNumber);
+=======
+                if (task.isSuccessful()) {
+                    Intent intent = new Intent(LoginOtpActivity.this, GetStartedActivity.class);
+                    intent.putExtra("name", name);
+                    intent.putExtra("idNumber", idNumber);
+                    intent.putExtra("selectedDocument", document);
+                    intent.putExtra("selectedCountry", country);
+                    intent.putExtra("phone", phone);
+                    intent.putExtra("signUpTime", getCurrentTimestamp());
+>>>>>>> Stashed changes
                     startActivity(intent);
                 }else{
                     AndroidUtil.showToast(getApplicationContext(),"Otp verrification Failed");
