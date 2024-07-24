@@ -20,10 +20,9 @@ public class DisplayActivity extends AppCompatActivity {
     private TextView textNameView, textDocNoView, textPhoneNoView, selectedDocumentView, selectedCountryView;
     private static final int REQUEST_PHONE_VERIFICATION = 1;
 
-    private Button buttonRetake;
-
     private ProgressBar progressBar;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,18 +42,19 @@ public class DisplayActivity extends AppCompatActivity {
         selectedDocumentView = findViewById(R.id.selected_document_text);
         selectedCountryView = findViewById(R.id.selected_country_text);
 
+//        Buttons
         Button buttonRetake = findViewById(R.id.button_retake);
-        Button buttonCopy = findViewById(R.id.button_copy);
+        Button buttonSave = findViewById(R.id.save_data);
 
 
         String extractedText = intent.get().getStringExtra("extractedText"); // Get the extracted text passed from CameraActivity
         String documentType = intent.get().getStringExtra("selectedDocument");
         String country = intent.get().getStringExtra("selectedCountry");
-//        String phoneNumber = intent.get().getStringExtra("phoneNo");
+        String phoneNumber = intent.get().getStringExtra("phoneNo");
 
-        selectedDocumentView.setText(documentType);
-        selectedCountryView.setText(country);
-//        textPhoneNoView.setText(phoneNumber);
+        selectedDocumentView.setText("Document type: " + documentType);
+        selectedCountryView.setText("Country: " + country);
+        textPhoneNoView.setText("Phone Number: " + phoneNumber);
 
 
         if (extractedText != null) {
@@ -83,15 +83,23 @@ public class DisplayActivity extends AppCompatActivity {
             finish();
         }
 
-
         // Set onClickListener for Retake button
         buttonRetake.setOnClickListener(v -> {
             intent.set(new Intent(DisplayActivity.this, GetStartedActivity.class));
             startActivity(intent.get());
             finish();
         });
+
+//        Save data to database
+        buttonSave.setOnClickListener(v -> {
+//            TODO
+//            get the current time (sign in)
+
+
+        });
     }
 
+    @SuppressLint("SetTextI18n")
     private void getPassportDetails(String[] text) {
 //        Get Passport name
         String nameField = text[text.length - 2].substring(5); //Get second last line
@@ -107,31 +115,46 @@ public class DisplayActivity extends AppCompatActivity {
             }
         }
 
-        String fullPassportName = sb.toString().trim();
-        textNameView.setText(fullPassportName);
+        textNameView.setText("Full Name: " + sb.toString().trim());
         sb.setLength(0);
 
         // Get the Passport number from the last Line
         String passNoField = text[text.length - 1].substring(0,8);
-        textDocNoView.setText(passNoField);
+        textDocNoView.setText("Passport No: " + passNoField);
 
 //        Toast.makeText(DisplayActivity.this, "Finished", Toast.LENGTH_SHORT).show();
-
     }
 
+    @SuppressLint("SetTextI18n")
     private void getIDCardDetails(String[] lines) {
-        textNameView.setText(replaceSpecial(lines[lines.length - 1])); // Last line in the scan
+//        Get ID Card name
+        String nameField = lines[lines.length - 1]; //Get last line
+        String[] nameArr = nameField.split("<");
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < nameArr.length; i++) {
+            if (nameArr[i].length() > 2) {
+                sb.append(nameArr[i]).append(" ");
+            }
+            if (i == 3) {
+                break;
+            }
+        }
+        textNameView.setText("Full Name: " + sb.toString().trim()); // Last line in the scan
+        sb.setLength(0);
+
+//        Get ID Card Number
         String iDNoLine = lines[lines.length - 2];
         String reversedText = reverseString(iDNoLine);
         String reversedIdNo = reversedText.substring(4, 13);
         String dummyIdNo = reverseString(reversedIdNo);
 
-        // Check if dummyIdNo starts with '0' or 'O'
+        // Check if dummyIdNo starts with '0' or 'O' or 'o'
         if (dummyIdNo.startsWith("0") || dummyIdNo.startsWith("O") || dummyIdNo.startsWith("o")) {
             // Discard the first character
-            textDocNoView.setText(dummyIdNo.substring(1));
+            textDocNoView.setText("ID Number: " + dummyIdNo.substring(1));
         } else{
-            textDocNoView.setText(dummyIdNo);
+            textDocNoView.setText("ID Number: " + dummyIdNo);
         }
     }
 
@@ -139,9 +162,6 @@ public class DisplayActivity extends AppCompatActivity {
         return new StringBuilder(text).reverse().toString();
     }
 
-    public static String replaceSpecial(String newText) {
-        return newText.replaceAll("<", " ");
-    }
 
     private void copyToClipboard(String text) {
         android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
