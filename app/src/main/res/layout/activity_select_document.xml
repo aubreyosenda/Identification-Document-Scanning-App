@@ -1,95 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="16dp"
     tools:context=".SelectDocumentActivity">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/my_primary"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingStart="30dp"
+            android:text="Select Document"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:id="@+id/menu_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="16dp"
+            android:src="@drawable/menu_24px" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/country_chooser"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_horizontal"
-        android:layout_marginBottom="30dp">
+        android:paddingStart="16dp"
+        android:paddingTop="100dp"
+        app:layout_constraintTop_toBottomOf="@id/top_bar">
 
-        <RelativeLayout
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/circular_bg"
-            android:backgroundTint="@android:color/darker_gray">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="1"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
-
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/circular_bg"
-            android:backgroundTint="@android:color/holo_blue_light">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:text="2"/>
-
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/circular_bg"
-            android:backgroundTint="@android:color/darker_gray">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:text="3"/>
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="158dp"
-        android:layout_height="150dp"
-        android:src="@drawable/logo"
-        app:tint="@color/my_primary" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Select your country"
-        android:layout_gravity="center_vertical"
-        android:letterSpacing="0.08"
-        android:textStyle="bold"
-        android:textSize="25sp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
+        <TextView
+            android:id="@+id/country_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Country"
+            android:textSize="20sp"
+            android:paddingEnd="8dp" />
 
         <com.hbb20.CountryCodePicker
             android:id="@+id/ccp"
@@ -97,34 +62,39 @@
             android:layout_height="wrap_content"
             app:ccp_defaultNameCode="KE"
             app:ccp_showFullName="true"
-            app:ccp_showPhoneCode="false"
-            android:layout_marginTop="16dp" />
-
+            app:ccp_showPhoneCode="false" />
     </LinearLayout>
-
-
 
     <TextView
         android:id="@+id/choose_document_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Choose registration document:"
         android:textSize="16sp"
-        android:layout_marginTop="16dp" />
+        android:textStyle="bold"
+        android:textColor="@color/gray"
+        android:paddingTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/country_chooser" />
 
     <RadioGroup
         android:id="@+id/radio_group"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:orientation="vertical"
-        android:layout_marginTop="16dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/choose_document_text">
 
         <RadioButton
             android:id="@+id/radio_id_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ID Card"
-            android:checked="false" />
+            android:checked="false"
+            android:text="ID Card" />
 
         <RadioButton
             android:id="@+id/radio_passport"
@@ -136,17 +106,139 @@
             android:id="@+id/radio_driving_license"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Driving License" />
+            android:text="No Document" />
 
     </RadioGroup>
-
 
     <Button
         android:id="@+id/button_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Scan Document"
+        android:layout_marginTop="25dp"
+        android:text="Continue"
         android:textColor="@color/white"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radio_group" />
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="20dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/home_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:padding="10dp"
+                android:src="@drawable/house_24px"
+                android:clickable="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Home"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="20dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/settings_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:padding="10dp"
+                android:src="@drawable/settings_24px"
+                android:clickable="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Settings"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="20dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/monitor_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:padding="10dp"
+                android:src="@drawable/monitoring_24px"
+                android:clickable="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Monitor"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingRight="20dp"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/more_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:padding="10dp"
+                android:src="@drawable/apps_24px"
+                android:clickable="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="More"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
