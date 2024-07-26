@@ -18,12 +18,12 @@ tools:context=".SplashActivity">
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:src="@drawable/ac_unit"
-        app:tint="@color/my_secondary"/>
+        app:tint="@color/my_secondary" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SIDAR"
+        android:text="Sidar"
         android:textSize="35sp"
         android:textColor="@color/white"
         android:textStyle="bold"

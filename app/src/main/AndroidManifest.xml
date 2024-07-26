@@ -27,13 +27,13 @@
             android:name=".LoginOtpActivity"
             android:exported="false" />
         <activity
-            android:name=".PhoneNumberActivity1"
+            android:name=".VerifyPhoneActivity"
             android:exported="false" />
         <activity
             android:name=".DisplayActivity"
             android:exported="false" />
         <activity
-            android:name=".GetStartedActivity"
+            android:name=".SelectDocumentActivity"
             android:exported="false" />
         <activity
             android:name=".WelcomeActivity"

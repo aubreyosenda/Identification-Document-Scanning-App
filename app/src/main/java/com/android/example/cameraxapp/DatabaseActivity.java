@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +36,7 @@ public class DatabaseActivity extends AppCompatActivity {
         userContainer = findViewById(R.id.user_container);
 
         Button addUserButton = findViewById(R.id.add_user_button);
-        addUserButton.setOnClickListener(v -> startActivity(new Intent(this, GetStartedActivity.class))); // Redirect to GetStartedActivity
+        addUserButton.setOnClickListener(v -> startActivity(new Intent(this, SelectDocumentActivity.class))); // Redirect to SelectDocumentActivity
 
         Button viewDatabaseButton = findViewById(R.id.view_database_button);
         viewDatabaseButton.setOnClickListener(v -> viewDatabaseEntries()); // View database entries

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,7 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.concurrent.atomic.AtomicReference;
-import com.hbb20.CountryCodePicker;
 
 public class DisplayActivity extends AppCompatActivity {
 
@@ -74,7 +72,7 @@ public class DisplayActivity extends AppCompatActivity {
             } else if ("Driving License".equals(documentType)) {
                 Toast.makeText(DisplayActivity.this, "Selected Doc is DL ", Toast.LENGTH_SHORT).show();
             } else {
-                intent.set(new Intent(DisplayActivity.this, GetStartedActivity.class));
+                intent.set(new Intent(DisplayActivity.this, SelectDocumentActivity.class));
                 startActivity(intent.get());
                 finish();
             }
@@ -87,13 +85,13 @@ public class DisplayActivity extends AppCompatActivity {
 
         // Set onClickListener for back buttons
         buttonBack.setOnClickListener(v -> {
-            intent.set(new Intent(DisplayActivity.this, GetStartedActivity.class));
+            intent.set(new Intent(DisplayActivity.this, SelectDocumentActivity.class));
             startActivity(intent.get());
             finish();
         });
 
         iconBack.setOnClickListener(v -> {
-            intent.set(new Intent(DisplayActivity.this, GetStartedActivity.class));
+            intent.set(new Intent(DisplayActivity.this, SelectDocumentActivity.class));
             startActivity(intent.get());
             finish();
         });

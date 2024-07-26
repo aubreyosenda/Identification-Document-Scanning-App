@@ -22,11 +22,11 @@ public class WelcomeActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_welcome);
 
-        button_get_started = findViewById(R.id.button_get_started);
+        button_get_started = findViewById(R.id.button_register);
         button_get_started.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(WelcomeActivity.this, PhoneNumberActivity1.class);
+                Intent i = new Intent(WelcomeActivity.this, SelectDocumentActivity.class);
                 startActivity(i);
             }
         });

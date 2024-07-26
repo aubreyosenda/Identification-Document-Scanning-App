@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="16dp"
-    tools:context=".GetStartedActivity">
+    tools:context=".VerifyPhoneActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -68,85 +68,124 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="158dp"
-        android:layout_height="150dp"
-        android:src="@drawable/logo"
-        app:tint="@color/my_primary" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select your country"
+        android:text="Enter mobile number"
         android:layout_gravity="center_vertical"
         android:letterSpacing="0.08"
         android:textStyle="bold"
         android:textSize="25sp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"/>
+        android:layout_marginTop="16dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
+        android:orientation="horizontal">
 
         <com.hbb20.CountryCodePicker
             android:id="@+id/ccp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:ccp_defaultNameCode="KE"
-            app:ccp_showFullName="true"
-            app:ccp_showPhoneCode="false"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"/>
+
+
+        <EditText
+            android:id="@+id/phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:hint="Mobile"
+            android:inputType="phone"
+            android:layout_margin="18dp"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:elevation="5dp" />
 
     </LinearLayout>
 
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/black"/>
 
     <TextView
-        android:id="@+id/choose_document_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Choose registration document:"
-        android:textSize="16sp"
-        android:layout_marginTop="16dp" />
-
-    <RadioGroup
-        android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="16dp">
+        android:text="Destination"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginTop="16dp"/>
 
-        <RadioButton
-            android:id="@+id/radio_id_card"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+
+        android:orientation="horizontal">
+
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ID Card"
-            android:checked="false" />
+            android:text="Organization: "
+            android:textSize="16sp"
+            android:textColor="@color/gray"
+            android:textStyle="bold"
+            android:padding="12dp" />
 
-        <RadioButton
-            android:id="@+id/radio_passport"
+
+        <Spinner
+            android:id="@+id/organization_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingStart="8dp"
+            android:padding="12dp"
+            android:background="@drawable/edit_text_rounded_corner" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:orientation="horizontal">
+
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Passport" />
+            android:text="Floor Number: "
+            android:textColor="@color/gray"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:padding="12dp" />
 
-        <RadioButton
-            android:id="@+id/radio_driving_license"
-            android:layout_width="wrap_content"
+
+        <Spinner
+            android:id="@+id/floor_spinner"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Driving License" />
-
-    </RadioGroup>
-
-
+            android:layout_weight="1"
+            android:paddingStart="8dp"
+            android:padding="12dp"
+            android:background="@drawable/edit_text_rounded_corner" />
+    </LinearLayout>
     <Button
-        android:id="@+id/button_add"
+        android:id="@+id/verify_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Scan Document"
+        android:text="Send SMS"
         android:textColor="@color/white"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:paddingStart="30dp"
+        tools:ignore="RtlSymmetry" />
 
+    <ProgressBar
+        android:id="@+id/Progressbar"
+        android:layout_width="42dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"/>
 </LinearLayout>

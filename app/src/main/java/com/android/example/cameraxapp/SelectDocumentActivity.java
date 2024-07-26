@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.hbb20.CountryCodePicker;
 
-public class GetStartedActivity extends AppCompatActivity {
+public class SelectDocumentActivity extends AppCompatActivity {
 
     private CountryCodePicker countryCodePicker;
     private RadioGroup radioGroup;
@@ -20,7 +20,7 @@ public class GetStartedActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_get_started);
+        setContentView(R.layout.activity_select_document);
 
         countryCodePicker = findViewById(R.id.ccp);
         radioGroup = findViewById(R.id.radio_group);
@@ -41,7 +41,7 @@ public class GetStartedActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!radio_id_card.isChecked() && !radio_passport.isChecked() && !radio_driving_license.isChecked()){
-                    Toast.makeText(GetStartedActivity.this, "Please select a document", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SelectDocumentActivity.this, "Please select a document", Toast.LENGTH_SHORT).show();
                 } else{
                     int selectedId = radioGroup.getCheckedRadioButtonId();
                     RadioButton selectedRadioButton = findViewById(selectedId);
@@ -49,7 +49,7 @@ public class GetStartedActivity extends AppCompatActivity {
                     String selectedCountry = countryCodePicker.getSelectedCountryName();
 
                     // Start MainActivity1 and pass selected document type
-                    Intent intent = new Intent(GetStartedActivity.this, CameraActivity.class);
+                    Intent intent = new Intent(SelectDocumentActivity.this, CameraActivity.class);
                     intent.putExtra("selectedDocument", selectedDocument);
                     intent.putExtra("selectedCountry", selectedCountry);
                     startActivity(intent);

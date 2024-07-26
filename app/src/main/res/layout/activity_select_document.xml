@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="16dp"
-    tools:context=".PhoneNumberActivity1">
+    tools:context=".SelectDocumentActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -77,50 +77,76 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter mobile number"
+        android:text="Select your country"
         android:layout_gravity="center_vertical"
         android:letterSpacing="0.08"
         android:textStyle="bold"
         android:textSize="25sp"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:gravity="center"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
 
         <com.hbb20.CountryCodePicker
             android:id="@+id/ccp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:ccp_defaultNameCode="KE"
-            android:layout_marginTop="16dp"/>
-
-
-        <EditText
-            android:id="@+id/phone_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:hint="Mobile"
-            android:inputType="phone"
-            android:layout_margin="18dp"
-            android:background="@drawable/edit_text_rounded_corner"
-            android:elevation="5dp" />
+            app:ccp_showFullName="true"
+            app:ccp_showPhoneCode="false"
+            android:layout_marginTop="16dp" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/verify_button"
+
+
+    <TextView
+        android:id="@+id/choose_document_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Verify"
+        android:text="Choose registration document:"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp" />
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp">
+
+        <RadioButton
+            android:id="@+id/radio_id_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID Card"
+            android:checked="false" />
+
+        <RadioButton
+            android:id="@+id/radio_passport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Passport" />
+
+        <RadioButton
+            android:id="@+id/radio_driving_license"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Driving License" />
+
+    </RadioGroup>
+
+
+    <Button
+        android:id="@+id/button_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scan Document"
         android:textColor="@color/white"
         android:layout_marginTop="16dp" />
 
-    <ProgressBar
-        android:id="@+id/Progressbar"
-        android:layout_width="42dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"/>
 </LinearLayout>
