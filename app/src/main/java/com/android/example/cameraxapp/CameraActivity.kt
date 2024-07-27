@@ -1,7 +1,6 @@
 package com.android.example.cameraxapp
 
 import android.Manifest
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -11,6 +10,7 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Size
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -43,6 +43,20 @@ class CameraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+
+
+//          Set the top bar Items
+        var topBar = findViewById<TopBar>(R.id.top_bar)
+
+        topBar.setTitle("Scan Document")
+        topBar.setBackIconClickListener { view: View? -> finish() }
+        topBar.setMenuIconClickListener { view: View? ->
+            Toast.makeText(this, "Menu Icon clicked", Toast.LENGTH_SHORT).show()
+        }
+
+
+//        Set the bottom bar items
+//        bottomBar = findViewById<BottomBar>(R.id.bottom_bar)
 
         // Initialize the views
         selectedDocumentText = findViewById(R.id.selected_document_text)
@@ -118,6 +132,7 @@ class CameraActivity : AppCompatActivity() {
                 // Start DisplayActivity with extracted text for processing
                 try {
                     val intent = Intent(this@CameraActivity, DisplayActivity::class.java).apply {
+                        putExtra("source", "CameraActivity")
                         putExtra("extractedText", resultText)
                         putExtra("selectedDocument", selectedDocument)
                         putExtra("selectedCountry", selectedCountry)
@@ -135,49 +150,6 @@ class CameraActivity : AppCompatActivity() {
                 Toast.makeText(baseContext, "Text extraction failed: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
-
-    private fun showExtractedTextPopup(extractedText: String) {
-            val dialogBuilder = AlertDialog.Builder(this)
-            val inflater = this.layoutInflater
-            val dialogView = inflater.inflate(R.layout.dialog_extracted_text, null)
-            dialogBuilder.setView(dialogView)
-
-            val textViewExtractedText = dialogView.findViewById<TextView>(R.id.text_view_extracted_text)
-            val textViewSelectedDocument = dialogView.findViewById<TextView>(R.id.text_view_selected_document)
-            val textViewSelectedCountry = dialogView.findViewById<TextView>(R.id.text_view_selected_country)
-            val buttonRetake = dialogView.findViewById<TextView>(R.id.button_retake)
-            val buttonNext = dialogView.findViewById<TextView>(R.id.button_next)
-
-            textViewExtractedText.text = extractedText
-            textViewSelectedDocument.text = "Selected Document: $selectedDocument"
-            textViewSelectedCountry.text = "Selected Country: $selectedCountry"
-
-            val alertDialog = dialogBuilder.create()
-
-            buttonRetake.setOnClickListener {
-                alertDialog.dismiss()
-                // Retake the image
-                startCamera()
-            }
-
-            buttonNext.setOnClickListener {
-                alertDialog.dismiss()
-//                // Start DisplayActivity with extracted text for processing
-//                val intent = Intent(
-//                    this@CameraActivity,
-//                    DisplayActivity::class.java
-//                )
-//                intent.putExtra("extractedText", extractedText)
-//                intent.putExtra("selectedDocument", selectedDocument)
-//                intent.putExtra("selectedCountry", selectedCountry)
-//                startActivity(intent)
-//                finish() // Finish the current activity if you don't want to go back to it
-            }
-
-            alertDialog.show()
-        }
-
-
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
