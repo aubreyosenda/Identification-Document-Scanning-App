@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,22 +15,29 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-
-    Button button_get_started;
+    private TopBar topBar;
+    private BottomBar bottomBar;
+    Button button_register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_welcome);
 
-        button_get_started = findViewById(R.id.button_register);
-        button_get_started.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(WelcomeActivity.this, SelectDocumentActivity.class);
-                startActivity(i);
-            }
+        topBar = findViewById(R.id.top_bar);
+        bottomBar = findViewById(R.id.bottom_bar);
+
+        topBar.setTitle("Home");
+        topBar.setBackIconClickListener(view -> finish());
+        topBar.setMenuIconClickListener(view -> {
+            Toast.makeText(this, "Menu clicked", Toast.LENGTH_SHORT).show();
+        });
+
+
+        button_register = findViewById(R.id.button_register);
+        button_register.setOnClickListener(view -> {
+            Intent i = new Intent(WelcomeActivity.this, SelectDocumentActivity.class);
+            startActivity(i);
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

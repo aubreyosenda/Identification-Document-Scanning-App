@@ -8,35 +8,11 @@
     android:layout_height="match_parent"
     tools:context=".WelcomeActivity">
 
-    <LinearLayout
+    <com.android.example.cameraxapp.TopBar
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/my_primary"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:text="Home"
-            android:textColor="@color/white"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:paddingLeft="30dp"
-            tools:ignore="HardcodedText" />
-
-        <ImageView
-            android:id="@+id/menu_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:focusable="true"
-            android:padding="16dp"
-            android:src="@drawable/menu_24px"
-            android:clickable="true"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
     <TextView
@@ -110,123 +86,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
+    <com.android.example.cameraxapp.BottomBar
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:layout_gravity="center_horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="30dp"
-            android:paddingRight="20dp"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/home_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:focusable="true"
-                android:padding="10dp"
-                android:src="@drawable/house_24px"
-                android:clickable="true"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Home"
-                android:gravity="center"
-                android:textSize="15sp"
-                android:layout_gravity="center" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="30dp"
-            android:paddingRight="20dp"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/settings_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:focusable="true"
-                android:padding="10dp"
-                android:src="@drawable/settings_24px"
-                android:clickable="true"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Settings"
-                android:gravity="center"
-                android:textSize="15sp"
-                android:layout_gravity="center" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="30dp"
-            android:paddingRight="20dp"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/monitor_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:focusable="true"
-                android:padding="10dp"
-                android:src="@drawable/monitoring_24px"
-                android:clickable="true"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Monitor"
-                android:gravity="center"
-                android:textSize="15sp"
-                android:layout_gravity="center" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="30dp"
-            android:paddingRight="20dp"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/more_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:focusable="true"
-                android:padding="10dp"
-                android:src="@drawable/apps_24px"
-                android:clickable="true"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="More"
-                android:gravity="center"
-                android:textSize="15sp"
-                android:layout_gravity="center" />
-
-        </LinearLayout>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,6 @@
 package com.android.example.cameraxapp
 
 import android.Manifest
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -11,6 +10,7 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Size
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -43,6 +43,20 @@ class CameraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+
+
+//          Set the top bar Items
+        var topBar = findViewById<TopBar>(R.id.top_bar)
+
+        topBar.setTitle("Scan Document")
+        topBar.setBackIconClickListener { view: View? -> finish() }
+        topBar.setMenuIconClickListener { view: View? ->
+            Toast.makeText(this, "Menu Icon clicked", Toast.LENGTH_SHORT).show()
+        }
+
+
+//        Set the bottom bar items
+//        bottomBar = findViewById<BottomBar>(R.id.bottom_bar)
 
         // Initialize the views
         selectedDocumentText = findViewById(R.id.selected_document_text)
@@ -118,6 +132,7 @@ class CameraActivity : AppCompatActivity() {
                 // Start DisplayActivity with extracted text for processing
                 try {
                     val intent = Intent(this@CameraActivity, DisplayActivity::class.java).apply {
+                        putExtra("source", "CameraActivity")
                         putExtra("extractedText", resultText)
                         putExtra("selectedDocument", selectedDocument)
                         putExtra("selectedCountry", selectedCountry)
