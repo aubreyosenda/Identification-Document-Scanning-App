@@ -17,7 +17,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private TopBar topBar;
     private BottomBar bottomBar;
-    Button button_register;
+    Button button_register, button_signout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,12 @@ public class WelcomeActivity extends AppCompatActivity {
         button_register.setOnClickListener(view -> {
             Intent i = new Intent(WelcomeActivity.this, SelectDocumentActivity.class);
             startActivity(i);
+        });
+
+        button_signout = findViewById(R.id.button_signout);
+        button_signout.setOnClickListener(v -> {
+            Intent signOutIntent = new Intent(WelcomeActivity.this, SignOutActivity.class);
+            startActivity(signOutIntent);
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

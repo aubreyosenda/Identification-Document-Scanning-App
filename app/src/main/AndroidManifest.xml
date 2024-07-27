@@ -17,7 +17,7 @@
         tools:targetApi="34">
 
         <activity
-            android:name=".DatabaseActivity"
+            android:name=".SignOutActivity"
             android:exported="false" />
         <activity
             android:name=".LoginUsernameActivity"
