@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <EditText
+        android:id="@+id/search_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Search by Name, ID, or Code"
+        android:textSize="14sp"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp"
+        android:imeOptions="actionSearch"
+        android:inputType="text" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/user_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!-- Dynamic user entries will be added here -->
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/add_user_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add User"
+        android:textColor="@android:color/white"
+        android:background="@color/my_primary"
+        android:padding="10dp" />
+
+    <Button
+        android:id="@+id/view_database_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Database"
+        android:textColor="@android:color/white"
+        android:background="@color/my_primary"
+        android:padding="10dp"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/open_camera_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Open Camera"
+        android:textColor="@android:color/white"
+        android:background="@color/my_primary"
+        android:padding="10dp"
+        android:layout_marginTop="10dp" />
+</LinearLayout>
