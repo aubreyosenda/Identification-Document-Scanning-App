@@ -20,10 +20,6 @@
             android:name=".LoginPageActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginUserActivity"
-            android:exported="false"
-            android:theme="@style/Theme.CameraXApp" />
-        <activity
             android:name=".PhonenumberOtpActivity"
             android:exported="false" />
         <activity
