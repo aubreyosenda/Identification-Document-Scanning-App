@@ -61,9 +61,6 @@ public class VerifyPhoneActivity extends AppCompatActivity {
                 phoneInput.setError("Phone number not valid");
                 return;
             }
-
-
-
             Intent phoneCountryIntent = new Intent(VerifyPhoneActivity.this, PhonenumberOtpActivity.class);
             phoneCountryIntent.putExtra("source", "VerifyPhoneActivity");
             phoneCountryIntent.putExtra("phoneNo", countryCodePicker.getFullNumberWithPlus());
