@@ -17,13 +17,24 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.example.cameraxapp.Interfaces.RetrofitApi;
+import com.android.example.cameraxapp.Model.Vistors;
+
+
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DisplayActivity extends AppCompatActivity {
     private TopBar topBar;
@@ -32,7 +43,11 @@ public class DisplayActivity extends AppCompatActivity {
     private TextView textNameView, textDocNoView, textPhoneNoView, selectedDocumentView, selectedCountryView;
     private static final int REQUEST_PHONE_VERIFICATION = 1;
 
+    private static final String TAG = "API Response";
+
     private ProgressBar progressBar;
+    String selectedFloor;
+    String selectedOrganization;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -72,7 +87,7 @@ public class DisplayActivity extends AppCompatActivity {
 
 //        Buttons
         Button buttonBack = findViewById(R.id.button_retake);
-        ImageView iconBack = findViewById(R.id.back_icon);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView iconBack = findViewById(R.id.back_icon);
         Button buttonSave = findViewById(R.id.save_data);
 
 //  Check firing intent activity
@@ -139,7 +154,7 @@ public class DisplayActivity extends AppCompatActivity {
         organizationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedOrganization = parent.getItemAtPosition(position).toString();
+                selectedOrganization = parent.getItemAtPosition(position).toString();
                 // Handle the selected organization
             }
 
@@ -159,7 +174,7 @@ public class DisplayActivity extends AppCompatActivity {
         floorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedFloor = parent.getItemAtPosition(position).toString();
+                selectedFloor = parent.getItemAtPosition(position).toString();
                 // Handle the selected floor
             }
 
@@ -184,6 +199,12 @@ public class DisplayActivity extends AppCompatActivity {
 
 //        Save data to database
         buttonSave.setOnClickListener(v -> {
+
+//            TODO
+//            get the current time (sign in)
+            PostData(selectedDocumentView.getText().toString(), textDocNoView.getText().toString(),
+                    textNameView.getText().toString(), textPhoneNoView.getText().toString(), selectedFloor,
+                    selectedOrganization, "Not added yet");
             // Get the current time
             String tableName = "Visitor_details";
             String signInTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
@@ -282,5 +303,45 @@ public class DisplayActivity extends AppCompatActivity {
 
     public static String reverseString(String text) {
         return new StringBuilder(text).reverse().toString();
+    }
+
+    public void PostData(String selectedDocumentView, String textDocNoView,
+                    String textNameView, String textPhoneNoView, String selectedFloor,
+    String selectedOrganization, String vehicle){
+        progressBar.setVisibility(View.VISIBLE);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://fda9-41-203-219-167.ngrok-free.app/api/v1/visitor/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RetrofitApi retrofitAPI = retrofit.create(RetrofitApi.class);
+
+        Vistors vistors =  new Vistors(selectedDocumentView, textDocNoView,
+                textNameView, textPhoneNoView, selectedFloor,
+                selectedOrganization, vehicle);
+
+        Call<Vistors> vistorsCall = retrofitAPI.vistors(vistors);
+
+        Log.v(TAG, "API " + vistorsCall.toString());
+
+
+        vistorsCall.enqueue(new Callback<Vistors>() {
+            @Override
+            public void onResponse(Call<Vistors> call, Response<Vistors> response) {
+                progressBar.setVisibility(View.INVISIBLE);
+                Toast.makeText(DisplayActivity.this, "Data inserted successfully", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(DisplayActivity.this, SelectDocumentActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<Vistors> call, Throwable t) {
+
+                Toast.makeText(DisplayActivity.this, "Error message " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+
     }
 }
