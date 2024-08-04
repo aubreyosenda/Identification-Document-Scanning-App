@@ -4,6 +4,7 @@ package com.android.example.cameraxapp;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,8 +17,12 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class DisplayActivity extends AppCompatActivity {
@@ -64,7 +69,6 @@ public class DisplayActivity extends AppCompatActivity {
         textDocNoView = findViewById(R.id.doc_no_text);
         textPhoneNoView = findViewById(R.id.phone_number_text);
         selectedDocumentView = findViewById(R.id.selected_document_text);
-        selectedCountryView = findViewById(R.id.selected_country_text);
 
 //        Buttons
         Button buttonBack = findViewById(R.id.button_retake);
@@ -82,9 +86,8 @@ public class DisplayActivity extends AppCompatActivity {
                     String country = intent.get().getStringExtra("selectedCountry");
                     String phoneNumber = intent.get().getStringExtra("phoneNo");
 
-                    selectedDocumentView.setText(documentType);
-                    selectedCountryView.setText(country);
                     textPhoneNoView.setText(phoneNumber);
+                    selectedDocumentView.setText(documentType);
 
 
                     if (extractedText != null) {
@@ -116,24 +119,18 @@ public class DisplayActivity extends AppCompatActivity {
                     break;
 
                 case "VerifyPhoneActivity":
-                    String countryname = intent.get().getStringExtra("selectedCountry");
                     String phoneNo = intent.get().getStringExtra("phoneNo");
 
                     selectedDocumentView.setText("No Document");
-                    selectedCountryView.setText(countryname);
                     textPhoneNoView.setText(phoneNo);
 
                     break;
             }
         }
 
-
-
-
-
 //        Spinners
         Spinner organizationSpinner = findViewById(R.id.organization_spinner);
-        List<String> organizations = Arrays.asList("Organization 1", "Organization 2", "Organization 3");
+        List<String> organizations = Arrays.asList("Select Organization","Organization 1", "Organization 2", "Organization 3");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, organizations);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -153,7 +150,7 @@ public class DisplayActivity extends AppCompatActivity {
         });
 
         Spinner floorSpinner = findViewById(R.id.floor_spinner);
-        List<String> floors = Arrays.asList("Ground", "1st", "2nd", "3rd", "4th", "5th");
+        List<String> floors = Arrays.asList("Select Floor", "Ground", "1st", "2nd", "3rd", "4th", "5th");
 
         ArrayAdapter<String> floorAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, floors);
         floorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -187,11 +184,41 @@ public class DisplayActivity extends AppCompatActivity {
 
 //        Save data to database
         buttonSave.setOnClickListener(v -> {
-//            TODO
-//            get the current time (sign in)
+            // Get the current time
+            String tableName = "Visitor_details";
+            String signInTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+            String documentType = intent.get().getStringExtra("selectedDocument");
+            String fullName = textNameView.getText().toString();
+            String identificationNumber = textDocNoView.getText().toString();
+            String mobileNumber = textPhoneNoView.getText().toString();
+            String organization = organizationSpinner.getSelectedItem().toString();
+            String floor = floorSpinner.getSelectedItem().toString();
 
+            // Print the details to the log
+            Log.d("DisplayActivity", "Current Time: " + signInTime);
+            Log.d("DisplayActivity", "Document Type: " + documentType);
+            Log.d("DisplayActivity", "Full Name: " + fullName);
+            Log.d("DisplayActivity", "Identification Number: " + identificationNumber);
+            Log.d("DisplayActivity", "Mobile Number: " + mobileNumber);
+            Log.d("DisplayActivity", "Organization: " + organization);
+            Log.d("DisplayActivity", "Floor: " + floor);
 
+            // Check database connection and table existence
+            if (DatabaseHelper.checkDatabaseConnection()) {
+                if (DatabaseHelper.checkIfTableExists(tableName)) {
+                    try {
+                        DatabaseHelper.insertVisitorDetails(tableName, documentType, fullName, identificationNumber, mobileNumber, organization, floor);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    Toast.makeText(DisplayActivity.this, "Table Visitor_details does not exist.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(DisplayActivity.this, "Failed to connect to the database.", Toast.LENGTH_SHORT).show();
+            }
         });
+
     }
 
     @SuppressLint("SetTextI18n")

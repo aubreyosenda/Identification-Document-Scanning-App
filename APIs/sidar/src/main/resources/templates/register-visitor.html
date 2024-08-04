@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Register Visitor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .alert {
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Register Visitor</h1>
+    <form id="registerVisitorForm">
+        <div class="form-group">
+            <label for="documentType">Document Type:</label>
+            <input type="text" id="documentType" name="documentType" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="visitorDocNo">Document Identification Number:</label>
+            <input type="text" id="visitorDocNo" name="visitorDocNo" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="visitorFullName">Full Name:</label>
+            <input type="text" id="visitorFullName" name="visitorFullName" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="visitorPhone">Phone:</label>
+            <input type="tel" id="visitorPhone" name="visitorPhone" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="floorNo">Floor Number:</label>
+            <select id="floorNo" name="floorNo" class="form-control">
+                <option>Select Floor</option>
+                <option value="Ground">Ground</option>
+                <option value="1st">1st</option>
+                <option value="2nd">2nd</option>
+                <option value="3rd">3rd</option>
+                <option value="4th">4th</option>
+                <option value="5th">5th</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="organization">Organization:</label>
+            <select id="organization" name="organization" class="form-control" required>
+                <option>Select Organization Name</option>
+                <option value="Tech Innovations Inc.">Tech Innovations Inc.</option>
+                <option value="Green Solutions LLC">Green Solutions LLC</option>
+                <option value="Future Enterprises Ltd.">Future Enterprises Ltd.</option>
+                <option value="Creative Minds Co.">Creative Minds Co.</option>
+                <option value="Global Ventures Corp.">Global Ventures Corp.</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="vehicleNumberPlate">Vehicle Number Plate:</label>
+            <input type="text" id="vehicleNumberPlate" name="vehicleNumberPlate" placeholder="KCY 000E" class="form-control">
+        </div>
+<!--        <div class="form-group">-->
+<!--            <label for="signedInBy">Signed In By:</label>-->
+<!--            <input type="text" id="signedInBy" name="signedInBy" class="form-control" required>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="buildingName">Building Name:</label>-->
+<!--            <input type="text" id="buildingName" name="buildingName" class="form-control">-->
+<!--        </div>-->
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+    <div id="message" class="alert alert-success"></div>
+</div>
+
+<script>
+    document.getElementById('registerVisitorForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Get selected values
+        const floorNo = document.getElementById('floorNo').value;
+        const organization = document.getElementById('organization').value;
+
+        // Validation
+        if (floorNo === "Select Floor"){
+            showToastMessage("Please Select Floor")
+            return
+        }else if (organization === "Select Organization Name") {
+            showToastMessage('Please select Organization.');
+            return; // Stop form submission
+        }
+
+        const visitorDetails = {
+            documentType: document.getElementById('documentType').value,
+            visitorDocNo: document.getElementById('visitorDocNo').value,
+            visitorFullName: document.getElementById('visitorFullName').value,
+            visitorPhone: document.getElementById('visitorPhone').value,
+            floorNo: floorNo,
+            organization: organization,
+            vehicleNumberPlate: document.getElementById('vehicleNumberPlate').value,
+            // signedInBy: document.getElementById('signedInBy').value,
+            // buildingName: document.getElementById('buildingName').value
+        };
+
+        const response = await fetch('/api/v1/visitor/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(visitorDetails)
+        });
+
+        const result = await response.text();
+        const messageElement = document.getElementById('message');
+        messageElement.textContent = result;
+        messageElement.style.display = 'block';
+        messageElement.classList.add('alert-success');
+    });
+
+    function showToastMessage(message) {
+        const messageElement = document.getElementById('message');
+        messageElement.textContent = message;
+        messageElement.style.display = 'block';
+        messageElement.classList.remove('alert-success');
+        messageElement.classList.add('alert-danger');
+
+        // Automatically hide the message after 3 seconds
+        setTimeout(() => {
+            messageElement.style.display = 'none';
+        }, 3000);
+    }
+</script>
+</body>
+</html>

@@ -37,6 +37,7 @@ class CameraActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var imageView: ImageView
+    private lateinit var preview: Preview
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,7 +88,6 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun takePhoto() {
-        Log.d(TAG, "takePhoto() called")
         val imageCapture = imageCapture ?: run {
             Log.e(TAG, "ImageCapture is not initialized")
             return
@@ -102,7 +102,6 @@ class CameraActivity : AppCompatActivity() {
 
                 override fun onCaptureSuccess(image: ImageProxy) {
                     super.onCaptureSuccess(image)
-                    Log.d("Success", "Photo capture succeeded")
                     val bitmap = imageProxyToBitmap(image)
                     image.close()
                     extractTextFromImage(bitmap)
@@ -111,15 +110,6 @@ class CameraActivity : AppCompatActivity() {
         )
     }
 
-    private fun imageProxyToBitmap(image: ImageProxy): Bitmap {
-        val buffer = image.planes[0].buffer
-        val bytes = ByteArray(buffer.remaining())
-        buffer.get(bytes)
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-    }
-
-
-
     private fun extractTextFromImage(bitmap: Bitmap) {
         val image = InputImage.fromBitmap(bitmap, 0)
         val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
@@ -127,29 +117,42 @@ class CameraActivity : AppCompatActivity() {
         recognizer.process(image)
             .addOnSuccessListener { visionText ->
                 val resultText = visionText.text
-                Log.d("Success", "Text extraction succeeded: $resultText")
 
-                // Start DisplayActivity with extracted text for processing
-                try {
-                    val intent = Intent(this@CameraActivity, DisplayActivity::class.java).apply {
-                        putExtra("source", "CameraActivity")
-                        putExtra("extractedText", resultText)
-                        putExtra("selectedDocument", selectedDocument)
-                        putExtra("selectedCountry", selectedCountry)
+                // Stop the camera by unbinding all use cases
+                val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+                cameraProviderFuture.addListener({
+                    try {
+                        val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+                        cameraProvider.unbindAll()
+
+                        // Start DisplayActivity with extracted text for processing
+                        val intent = Intent(this@CameraActivity, DisplayActivity::class.java).apply {
+                            putExtra("source", "CameraActivity")
+                            putExtra("extractedText", resultText)
+                            putExtra("selectedDocument", selectedDocument)
+                            putExtra("selectedCountry", selectedCountry)
+                        }
+                        startActivity(intent)
+                        finish()
+                    } catch (exc: Exception) {
+                        Log.e(TAG, "Use case unbinding failed", exc)
                     }
-                    Log.d(TAG, "Starting DisplayActivity with Intent: $intent")
-                    startActivity(intent)
-                    Log.d(TAG, "DisplayActivity started")
-                    finish()
-                } catch (e: Exception) {
-                    Log.e(TAG, "Error starting DisplayActivity: ${e.message}", e)
-                }
+                }, ContextCompat.getMainExecutor(this))
             }
             .addOnFailureListener { e ->
                 Log.e(TAG, "Text extraction failed: ${e.message}", e)
-                Toast.makeText(baseContext, "Text extraction failed: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
+
+
+    private fun imageProxyToBitmap(image: ImageProxy): Bitmap {
+        val buffer = image.planes[0].buffer
+        val bytes = ByteArray(buffer.remaining())
+        buffer.get(bytes)
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+    }
+
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
