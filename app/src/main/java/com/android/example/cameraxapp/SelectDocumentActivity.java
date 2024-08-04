@@ -32,7 +32,7 @@ public class SelectDocumentActivity extends AppCompatActivity {
         topBar.setTitle("Select Document");
         topBar.setBackIconClickListener(view -> finish());
         topBar.setMenuIconClickListener(view -> {
-            Toast.makeText(this, "Menu Icon clicked", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Menu Icon clicked", Toast.LENGTH_SHORT).show();
         });
 
 //        Set the bottom bar items

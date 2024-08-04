@@ -67,6 +67,8 @@ dependencies {
 
 dependencies {
 
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
     implementation(libs.play.services.vision.common)
     val camerax_version = "1.4.0-beta02"
     // The following line is optional, as the core library is included indirectly by camera-camera2
