@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Visitor Sign Out</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .alert {
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Sign Out Visitor</h1>
+    <form id="signOutVisitorForm">
+        <div class="form-group">
+            <label for="documentNo">Document Number:</label>
+            <input type="text" id="documentNo" name="documentNo" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="signedOutBy">Signed Out By:</label>
+            <input type="text" id="signedOutBy" name="signedOutBy" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign Out</button>
+    </form>
+    <div id="message" class="alert"></div>
+</div>
+
+<script>
+    document.getElementById('signOutVisitorForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const signOutDetails = {
+            documentNo: document.getElementById('documentNo').value,
+            signedOutBy: document.getElementById('signedOutBy').value
+        };
+        const response = await fetch('/api/v1/visitor/signout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(signOutDetails)
+        });
+        const result = await response.text();
+        const messageElement = document.getElementById('message');
+        messageElement.textContent = result;
+        messageElement.style.display = 'block';
+        if (response.ok) {
+            messageElement.classList.add('alert-success');
+        } else {
+            messageElement.classList.add('alert-danger');
+        }
+    });
+</script>
+</body>
+</html>
