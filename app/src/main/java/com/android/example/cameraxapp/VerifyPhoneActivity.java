@@ -38,7 +38,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
         topBar.setTitle("Verify Phone");
         topBar.setBackIconClickListener(view -> finish());
         topBar.setMenuIconClickListener(view -> {
-            Toast.makeText(this, "Menu Icon clicked", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Menu Icon clicked", Toast.LENGTH_SHORT).show();
         });
 
 //        Set the bottom bar items
@@ -61,8 +61,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
                 phoneInput.setError("Phone number not valid");
                 return;
             }
-
-            Intent phoneCountryIntent = new Intent(VerifyPhoneActivity.this, DisplayActivity.class);
+            Intent phoneCountryIntent = new Intent(VerifyPhoneActivity.this, PhonenumberOtpActivity.class);
             phoneCountryIntent.putExtra("source", "VerifyPhoneActivity");
             phoneCountryIntent.putExtra("phoneNo", countryCodePicker.getFullNumberWithPlus());
             phoneCountryIntent.putExtra("selectedCountry", country);

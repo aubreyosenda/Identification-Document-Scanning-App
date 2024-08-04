@@ -17,6 +17,13 @@
         tools:targetApi="34">
 
         <activity
+            android:name=".LoginPageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PhonenumberOtpActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".SignOutActivity"
             android:exported="false" />
         <activity

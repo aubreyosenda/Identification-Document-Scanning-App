@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:padding="16dp"
+    tools:context=".LoginPageActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -76,7 +78,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter username"
+        android:text="Enter phone number"
         android:layout_gravity="center_vertical"
         android:letterSpacing="0.08"
         android:textStyle="bold"
@@ -103,12 +105,43 @@
             android:elevation="5dp" />
 
     </LinearLayout>
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter password"
+        android:layout_gravity="center_vertical"
+        android:letterSpacing="0.08"
+        android:textStyle="bold"
+        android:textSize="25sp"
+        android:layout_marginTop="16dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:hint="Password"
+            android:inputType="numberPassword"
+            android:maxLength="6"
+            android:layout_margin="18dp"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:elevation="5dp" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/let_me_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Next"
+        android:text="Login"
         android:textColor="@color/white"
         android:layout_marginTop="16dp" />
 
