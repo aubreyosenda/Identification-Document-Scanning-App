@@ -2,11 +2,12 @@ package com.vanatel.sidar.Service;
 
 import com.vanatel.sidar.Model.CompanyDetails;
 
+import java.util.Optional;
+
 public interface CompanyService {
     String registerCompany(CompanyDetails companyDetails);
-//    String loginCompany(CompanyDetails companyDetails);
-//    String updateCompany(CompanyDetails companyDetails);
-//    // TODO
-//    String deleteCompany(String companyId);
-//    String getCompanyDetails(String companyId);
+    boolean validateCompanyCredentials(String companyEmailAddress, String companyPassword);
+    Optional<CompanyDetails> getCompanyByEmail(String companyEmailAddress);
+
+    Optional<CompanyDetails> getCompanyByPhoneNumber(Long phoneNumber);
 }

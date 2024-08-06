@@ -1,10 +1,15 @@
 package com.vanatel.sidar.Model;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.lang.NonNull;
 
 import java.sql.Timestamp;
 
@@ -14,28 +19,34 @@ import java.sql.Timestamp;
 public class CompanyDetails {
 
     @Id
-    @Column (name = "company_id")
+    @Column(name = "company_id")
     private String companyId;
 
-    @Column(name="company_name")
+    @NotBlank(message = "Company name is required")
+    @Size(min = 3, max = 225, message = "Company Name must be more than 5 characters")
+    @Column(name = "company_name", nullable = false)
     private String companyName;
 
-    @Column (name =  "company_email")
+    @NotBlank(message = "Company email is required")
+    @Email(message = "Email should be valid")
+    @Column(name = "company_email", nullable = false)
     private String companyEmailAddress;
 
-    @Column (name = "phone_number")
-    private long companyPhoneNumber;
+    @NotNull(message = "Phone number is required")
+    @Column(name = "phone_number", nullable = false)
+    private Long companyPhoneNumber;
 
-    @Column (name = "company_hq_location")
+    @NotBlank(message = "Company HQ location is required")
+    @Column(name = "company_hq_location", nullable = false)
     private String companyPhysicalAddress;
 
-    @Column(name = "company_username")
-    private String companyUsername;
-
-    @Column(name = "creation_date")
+    @CreationTimestamp
+    @Column(name = "creation_date", updatable = false)
     private Timestamp creationDate;
 
-    @Column(name = "password")
+    @NotBlank(message = "Password is required")
+    @Size(min = 8, message = "Password Must be at least 8 characters long")
+    @Column(name = "password", nullable = false)
     private String companyPassword;
 
     public CompanyDetails() {
@@ -43,14 +54,13 @@ public class CompanyDetails {
 
     public CompanyDetails(String companyId, String companyName, String companyEmailAddress,
                           long companyPhoneNumber, String companyPhysicalAddress,
-                          String companyUsername, Timestamp creationDate, String companyPassword) {
+                          Timestamp creationDate, String companyPassword) {
 
         this.companyId = companyId;
         this.companyName = companyName;
         this.companyEmailAddress = companyEmailAddress;
         this.companyPhoneNumber = companyPhoneNumber;
         this.companyPhysicalAddress = companyPhysicalAddress;
-        this.companyUsername = companyUsername;
         this.creationDate = creationDate;
         this.companyPassword = companyPassword;
     }
@@ -93,14 +103,6 @@ public class CompanyDetails {
 
     public void setCompanyPhysicalAddress(String companyPhysicalAddress) {
         this.companyPhysicalAddress = companyPhysicalAddress;
-    }
-
-    public String getCompanyUsername() {
-        return companyUsername;
-    }
-
-    public void setCompanyUsername(String companyUsername) {
-        this.companyUsername = companyUsername;
     }
 
     public Timestamp getCreationDate() { return creationDate; }

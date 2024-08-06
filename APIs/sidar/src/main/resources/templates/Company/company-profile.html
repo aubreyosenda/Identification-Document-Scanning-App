@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../static/css/styles.css">
+</head>
+<body>
+<header class="bg-dark text-white text-center py-3">
+    <h1>Company Profile</h1>
+</header>
+<main class="container my-5">
+    <div id="company-profile">
+        <h2 id="company-name"></h2>
+        <div id="company-stats">
+            <!-- Add company stats here -->
+        </div>
+    </div>
+</main>
+<footer class="bg-dark text-white text-center py-3">
+    <p>&copy; By Vanatel Company. All rights reserved.</p>
+</footer>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Function to populate the company profile
+    function loadCompanyProfile() {
+        const companyProfile = JSON.parse(localStorage.getItem('companyProfile'));
+        if (companyProfile) {
+            document.getElementById('company-name').textContent = companyProfile.companyName;
+            // Populate company stats
+            const statsContainer = document.getElementById('company-stats');
+            for (const [key, value] of Object.entries(companyProfile.stats)) {
+                const statElement = document.createElement('p');
+                statElement.textContent = `${key}: ${value}`;
+                statsContainer.appendChild(statElement);
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCompanyProfile);
+</script>
+</body>
+</html>
