@@ -1,59 +1,157 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Sidar</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        .nav-list {
-            list-style-type: none;
-            padding: 0;
-        }
-        .nav-list li {
-            margin-bottom: 10px;
-        }
-        .nav-list a {
-            display: block;
-            padding: 10px;
-            text-align: center;
-            background-color: #007bff;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
-        .nav-list a:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>vanatel Software Development Company</title>
+    <meta name="description" content="Security scanning app and data management">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
-<div class="container text-center mt-5">
-    <h1>Welcome to Sidar</h1>
-    <p>Your one-stop solution for all your Visitor Management needs.</p>
-    <a href="/about" class="btn btn-primary">Learn More</a>
-    <hr>
-    <h3>Visitor Management System</h3>
-    <nav>
-        <ul class="nav-list">
-            <li><a href="/register">Register visitor</a></li>
-            <li><a href="/list">List visitors</a></li>
-            <li><a href="/signout">Signout visitor</a></li>
-        </ul>
-    </nav>
-</div>
+    
+    <section class="header">
+        <nav>
+            <a href="index.html"><img src="../static/images/logo.png" alt="vanatel Logo"></a>
+            <div class="nav-links" id="navLinks">
+                <i class="fas fa-times" onclick="hideMenu()"></i>
+                <ul>
+                    <li><a href="/about">ABOUT</a></li>
+                    <li><a href="/contact-us">CONTACT</a></li>
+                    <li><a href="buildings.html">BUILDINGS</a></li>
+                    <li><a href="/login-company">LOGIN</a></li>
+                    <li><a href="personnel.html">PERSONNEL</a></li>
+                    <li><a href="/register-company">REGISTER</a></li>
+                    <li><a href="summary.html">SUMMARY</a></li>
+                </ul>
+            </div>
+            <i class="fas fa-bars" onclick="showMenu()"></i>
+        </nav>
+
+        <div class="text-box">
+            <h1>Welcome to Sidar, Your one stop Visitor Management Service</h1>
+            <p>We specialize in developing cutting-edge security scanning applications and data management solutions. 
+               Our technology ensures the highest level of security and efficiency for your data needs.</p>
+            <a href="contact.html" class="hero-btn">Get in Touch</a>
+        </div>
+    </section>
+
+
+    <section class="company">
+        <h1>WELCOME TO VANATEL</h1>
+        <p>We offer a diverse range of services to cater to different platforms:</p>
+    
+        <div class="row">
+            <div class="company-col">
+                <a href="#">
+                    <img src="../static/images/desktop-app.jpg" alt="Desktop Applications">
+                    <div class="layer">
+                        <h3>Desktop Applications</h3>
+                    </div>
+                </a>
+            </div>
+            <div class="company-col">
+                <a href="#">
+                    <img src="../static/images/web-app.jpg" alt="Web Applications">
+                    <div class="layer">
+                        <h3>Web Applications</h3>
+                    </div>
+                </a>
+            </div>
+            <div class="company-col">
+                <a href="#">
+                    <img src="../static/images/mobile-app.jpg" alt="Mobile Applications">
+                    <div class="layer">
+                        <h3>Mobile Applications</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="services">
+        <h1>Our Services</h1>
+        <p>Explore our comprehensive solutions across different platforms:</p>
+
+        <div class="row">
+            <div class="service-col">
+                <h3>Mobile Applications</h3>
+                <p>We create high-performance, user-friendly Android applications tailored to your business needs, leveraging the latest technologies and best practices.</p>
+            </div>
+            <div class="service-col">
+                <h3>Desktop Applications</h3>
+                <p>Our desktop applications are designed for both Windows and Mac, focusing on robust functionality and seamless user experiences for your internal and client-facing needs.</p>
+            </div>
+            <div class="service-col">
+                <h3>Web Applications</h3>
+                <p>We develop dynamic and responsive web applications that provide a superior user experience and meet the unique requirements of your online presence.</p>
+            </div>
+        </div>
+    </section>
+
+   
+    
+
+    <section class="core-values">
+        <h1>Our Core Values</h1>
+        <p>At the heart of our organization, we prioritize key values that drive our commitment to excellence in all aspects of our work. Our core values guide our approach to delivering exceptional services and solutions.</p>
+        <div class="row">
+            <div class="core-values-col">
+                <img src="../static/images/user-experience.png" alt="User Experience">
+                <h3>Exceptional User Experience</h3>
+                <p>We are dedicated to providing an unparalleled user experience, ensuring that our solutions are intuitive, engaging, and tailored to meet the needs of our clients. Our user-centric design approach is fundamental to creating products that delight and empower users.</p>
+            </div>
+            <div class="core-values-col">
+                <img src="../static/images/data-security.png" alt="Data Security">
+                <h3>Robust Data Security</h3>
+                <p>Protecting our clients' data is a top priority. We implement advanced security measures to safeguard sensitive information from potential threats and breaches. Our commitment to data security ensures that our clients' information is handled with the utmost confidentiality and integrity.</p>
+            </div>
+            <div class="core-values-col">
+                <img src="../static/images/compliance.png" alt="Compliance">
+                <h3>Strict Compliance</h3>
+                <p>We adhere to the highest standards of regulatory compliance, ensuring that all our processes and solutions meet industry-specific requirements and legal obligations. Our dedication to compliance guarantees that we operate transparently and ethically in all our business practices.</p>
+            </div>
+        </div>
+    </section>
+    
+
+    <section class="testimonials">
+        <h1>What Our Clients Are Saying</h1>
+        <p>Feedback from clients who have experienced our services.</p>
+        <div class="row" id="testimonials-container">
+            <!-- Static testimonials or introductory content -->
+            <div class="testimonials-col static">
+                <p>...</p>
+            </div>
+        </div>
+    </section>
+    
+
+    <section class="cta">
+        <h1>Contact Us Today</h1>
+        <a href="contact.html" class="hero-btn">Get in Touch</a>
+    </section>
+
+    <!-- Footer Section -->
+    <section class="footer">
+        <h4>VANATEL</h4>
+        <p>
+            vanatel is dedicated to providing a secure platform that prioritizes your data's safety. Our services are
+            designed to seamlessly integrate into your business operations, offering advanced security and user-friendly
+            interfaces. Trust us to keep your data protected and your operations efficient.
+        </p>
+        <div class="icons">
+            <a href="#" target="_blank" class="icon-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" target="_blank" class="icon-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" target="_blank" class="icon-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank" class="icon-link"><i class="fab fa-whatsapp"></i></a>
+        </div>
+        <p>Crafted with Passion by vanatel Team</p>
+    </section>
+
+    <script src="../static/js/index.js" async defer></script>
 </body>
 </html>
