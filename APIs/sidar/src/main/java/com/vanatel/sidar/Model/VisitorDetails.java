@@ -17,41 +17,41 @@ public class VisitorDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "signintime")
+    @Column(name = "signin_time")
     private Timestamp signInTime;
 
-    @Column(name = "documenttype")
+    @Column(name = "document_type")
     private String documentType;
 
-    @Column(name = "visitordocno")
+    @Column(name = "document_no")
     private String visitorDocNo;
 
-    @Column(name = "visitorfullname")
+    @Column(name = "full_name")
     private String visitorFullName;
 
-    @Column(name = "visitorphone")
+    @Column(name = "phone_number")
     private long visitorPhone;
 
-    @Column(name = "floorno")
+    @Column(name = "floor_number")
     private String floorNo;
 
-    @Column(name = "organization")
+    @Column(name = "organization_name")
     private String organization;
 
-    @Column(name = "vehiclenumberplate")
+    @Column(name = "vehicle_number_plate")
     private String vehicleNumberPlate;
 
-    @Column(name = "signedinby")
+    @Column(name = "signed_in_by")
     private String signedInBy;
 
-    @Column(name = "signouttime")
+    @Column(name = "signout_time")
     private Timestamp signOutTime;
 
-    @Column(name = "signedoutby")
+    @Column(name = "signed_out_by")
     private String signedOutBy;
 
-    @Column(name = "buildingname")
-    private String buildingName;
+    @Column(name = "building_id")
+    private String buildingId;
 
     // Getters and Setters
 
@@ -61,7 +61,7 @@ public class VisitorDetails {
     public VisitorDetails(Timestamp signInTime, String documentType, String visitorDocNo,
                           String visitorFullName, long visitorPhone, String floorNo,
                           String organization, String vehicleNumberPlate, String signedInBy,
-                          Timestamp signOutTime, String signedOutBy, String buildingName) {
+                          Timestamp signOutTime, String signedOutBy, String buildingId) {
 
         this.signInTime = signInTime;
         this.documentType = documentType;
@@ -74,7 +74,7 @@ public class VisitorDetails {
         this.signedInBy = signedInBy;
         this.signOutTime = signOutTime;
         this.signedOutBy = signedOutBy;
-        this.buildingName = buildingName;
+        this.buildingId = buildingId;
     }
 
     public Long getId() {
@@ -174,10 +174,10 @@ public class VisitorDetails {
     }
 
     public String getBuildingName() {
-        return buildingName;
+        return buildingId;
     }
 
-    public void setBuildingName(String buildingName) {
-        this.buildingName = buildingName;
+    public void setBuildingName(String buildingId) {
+        this.buildingId = buildingId;
     }
 }

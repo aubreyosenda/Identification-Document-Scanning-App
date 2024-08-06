@@ -2,7 +2,6 @@ package com.vanatel.sidar.Controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 public class landingPageController {
@@ -12,7 +11,19 @@ public class landingPageController {
         return "index";
     }
 
-    @GetMapping("/register")
+    @GetMapping ("/about")
+    public String about() {  return "about"; }
+
+//    Company section
+    @GetMapping("/register-company")
+    public String registerCompany() { return "register-company"; }
+
+    @GetMapping("/company-login")
+    public String companyLogin() { return "company-login"; }
+
+
+//    Visitor Section
+    @GetMapping("/register-visitor")
     public String registerVisitor() {
         return "register-visitor";
     }

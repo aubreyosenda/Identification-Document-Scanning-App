@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Personnel Details - vanatel</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+        function populateBuildingOptions() {
+            const buildingNames = JSON.parse(localStorage.getItem('buildingNames')) || [];
+            const select = document.getElementById('building-selection');
+
+            buildingNames.forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                option.textContent = name;
+                select.appendChild(option);
+            });
+        }
+
+        function addPersonnel() {
+            const container = document.getElementById('personnelContainer');
+            const personnelCount = container.children.length + 1;
+
+            const personnelForm = `
+                <div class="mb-4 border p-3 rounded">
+                    <h4>Security Personnel ${personnelCount}</h4>
+                    <div class="mb-3">
+                        <label for="building-selection-${personnelCount}" class="form-label">Select Building:</label>
+                        <select class="form-select" id="building-selection-${personnelCount}" name="building[]" required>
+                            <option value="" disabled selected>Select a building</option>
+                            <!-- Building options will be dynamically added here -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="full-names-${personnelCount}" class="form-label">Full Names:</label>
+                        <input type="text" class="form-control" id="full-names-${personnelCount}" name="full-names[]" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="national-id-${personnelCount}" class="form-label">National ID Number:</label>
+                        <input type="text" class="form-control" id="national-id-${personnelCount}" name="national-id[]" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="work-id-${personnelCount}" class="form-label">Work ID Number:</label>
+                        <input type="text" class="form-control" id="work-id-${personnelCount}" name="work-id[]" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-number-personnel-${personnelCount}" class="form-label">Phone Number:</label>
+                        <input type="tel" class="form-control" id="phone-number-personnel-${personnelCount}" name="phone-number-personnel[]" required>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', personnelForm);
+            populateBuildingOptions();  // Populate building options for the new personnel form
+        }
+
+        window.onload = populateBuildingOptions;
+    </script>
+</head>
+
+<body>
+    <section class="buildingsub-header">
+        <nav>
+            <a href="index.html"><img src="../static/images/logo.png" alt="vanatel Logo"></a>
+            <div class="nav-links" id="navLinks">
+                <i class="fas fa-times close-icon" onclick="hideMenu()"></i>
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="about.html">ABOUT</a></li>
+                    <li><a href="contact.html">CONTACT</a></li>
+                    <li><a href="buildings.html">BUILDINGS</a></li>
+                    <li><a href="company-login.html">LOGIN</a></li>
+                    
+                    <li><a href="register-company.html">REGISTER</a></li>
+                    <li><a href="summary.html">SUMMARY</a></li>
+                </ul>
+            </div>
+            <i class="fas fa-bars menu-icon" onclick="showMenu()"></i>
+        </nav>
+        <div class="container">
+            <h1>Security Personnel Details</h1>
+            <p class="lead">Provide Security Personnel Details here.</p>
+        </div>
+    </section>
+
+
+    <!-- Main Content -->
+    <main class="container my-5">
+        <form id="personnelForm" action="summary.html" method="post">
+            <h2 class="mb-4">Security Personnel Details</h2>
+
+            <div id="personnelContainer">
+                <!-- Personnel forms will be added here -->
+            </div>
+
+            <button type="button" class="btn btn-primary" onclick="addPersonnel()">Add Another Personnel</button>
+            <button type="submit" class="btn btn-success mt-3">Next: Review & Submit</button>
+            <a href="buildings.html" class="btn btn-secondary mt-3">Return to Building Details</a>
+        </form>
+    </main>
+
+    <!-- Footer 
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy;By Vanatel Company. All rights reserved.</p>
+    </footer>-->
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/index.js" async defer></script>
+</body>
+
+</html>
