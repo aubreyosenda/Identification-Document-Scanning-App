@@ -10,6 +10,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.example.cameraxapp.utils.FirebaseUtil;
+
 public class SplashActivity extends AppCompatActivity {
 
     @Override
@@ -21,11 +23,18 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this, LoginPageActivity.class));
-                finish();
+                if (FirebaseUtil.isLoggedIn()){
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            }else{
+                startActivity(new Intent(SplashActivity.this, FirstPageActivity.class));
 
             }
-        },5000);
+
+            finish();
+
+        }
+
+        },2000);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
