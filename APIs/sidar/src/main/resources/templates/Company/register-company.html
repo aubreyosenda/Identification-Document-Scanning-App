@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Your Company</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../static/css/styles.css">
+</head>
+<body>
+<header class="bg-dark text-white text-center py-3">
+    <h1>Register Your Company</h1>
+</header>
+<main class="container my-5">
+    <form id="companyForm">
+        <h2 class="text-center mb-4">Company Details</h2>
+        <div class="mb-3">
+            <label for="company-name" class="form-label">Company Name:</label>
+            <input type="text" class="form-control" id="company-name" name="company-name" required>
+        </div>
+        <div class="mb-3">
+            <label for="company-email" class="form-label">Company Email:</label>
+            <input type="email" class="form-control" id="company-email" name="company-email" required>
+        </div>
+        <div class="mb-3">
+            <label for="phone-number" class="form-label">Phone Number:</label>
+            <div class="input-group">
+                <div class="input-group-prepend col-3">
+                    <select class="form-select" id="country-code" name="country-code" required></select>
+                </div>
+                <input type="tel" class="form-control col-9" id="phone-number" name="phone-number" required>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="hq-location" class="form-label">Company HQ Location:</label>
+            <input type="text" class="form-control" id="hq-location" name="hq-location" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Create Password:</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <div class="mb-3">
+            <label for="confirm-password" class="form-label">Confirm Password:</label>
+            <input type="password" class="form-control" id="confirm-password" name="confirm-password" required>
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="show-passwords">
+            <label class="form-check-label" for="show-passwords">Show Passwords</label>
+        </div>
+        <button type="button" class="btn btn-success" id="submit-btn">Register</button>
+    </form>
+</main>
+<footer class="bg-dark text-white text-center py-3">
+    <p>&copy; By Vanatel Company. All rights reserved.</p>
+</footer>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Countries with their codes
+    const countryCodeSelect = document.getElementById('country-code');
+    const countryCodes = [
+        { name: "Kenya", code: "+254" },
+        { name: "Uganda", code: "+256" },
+        { name: "Tanzania", code: "+255" },
+        { name: "Rwanda", code: "+250" },
+        { name: "Burundi", code: "+257" },
+        { name: "South Sudan", code: "+211" },
+        { name: "Djibouti", code: "+253" },
+        { name: "Eritrea", code: "+291" }
+        // Add more countries as needed
+    ];
+
+    countryCodes.forEach(country => {
+        const option = document.createElement('option');
+        option.value = country.code;
+        option.textContent = `${country.name} (${country.code})`;
+        if (country.code === "+254") {
+            option.selected = true;
+        }
+        countryCodeSelect.appendChild(option);
+    });
+
+</script>
+<script src="../../static/js/Company/register-company.js"></script>
+</body>
+</html>
