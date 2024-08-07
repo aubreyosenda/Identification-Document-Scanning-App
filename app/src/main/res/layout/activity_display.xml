@@ -16,54 +16,49 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintTop_toBottomOf="@id/top_bar"
+        app:layout_constraintBottom_toTopOf="@id/bottom_bar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottom_bar">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/confirm_Details"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Confirm Visitor details"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:paddingTop="10dp"
-                app:layout_constraintTop_toBottomOf="@id/top_bar"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 tools:ignore="HardcodedText" />
-
 
             <TextView
                 android:id="@+id/edit_pop_up"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Edit the necessary fields"
                 android:textSize="15sp"
                 android:textColor="@color/gray"
                 android:paddingTop="10dp"
-                app:layout_constraintTop_toBottomOf="@id/confirm_Details"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 tools:ignore="HardcodedText" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp">
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -78,7 +73,6 @@
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:paddingTop="12dp" />
-
 
                     <EditText
                         android:id="@+id/selected_document_text"
@@ -105,7 +99,6 @@
                         android:textStyle="bold"
                         android:textSize="16sp"
                         android:paddingTop="12dp" />
-
 
                     <EditText
                         android:id="@+id/name_text"
@@ -172,7 +165,6 @@
                         android:background="@null" />
                 </LinearLayout>
 
-
                 <LinearLayout
                     android:id="@+id/destination_layout"
                     android:layout_width="match_parent"
@@ -188,11 +180,12 @@
                         android:gravity="center"
                         android:textStyle="bold"
                         android:textSize="20sp"
-                        android:layout_marginTop="16dp"/>
+                        android:layout_marginTop="16dp" />
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
-                        android:background="@android:color/black"/>
+                        android:background="@android:color/black" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -200,7 +193,6 @@
                         android:paddingTop="5dp"
                         android:layout_gravity="start"
                         android:orientation="horizontal">
-
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -210,7 +202,6 @@
                             android:textColor="@color/black"
                             android:textStyle="bold"
                             android:padding="6dp" />
-
 
                         <Spinner
                             android:id="@+id/organization_spinner"
@@ -229,7 +220,6 @@
                         android:layout_gravity="start"
                         android:orientation="horizontal">
 
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -239,19 +229,16 @@
                             android:textStyle="bold"
                             android:padding="6dp" />
 
-
                         <Spinner
                             android:id="@+id/floor_spinner"
-                            android:layout_width="00dp"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@drawable/edit_text_rounded_corner"
                             android:padding="3dp"
                             android:paddingStart="0dp" />
                     </LinearLayout>
-
                 </LinearLayout>
-
             </LinearLayout>
 
             <LinearLayout
@@ -261,12 +248,7 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp"
-                android:paddingTop="0dp"
-                app:layout_constraintBottom_toTopOf="@id/Progressbar"
-                app:layout_constraintTop_toBottomOf="@id/scrollView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent">
+                android:paddingTop="0dp">
 
                 <Button
                     android:id="@+id/button_retake"
@@ -289,14 +271,9 @@
                 android:layout_width="42dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:layout_gravity="center"
-                app:layout_constraintTop_toBottomOf="@id/buttons_layout"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                android:layout_gravity="center" />
         </LinearLayout>
-
     </ScrollView>
-
     <com.android.example.cameraxapp.BottomBar
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"

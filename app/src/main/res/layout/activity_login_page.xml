@@ -1,141 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="16dp"
     tools:context=".LoginPageActivity">
 
-    <LinearLayout
+    <com.android.example.cameraxapp.TopBar
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/enter_phone_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:letterSpacing="0.05"
+        android:text="Enter phone number"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@id/top_bar"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="18dp"
+        tools:ignore="HardcodedText" />
+
+    <com.hbb20.CountryCodePicker
+        android:id="@+id/country_code_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="30dp">
+        android:background="@drawable/edit_text_rounded_corner"
+        app:layout_constraintTop_toBottomOf="@id/enter_phone_label"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="18dp"
+        android:padding="1dp"
+        android:elevation="5dp"
+        app:ccp_showNameCode="false"
+        app:ccp_defaultNameCode="KE" />
 
-        <RelativeLayout
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/circular_bg"
-            android:backgroundTint="@android:color/darker_gray">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="1"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
-
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/circular_bg"
-            android:backgroundTint="@android:color/holo_blue_light">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:text="2"/>
-
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/circular_bg"
-            android:backgroundTint="@android:color/darker_gray">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:text="3"/>
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="158dp"
-        android:layout_height="150dp"
-        android:src="@drawable/logo"
-        app:tint="@color/my_primary" />
+    <EditText
+        android:id="@+id/phone_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:hint="Phone Number"
+        android:inputType="phone"
+        android:maxLength="10"
+        android:background="@drawable/edit_text_rounded_corner"
+        android:elevation="5dp"
+        app:layout_constraintTop_toBottomOf="@id/enter_phone_label"
+        app:layout_constraintStart_toEndOf="@id/country_code_picker"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginTop="18dp" />
 
     <TextView
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Enter phone number"
-        android:layout_gravity="center_vertical"
-        android:letterSpacing="0.08"
-        android:textStyle="bold"
-        android:textSize="25sp"
-        android:layout_marginTop="16dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-
-        <EditText
-            android:id="@+id/username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:hint="Username"
-            android:inputType="text"
-            android:maxLength="6"
-            android:layout_margin="18dp"
-            android:background="@drawable/edit_text_rounded_corner"
-            android:elevation="5dp" />
-
-    </LinearLayout>
-    <TextView
-
-        android:layout_width="match_parent"
+        android:id="@+id/enter_password_label"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Enter password"
-        android:layout_gravity="center_vertical"
-        android:letterSpacing="0.08"
+        android:letterSpacing="0.05"
         android:textStyle="bold"
         android:textSize="25sp"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginLeft="18dp"
+        app:layout_constraintTop_toBottomOf="@id/phone_number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginTop="70dp" />
 
     <LinearLayout
+        android:id="@+id/password_field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
+        app:layout_constraintTop_toBottomOf="@id/enter_password_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
+            android:id="@+id/input_password"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:hint="Password"
-            android:inputType="numberPassword"
-            android:maxLength="6"
-            android:layout_margin="18dp"
+            android:inputType="textPassword"
             android:background="@drawable/edit_text_rounded_corner"
-            android:elevation="5dp" />
+            android:elevation="5dp"
+            app:layout_constraintTop_toBottomOf="@id/enter_password_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="18dp"
+            tools:ignore="HardcodedText" />
 
+        <CheckBox
+            android:id="@+id/toggle_password_visibility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show"
+            android:layout_marginTop="18dp"
+            app:layout_constraintTop_toTopOf="@id/input_password"
+            app:layout_constraintBottom_toBottomOf="@id/input_password"
+            app:layout_constraintStart_toEndOf="@id/input_password"
+            android:layout_marginEnd="15dp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Forgot password?"
+        android:textColor="@android:color/holo_blue_light"
+        app:layout_constraintTop_toBottomOf="@id/password_field"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="30dp" />
 
     <Button
         android:id="@+id/let_me_in"
@@ -143,13 +131,24 @@
         android:layout_height="wrap_content"
         android:text="Login"
         android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/forgot_password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
 
     <ProgressBar
         android:id="@+id/Progressbar"
         android:layout_width="42dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"/>
+        app:layout_constraintTop_toBottomOf="@id/let_me_in"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp" />
 
+    <com.android.example.cameraxapp.BottomBar
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
