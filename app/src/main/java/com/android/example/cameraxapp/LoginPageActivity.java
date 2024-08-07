@@ -2,58 +2,102 @@ package com.android.example.cameraxapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-public class  LoginPageActivity extends AppCompatActivity {
+import com.hbb20.CountryCodePicker;
 
-    EditText username, password;
-    Button login;
-    String user, pass;
+public class LoginPageActivity extends AppCompatActivity {
+
+    private CountryCodePicker countryCodePicker;
+    private EditText phoneNumber, password;
+    private CheckBox togglePasswordVisibility;
+    private Button letMeInButton;
+    private ProgressBar progressBar;
+    private TextView forgotPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login_page);
 
-        username = findViewById(R.id.username);
-        password = findViewById(R.id.password);
+        // Set the title of the top bar
+        TopBar topBar = findViewById(R.id.top_bar);
+        topBar.setTitle("Login");
 
+        // Initialize UI components
+        countryCodePicker = findViewById(R.id.country_code_picker);
+        phoneNumber = findViewById(R.id.phone_number);
+        password = findViewById(R.id.input_password);
+        togglePasswordVisibility = findViewById(R.id.toggle_password_visibility);
+        letMeInButton = findViewById(R.id.let_me_in);
+        progressBar = findViewById(R.id.Progressbar);
+        forgotPassword = findViewById(R.id.forgot_password);
 
-
-        login = findViewById(R.id.let_me_in);
-
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                user = username.getText().toString();
-                pass = password.getText().toString();
-                if (user.isEmpty() && pass.isEmpty()){
-                    Toast.makeText(LoginPageActivity.this, "Both the fields should be filled", Toast.LENGTH_SHORT).show();
-                }
-                else if( user.isEmpty()){
-                    Toast.makeText(LoginPageActivity.this, "Please provide the username", Toast.LENGTH_SHORT).show();
-                }
-                else if (pass.isEmpty()){
-                    Toast.makeText(LoginPageActivity.this, "Please provide the password", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Intent intent = new Intent(LoginPageActivity.this, WelcomeActivity.class);
-                    startActivity(intent);
-                }
-
+        // Toggle password visibility
+        togglePasswordVisibility.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                // Show password
+                password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            } else {
+                // Hide password
+                password.setTransformationMethod(PasswordTransformationMethod.getInstance());
             }
         });
 
+        // Handle login button click
+        letMeInButton.setOnClickListener(view -> {
+            String phone = phoneNumber.getText().toString().trim();
+            String pwd = password.getText().toString().trim();
 
+            if (validateInputs(phone, pwd)) {
+                progressBar.setVisibility(View.VISIBLE);
+                // Perform login operation (e.g., network request)
+                performLogin(phone, pwd);
+            }
+        });
+
+        // Handle forgot password click
+        forgotPassword.setOnClickListener(view -> {
+            // Handle forgot password functionality
+            Toast.makeText(LoginPageActivity.this, "Forgot Password Clicked", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private boolean validateInputs(String phone, String password) {
+        if (phone.isEmpty()) {
+            Toast.makeText(this, "Please enter phone number", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (password.isEmpty()) {
+            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private void performLogin(String phone, String password) {
+        // Mock login operation (replace with actual login logic)
+        // For demonstration, we assume login is always successful
+        boolean loginSuccess = true;
+
+        if (loginSuccess) {
+            progressBar.setVisibility(View.GONE);
+            Intent intent = new Intent(LoginPageActivity.this, WelcomeActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(this, "Login failed. Please try again.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

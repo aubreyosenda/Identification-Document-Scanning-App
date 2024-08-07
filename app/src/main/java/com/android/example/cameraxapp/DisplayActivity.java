@@ -117,8 +117,6 @@ public class DisplayActivity extends AppCompatActivity {
                             getIDCardDetails(lines);
                         } else if ("Passport".equals(documentType)) {
                             getPassportDetails(lines);
-                        } else if ("Driving License".equals(documentType)) {
-                            Toast.makeText(DisplayActivity.this, "Selected Doc is DL ", Toast.LENGTH_SHORT).show();
                         } else {
                             intent.set(new Intent(DisplayActivity.this, SelectDocumentActivity.class));
                             startActivity(intent.get());
@@ -197,47 +195,12 @@ public class DisplayActivity extends AppCompatActivity {
             finish();
         });
 
-//        Save data to database
+        //        Post data to API on Clicking "save button"
         buttonSave.setOnClickListener(v -> {
 
-//            TODO
-//            get the current time (sign in)
             PostData(selectedDocumentView.getText().toString(), textDocNoView.getText().toString(),
                     textNameView.getText().toString(), textPhoneNoView.getText().toString(), selectedFloor,
-                    selectedOrganization, "Not added yet");
-            // Get the current time
-            String tableName = "Visitor_details";
-            String signInTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
-            String documentType = intent.get().getStringExtra("selectedDocument");
-            String fullName = textNameView.getText().toString();
-            String identificationNumber = textDocNoView.getText().toString();
-            String mobileNumber = textPhoneNoView.getText().toString();
-            String organization = organizationSpinner.getSelectedItem().toString();
-            String floor = floorSpinner.getSelectedItem().toString();
-
-            // Print the details to the log
-            Log.d("DisplayActivity", "Current Time: " + signInTime);
-            Log.d("DisplayActivity", "Document Type: " + documentType);
-            Log.d("DisplayActivity", "Full Name: " + fullName);
-            Log.d("DisplayActivity", "Identification Number: " + identificationNumber);
-            Log.d("DisplayActivity", "Mobile Number: " + mobileNumber);
-            Log.d("DisplayActivity", "Organization: " + organization);
-            Log.d("DisplayActivity", "Floor: " + floor);
-
-            // Check database connection and table existence
-            if (DatabaseHelper.checkDatabaseConnection()) {
-                if (DatabaseHelper.checkIfTableExists(tableName)) {
-                    try {
-                        DatabaseHelper.insertVisitorDetails(tableName, documentType, fullName, identificationNumber, mobileNumber, organization, floor);
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                } else {
-                    Toast.makeText(DisplayActivity.this, "Table Visitor_details does not exist.", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Toast.makeText(DisplayActivity.this, "Failed to connect to the database.", Toast.LENGTH_SHORT).show();
-            }
+                    selectedOrganization, "Null");
         });
 
     }
@@ -307,11 +270,11 @@ public class DisplayActivity extends AppCompatActivity {
 
     public void PostData(String selectedDocumentView, String textDocNoView,
                     String textNameView, String textPhoneNoView, String selectedFloor,
-    String selectedOrganization, String vehicle){
+                    String selectedOrganization, String vehicle){
         progressBar.setVisibility(View.VISIBLE);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://fda9-41-203-219-167.ngrok-free.app/api/v1/visitor/")
+                .baseUrl("https://18c3-102-219-208-46.ngrok-free.app/api/v1/visitor/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -331,7 +294,7 @@ public class DisplayActivity extends AppCompatActivity {
             public void onResponse(Call<Vistors> call, Response<Vistors> response) {
                 progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(DisplayActivity.this, "Data inserted successfully", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(DisplayActivity.this, SelectDocumentActivity.class);
+                Intent intent = new Intent(DisplayActivity.this, WelcomeActivity.class);
                 startActivity(intent);
             }
 

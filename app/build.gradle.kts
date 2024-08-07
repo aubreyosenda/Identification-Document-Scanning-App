@@ -66,7 +66,7 @@ dependencies {
 
 
 dependencies {
-
+    implementation ("com.squareup.retrofit2:retrofit:2.11.0")
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
     implementation(libs.play.services.vision.common)
