@@ -51,39 +51,10 @@ public class VisitorAPIController {
         }
     }
 
-//    @PutMapping("/signout")
-//    public String signOutVisitor(@RequestBody VisitorDetails visitorDetails) {
-//        visitorService.signOutVisitor(visitorDetails);
-//        return "Visitor signed out successfully";
-//    }
 
-    @GetMapping("/findbydocno")
-    public ResponseEntity<VisitorDetails> findVisitorByDocNo(@RequestParam String documentNo) {
-        VisitorDetails visitorDetails = visitorService.findVisitorByDocNo(documentNo);
-        if (visitorDetails != null) {
-            return ResponseEntity.ok(visitorDetails);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @GetMapping("/findbyname")
-    public ResponseEntity<List<VisitorDetails>> findVisitorsByName(@RequestParam String visitorName) {
-        List<VisitorDetails> visitorDetailsList = visitorService.findVisitorsByName(visitorName);
-        if (visitorDetailsList != null && !visitorDetailsList.isEmpty()) {
-            return ResponseEntity.ok(visitorDetailsList);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @GetMapping("/findbyphone")
-    public ResponseEntity<List<VisitorDetails>> findVisitorsByPhone(@RequestParam long phoneNumber) {
-        List<VisitorDetails> visitorDetailsList = visitorService.findVisitorsByPhone(phoneNumber);
-        if (visitorDetailsList != null && !visitorDetailsList.isEmpty()) {
-            return ResponseEntity.ok(visitorDetailsList);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+//    List Visitors
+    @GetMapping("/show-list")
+    public List<VisitorDetails> listVisitors() {
+        return visitorService.findAllVisitors();
     }
 }

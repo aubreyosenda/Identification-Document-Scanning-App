@@ -1,0 +1,63 @@
+/* General styles for the page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #dfdcdcfd;
+}
+
+/* Navbar styles */
+.navbar {
+    margin-bottom: 10px;
+}
+
+/* Dashboard section styles */
+#dashboard-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    padding: 15px;
+    background-color: #bfc1c490;
+}
+
+/* Card styles */
+.card {
+    margin: 2px;
+    height: 130px;
+    min-width: 30px;
+    border-radius: 8px;
+    background-color: #d0d6df;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    text-align: center;
+    padding: 5px;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: rgb(2, 37, 120);
+}
+
+.card-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: rgb(5, 97, 10);
+}
+
+
+.chart-container {
+    margin-bottom: 20px;
+    height: 300px;
+    display: flex;
+    justify-content: space-between
+}
+
+/* Time display styles */
+#current-time {
+    font-size: 1.2rem;
+    color: #333;
+    text-align: right;
+    margin-right: 20px;
+}

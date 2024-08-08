@@ -27,28 +27,33 @@ public class landingPageController {
     @GetMapping ("contact-us")
     public String contactUs() {  return "./company/contact.html"; }
 
-    @GetMapping("/register-company")
+    @GetMapping("/company/register")
     public String registerCompany() { return "./company/register-company.html"; }
 
-    @GetMapping("/company-login")
+    @GetMapping("/company/login")
     public String companyLogin() { return "./company/company-login.html"; }
 
-    @GetMapping ("/company-profile")
+    @GetMapping ("/company/profile")
     public String companyProfile() { return "./company/company-profile.html"; }
 
 
 //    Visitor Section
-    @GetMapping ("/visitors")
-    public String visitors() {  return "./visitors/index.html"; }
+    @GetMapping ("/visitor")
+    public String visitors() {  return "./visitor/index.html"; }
 
-    @GetMapping("/register-visitor")
-    public String registerVisitor() {
-        return "./visitors/register-visitor.html";
+    @GetMapping("/visitor/list")
+    public String visitorsList() {
+        return "./visitor/show-visitors.html";
     }
 
-    @GetMapping("/signout")
+    @GetMapping("/visitor/register")
+    public String registerVisitor() {
+        return "./visitor/register-visitor.html";
+    }
+
+    @GetMapping("/visitor/signout")
     public String signOutVisitor() {
-        return "./visitors/signout-visitor.html";
+        return "./visitor/signout-visitor.html";
     }
 
 

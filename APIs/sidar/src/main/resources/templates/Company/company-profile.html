@@ -6,16 +6,106 @@
     <title>Company Profile</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../static/css/styles.css">
+    <link rel="stylesheet" href="../../static/css/Company/company-profile-styles.css">
 </head>
 <body>
-<header class="bg-dark text-white text-center py-3">
-    <h1>Company Profile</h1>
+<header class="bg-dark text-white">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <span class="navbar-brand" id="navbar-company-name"></span>
+<!--            <span class="navbar-brand">Tech Solutions</span>-->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Buildings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Security Personnel</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Profile</a>
+                    </li>
+                </ul>
+                <button class="btn btn-outline-light ms-3" id="logout-button">Logout</button>
+            </div>
+        </div>
+    </nav>
 </header>
-<main class="container my-5">
-    <div id="company-profile">
-        <h2 id="company-name"></h2>
-        <div id="company-stats">
-            <!-- Add company stats here -->
+<main class="container my-3">
+    <div id="dashboard-nav" class="flex justify-content-between align-items-center mb-1">
+        <h2>Dashboard</h2>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="buildingDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                Select Building
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="buildingDropdown">
+                <li><a class="dropdown-item" href="#">Building 1</a></li>
+                <li><a class="dropdown-item" href="#">Building 2</a></li>
+                <li><a class="dropdown-item" href="#">Building 3</a></li>
+            </ul>
+        </div>
+        <div id="current-time" class="text-black"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Visitors Today</h5>
+                    <p class="card-text">30</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Visitors This Week</h5>
+                    <p class="card-text">200</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Visitors This Month</h5>
+                    <p class="card-text">800</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Visitors This Year</h5>
+                    <p class="card-text">2600</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Total Visitors</h5>
+                    <p class="card-text">5000</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="chart-container" class="row mt-4">
+        <div class="col-md-6 mb-4">
+            <h4>Visitors by Floor</h4>
+            <canvas id="barChart"></canvas>
+        </div>
+        <div class="col-md-6 mb-4">
+            <h4>Visitor Distribution by Organization</h4>
+            <canvas id="pieChart"></canvas>
         </div>
     </div>
 </main>
@@ -24,23 +114,30 @@
 </footer>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../../static/js/Company/company-profile.js"></script>
 <script>
-    // Function to populate the company profile
-    function loadCompanyProfile() {
-        const companyProfile = JSON.parse(localStorage.getItem('companyProfile'));
-        if (companyProfile) {
-            document.getElementById('company-name').textContent = companyProfile.companyName;
-            // Populate company stats
-            const statsContainer = document.getElementById('company-stats');
-            for (const [key, value] of Object.entries(companyProfile.stats)) {
-                const statElement = document.createElement('p');
-                statElement.textContent = `${key}: ${value}`;
-                statsContainer.appendChild(statElement);
-            }
-        }
+    function updateTime() {
+        const now = new Date();
+        const options = {
+            weekday: 'short', 
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',   
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+            hour12: true
+        };
+        const timeString = now.toLocaleString('en-US', options);
+        document.getElementById('current-time').textContent = timeString;
     }
 
-    document.addEventListener('DOMContentLoaded', loadCompanyProfile);
+    // Update time immediately and then every second
+    updateTime();
+    setInterval(updateTime, 1000);
+
 </script>
 </body>
 </html>

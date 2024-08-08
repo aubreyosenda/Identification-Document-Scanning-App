@@ -10,4 +10,6 @@ public interface CompanyService {
     Optional<CompanyDetails> getCompanyByEmail(String companyEmailAddress);
 
     Optional<CompanyDetails> getCompanyByPhoneNumber(Long phoneNumber);
+
+
 }

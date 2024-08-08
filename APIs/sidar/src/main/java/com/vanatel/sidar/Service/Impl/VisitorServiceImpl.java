@@ -31,18 +31,10 @@ public class VisitorServiceImpl implements VisitorService {
         return "Visitor Registered Successfully";
     }
 
-    //    Update Visitor Operation
-//    @Override
-//    public String signOutVisitor(VisitorDetails visitorDetails){
-//        visitorDetails.setSignOutTime(new Timestamp(System.currentTimeMillis()));
-//        visitorDetails.setSignedOutBy("Anthony Loner");
-//        visitorRepository.save(visitorDetails);
-//        return "Visitor Signed Out Successfully";
-//    }
 
     @Override
     public String signOutVisitor(String documentNo, String signedOutBy) {
-        Optional<VisitorDetails> optionalVisitorDetails = visitorRepository.findByVisitorDocNo(documentNo);
+        Optional<VisitorDetails> optionalVisitorDetails = visitorRepository.findByVisitorDocNoAndSignOutTimeIsNull(documentNo);
         if (optionalVisitorDetails.isPresent()) {
             VisitorDetails visitorDetails = optionalVisitorDetails.get();
             visitorDetails.setSignOutTime(new Timestamp(System.currentTimeMillis()));
@@ -50,10 +42,15 @@ public class VisitorServiceImpl implements VisitorService {
             visitorRepository.save(visitorDetails);
             return "Visitor signed out successfully";
         } else {
-            return "Visitor not found";
+            return "Visitor not found or already signed out";
         }
     }
 
+
+    @Override
+    public List<VisitorDetails> findAllVisitors() {
+        return visitorRepository.findAll();
+    }
 
     @Override
     public VisitorDetails findVisitorByDocNo(String documentNo) {
