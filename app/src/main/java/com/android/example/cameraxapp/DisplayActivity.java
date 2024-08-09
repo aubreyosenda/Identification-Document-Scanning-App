@@ -294,7 +294,7 @@ public class DisplayActivity extends AppCompatActivity {
             public void onResponse(Call<Vistors> call, Response<Vistors> response) {
                 progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(DisplayActivity.this, "Data inserted successfully", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(DisplayActivity.this, WelcomeActivity.class);
+                Intent intent = new Intent(DisplayActivity.this, MainActivity.class);
                 startActivity(intent);
             }
 

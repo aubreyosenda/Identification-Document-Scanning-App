@@ -41,7 +41,7 @@ public class FirstPageActivity extends AppCompatActivity {
         button_get_started.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(FirstPageActivity.this, PhoneNumberActivity.class);
+                Intent i = new Intent(FirstPageActivity.this, LoginPageActivity.class);
                 startActivity(i);
             }
         });

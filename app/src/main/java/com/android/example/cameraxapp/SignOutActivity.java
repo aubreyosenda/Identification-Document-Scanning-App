@@ -47,7 +47,7 @@ public class SignOutActivity extends AppCompatActivity {
             // Sign out logic
             Toast.makeText(SignOutActivity.this, "{Username} Signed out", Toast.LENGTH_SHORT).show();
             // Redirect to some other activity, if needed
-            Intent intent = new Intent(SignOutActivity.this, WelcomeActivity.class);
+            Intent intent = new Intent(SignOutActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         });

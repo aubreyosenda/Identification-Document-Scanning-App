@@ -134,7 +134,7 @@ public class LoginOtpActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 setInProgress(false);
                 if(task.isSuccessful()){
-                    Intent intent = new Intent(LoginOtpActivity.this, LoginUsernameActivity.class);
+                    Intent intent = new Intent(LoginOtpActivity.this, MainActivity.class);
                     intent.putExtra("phone", PhoneNumber);
                     startActivity(intent);
                 }else{

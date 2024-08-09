@@ -20,18 +20,25 @@
             android:name=".LoginPageActivity"
             android:exported="false" />
         <activity
-            android:name=".PhonenumberOtpActivity"
+            android:name=".PhoneNumberActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VerifyPhoneActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ProfileActivity"
             android:exported="false" />
 
         <activity
             android:name=".SignOutActivity"
             android:exported="false" />
 
-<!--        <activity-->
-<!--            android:name=".LoginOtpActivity"-->
-<!--            android:exported="false" />-->
         <activity
-            android:name=".VerifyPhoneActivity"
+            android:name=".LoginOtpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".DisplayActivity"
@@ -40,7 +47,7 @@
             android:name=".SelectDocumentActivity"
             android:exported="false" />
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".FirstPageActivity"
             android:exported="true" />
         <activity
             android:name=".CameraActivity"
