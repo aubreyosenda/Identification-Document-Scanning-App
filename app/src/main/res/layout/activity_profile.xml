@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main_layoutprofile"
-    android:padding="1dp"
     tools:context=".ProfileActivity">
 
     <com.android.example.cameraxapp.TopBar

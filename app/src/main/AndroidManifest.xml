@@ -44,10 +44,10 @@
             android:name=".DisplayActivity"
             android:exported="false" />
         <activity
-            android:name=".SelectDocumentActivity"
+            android:name=".RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".FirstPageActivity"
+            android:name=".AgreementPageActivity"
             android:exported="true" />
         <activity
             android:name=".CameraActivity"

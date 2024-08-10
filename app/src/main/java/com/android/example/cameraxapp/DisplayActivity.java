@@ -21,13 +21,8 @@ import com.android.example.cameraxapp.Interfaces.RetrofitApi;
 import com.android.example.cameraxapp.Model.Vistors;
 
 
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 
 import retrofit2.Call;
@@ -63,7 +58,7 @@ public class DisplayActivity extends AppCompatActivity {
         topBar = findViewById(R.id.top_bar);
         topBar.setTitle("Visitor Details");
         topBar.setBackIconClickListener(view -> {
-            intent.set(new Intent(DisplayActivity.this, SelectDocumentActivity.class));
+            intent.set(new Intent(DisplayActivity.this, RegistrationActivity.class));
             startActivity(intent.get());
             finish();
         });
@@ -118,7 +113,7 @@ public class DisplayActivity extends AppCompatActivity {
                         } else if ("Passport".equals(documentType)) {
                             getPassportDetails(lines);
                         } else {
-                            intent.set(new Intent(DisplayActivity.this, SelectDocumentActivity.class));
+                            intent.set(new Intent(DisplayActivity.this, RegistrationActivity.class));
                             startActivity(intent.get());
                             finish();
                         }
@@ -184,13 +179,13 @@ public class DisplayActivity extends AppCompatActivity {
 
         // Set onClickListener for back buttons
         buttonBack.setOnClickListener(v -> {
-            intent.set(new Intent(DisplayActivity.this, SelectDocumentActivity.class));
+            intent.set(new Intent(DisplayActivity.this, RegistrationActivity.class));
             startActivity(intent.get());
             finish();
         });
 
         iconBack.setOnClickListener(v -> {
-            intent.set(new Intent(DisplayActivity.this, SelectDocumentActivity.class));
+            intent.set(new Intent(DisplayActivity.this, RegistrationActivity.class));
             startActivity(intent.get());
             finish();
         });
@@ -274,7 +269,7 @@ public class DisplayActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://18c3-102-219-208-46.ngrok-free.app/api/v1/visitor/")
+                .baseUrl("https://71d8-102-219-208-44.ngrok-free.app/api/v1/visitor/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -300,6 +295,7 @@ public class DisplayActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Vistors> call, Throwable t) {
+                Log.e(TAG, "Error message " + t.getMessage());
 
                 Toast.makeText(DisplayActivity.this, "Error message " + t.getMessage(), Toast.LENGTH_LONG).show();
             }

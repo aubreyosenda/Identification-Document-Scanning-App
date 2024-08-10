@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SelectDocumentActivity">
+    tools:context=".RegistrationActivity">
 
     <com.android.example.cameraxapp.TopBar
         android:id="@+id/top_bar"

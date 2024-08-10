@@ -51,7 +51,6 @@ public class VisitorAPIController {
         }
     }
 
-
 //    List Visitors
     @GetMapping("/show-list")
     public List<VisitorDetails> listVisitors() {

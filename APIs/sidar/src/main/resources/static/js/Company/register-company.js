@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(data => {
                     alert('Company registered successfully');
                     form.reset();
-                    window.location.href = '/company-login';
+                    window.location.href = '/company/login';
                 })
                 .catch(error => {
                     console.error('Error:', error.message);

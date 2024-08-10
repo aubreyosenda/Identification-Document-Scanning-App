@@ -29,7 +29,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         .then(data => {
             if (data.message === "Login successful") {
                 localStorage.setItem('companyProfile', JSON.stringify(data.profile));
-                window.location.href = '/company-profile';
+                window.location.href = '/company/profile';
             } else {
                 alert('Login failed: ' + data.message);
             }
