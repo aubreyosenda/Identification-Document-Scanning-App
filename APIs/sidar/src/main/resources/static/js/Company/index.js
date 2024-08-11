@@ -9,9 +9,6 @@ var navLinks = document.getElementById("navLinks");
 
     }
 
-
-
-
     //BUILDINGS CODE 
 
     let currentBuildingIndex = 0;

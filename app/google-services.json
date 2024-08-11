@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "446247583893",
+    "project_id": "sidar-scan",
+    "storage_bucket": "sidar-scan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446247583893:android:9f6872076f54ccbe63db9c",
+        "android_client_info": {
+          "package_name": "com.android.example.cameraxapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDX71UXrH2WY-trAGMRbk5JZt2XGmy_uFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

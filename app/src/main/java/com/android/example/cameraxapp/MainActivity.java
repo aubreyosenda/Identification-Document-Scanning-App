@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         buttonRegister.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, SelectDocumentActivityKt.class);
+            Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
             startActivity(intent);
         });
 

@@ -13,7 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class FirstPageActivity extends AppCompatActivity {
+public class AgreementPageActivity extends AppCompatActivity {
 
     Button button_get_started;
     CheckBox checkbox_terms;
@@ -22,7 +22,7 @@ public class FirstPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_first_page);
+        setContentView(R.layout.activity_agreement_page);
 
         button_get_started = findViewById(R.id.button_get_started);
         checkbox_terms = findViewById(R.id.checkbox_terms);
@@ -41,7 +41,7 @@ public class FirstPageActivity extends AppCompatActivity {
         button_get_started.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(FirstPageActivity.this, PhoneNumberActivity.class);
+                Intent i = new Intent(AgreementPageActivity.this, LoginPageActivity.class);
                 startActivity(i);
             }
         });

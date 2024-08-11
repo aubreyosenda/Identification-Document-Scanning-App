@@ -92,7 +92,7 @@ public class LoginPageActivity extends AppCompatActivity {
 
         if (loginSuccess) {
             progressBar.setVisibility(View.GONE);
-            Intent intent = new Intent(LoginPageActivity.this, WelcomeActivity.class);
+            Intent intent = new Intent(LoginPageActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         } else {

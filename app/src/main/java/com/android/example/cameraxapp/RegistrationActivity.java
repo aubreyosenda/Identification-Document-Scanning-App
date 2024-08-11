@@ -2,7 +2,6 @@ package com.android.example.cameraxapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -12,7 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.hbb20.CountryCodePicker;
 
-public class SelectDocumentActivity extends AppCompatActivity {
+public class RegistrationActivity extends AppCompatActivity {
     private TopBar topBar;
     private BottomBar bottomBar;
 
@@ -24,7 +23,7 @@ public class SelectDocumentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_document);
+        setContentView(R.layout.activity_registration);
 
 //          Set the top bar Items
         topBar = findViewById(R.id.top_bar);
@@ -62,10 +61,10 @@ public class SelectDocumentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!radio_id_card.isChecked() && !radio_passport.isChecked() && !radio_no_document.isChecked()){
-                    Toast.makeText(SelectDocumentActivity.this, "Please select a document", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrationActivity.this, "Please select a document", Toast.LENGTH_SHORT).show();
                 } else if (radio_no_document.isChecked()) {
 //                    If the No document radio is checked, start verify phone activity
-                    Intent noDocIntent = new Intent(SelectDocumentActivity.this, VerifyPhoneActivity.class);
+                    Intent noDocIntent = new Intent(RegistrationActivity.this, VerifyPhoneActivity.class);
                     noDocIntent.putExtra("selectedCountry", selectedCountry);
                     startActivity(noDocIntent);
 
@@ -75,7 +74,7 @@ public class SelectDocumentActivity extends AppCompatActivity {
                     String selectedDocument = selectedRadioButton.getText().toString();
 
                     // Start MainActivity1 and pass selected document type
-                    Intent intent = new Intent(SelectDocumentActivity.this, CameraActivity.class);
+                    Intent intent = new Intent(RegistrationActivity.this, CameraActivity.class);
                     intent.putExtra("selectedDocument", selectedDocument);
                     intent.putExtra("selectedCountry", selectedCountry);
                     startActivity(intent);

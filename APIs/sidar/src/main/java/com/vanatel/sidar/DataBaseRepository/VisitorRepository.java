@@ -13,4 +13,6 @@ public interface VisitorRepository extends JpaRepository<VisitorDetails, BigInte
     Optional<VisitorDetails> findByVisitorDocNo(String visitorDocNo);
     List<VisitorDetails> findByVisitorFullName(String visitorName);
     List<VisitorDetails> findByVisitorPhone(long phoneNumber);
+
+    Optional<VisitorDetails> findByVisitorDocNoAndSignOutTimeIsNull(String documentNo);
 }
