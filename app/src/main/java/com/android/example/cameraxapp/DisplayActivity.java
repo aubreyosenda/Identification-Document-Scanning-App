@@ -1,6 +1,8 @@
 package com.android.example.cameraxapp;
 
 
+import static com.android.example.cameraxapp.Interfaces.RetrofitApi.BASE_URL;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,22 +16,30 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.example.cameraxapp.Interfaces.RetrofitApi;
 import com.android.example.cameraxapp.Model.Vistors;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class DisplayActivity extends AppCompatActivity {
     private TopBar topBar;
@@ -264,43 +274,86 @@ public class DisplayActivity extends AppCompatActivity {
     }
 
     public void PostData(String selectedDocumentView, String textDocNoView,
-                    String textNameView, String textPhoneNoView, String selectedFloor,
-                    String selectedOrganization, String vehicle){
+                         String textNameView, String textPhoneNoView, String selectedFloor,
+                         String selectedOrganization, String vehicle) {
+
         progressBar.setVisibility(View.VISIBLE);
 
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                    @Override
+                    public void log(String message) {
+                        Log.d("OkHttp", message);
+                    }
+                }).setLevel(HttpLoggingInterceptor.Level.HEADERS)) // Log headers as well
+                .build();
+
+        // Add ScalarsConverterFactory to handle plain text responses
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://71d8-102-219-208-44.ngrok-free.app/api/v1/visitor/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(ScalarsConverterFactory.create()) // For plain text responses
+                .addConverterFactory(GsonConverterFactory.create(gson)) // For JSON responses
                 .build();
 
         RetrofitApi retrofitAPI = retrofit.create(RetrofitApi.class);
 
-        Vistors vistors =  new Vistors(selectedDocumentView, textDocNoView,
+        Vistors vistors = new Vistors(selectedDocumentView, textDocNoView,
                 textNameView, textPhoneNoView, selectedFloor,
                 selectedOrganization, vehicle);
 
-        Call<Vistors> vistorsCall = retrofitAPI.vistors(vistors);
+        Call<String> vistorsCall = retrofitAPI.registerVisitor(vistors);
 
         Log.v(TAG, "API " + vistorsCall.toString());
 
-
-        vistorsCall.enqueue(new Callback<Vistors>() {
+        vistorsCall.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<Vistors> call, Response<Vistors> response) {
+            public void onResponse(Call<String> call, Response<String> response) {
                 progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(DisplayActivity.this, "Data inserted successfully", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(DisplayActivity.this, MainActivity.class);
-                startActivity(intent);
+                if (response.isSuccessful()) {
+                    String successMsg = response.body();
+                    Log.v(TAG, "Full response body: " + successMsg);
+                    showConfirmationDialog("Visitor Registered Successfully", true);
+                } else {
+                    try {
+                        String errorBody = response.errorBody().string();
+                        Log.e(TAG, "Error body: " + errorBody);
+                        showConfirmationDialog("Registration failed: "+ errorBody, false);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error reading errorBody", e);
+                        showConfirmationDialog("Registration failed: \n" + response.message(), false);
+                    }
+                }
             }
 
             @Override
-            public void onFailure(Call<Vistors> call, Throwable t) {
-                Log.e(TAG, "Error message " + t.getMessage());
-
-                Toast.makeText(DisplayActivity.this, "Error message " + t.getMessage(), Toast.LENGTH_LONG).show();
+            public void onFailure(Call<String> call, Throwable t) {
+                progressBar.setVisibility(View.INVISIBLE);
+                Log.e(TAG, "Failure message: " + t.getMessage());
+                showConfirmationDialog("Error: "+ t.getMessage(), false);
             }
         });
+    }
 
-
+    private void showConfirmationDialog(String message, boolean isSuccess) {
+        new AlertDialog.Builder(this)
+                .setTitle(isSuccess ? "Success" : "Failure")
+                .setMessage(message)
+                .setPositiveButton("OK", (dialog, which) -> {
+                    if (isSuccess) {
+                        Intent intent = new Intent(this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(this, DisplayActivity.class);
+                        startActivity(intent);
+                    }
+                    finish(); // Close the current activity
+                })
+                .setCancelable(false)
+                .show();
     }
 }

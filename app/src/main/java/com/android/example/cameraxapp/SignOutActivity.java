@@ -1,5 +1,7 @@
 package com.android.example.cameraxapp;
 
+import static com.android.example.cameraxapp.Interfaces.RetrofitApi.BASE_URL;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.example.cameraxapp.Interfaces.RetrofitApi;
@@ -18,6 +21,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class SignOutActivity extends AppCompatActivity {
 
@@ -65,9 +69,9 @@ public class SignOutActivity extends AppCompatActivity {
     }
 
     private void signOutVisitor(String documentNo) {
-        // Show a loading indicator, if needed
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://1457-102-219-208-45.ngrok-free.app/api/v1/visitor/")
+                .baseUrl(BASE_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -75,7 +79,7 @@ public class SignOutActivity extends AppCompatActivity {
 
         SignOutRequest signOutRequest = new SignOutRequest();
         signOutRequest.setDocumentNo(documentNo);
-        signOutRequest.setSignedOutBy("AndroidApp"); // You can set this based on user context if needed
+        signOutRequest.setSignedOutBy("Androi");
 
         Call<String> signOutCall = retrofitAPI.signOutVisitor(signOutRequest);
 
@@ -85,20 +89,36 @@ public class SignOutActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(SignOutActivity.this, "Signed out successfully", Toast.LENGTH_SHORT).show();
-                    // Redirect to some other activity, if needed
-                    Intent intent = new Intent(SignOutActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    showConfirmationDialog("Sign out successful", true);
                 } else {
-                    Toast.makeText(SignOutActivity.this, "Sign out failed: " + response.message(), Toast.LENGTH_LONG).show();
+                    showConfirmationDialog("Sign out failed: " + response.message(), false);
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(SignOutActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e(TAG, "Error: " + t.getMessage());
+                showConfirmationDialog("An error Occured: "+ t.getMessage(), false);
             }
         });
     }
+
+    private void showConfirmationDialog(String message, boolean isSuccess) {
+        new AlertDialog.Builder(this)
+                .setTitle(isSuccess ? "Success" : "Failure")
+                .setMessage(message)
+                .setPositiveButton("OK", (dialog, which) -> {
+                    if (isSuccess) {
+                        Intent intent = new Intent(SignOutActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(SignOutActivity.this, DisplayActivity.class);
+                        startActivity(intent);
+                    }
+                    finish(); // Close the current activity
+                })
+                .setCancelable(false)
+                .show();
+    }
+
 }
