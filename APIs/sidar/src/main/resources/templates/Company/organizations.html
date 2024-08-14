@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Security Personnel Details</title>
+    <title>Building Details</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../static/css/Company/personnel-styles.css">
+    <link rel="stylesheet" href="../../static/css/Company/organization-styles.css">
 </head>
 <body>
 <!-- Navbar -->
@@ -33,20 +33,19 @@
 </nav>
 
 <!-- Secondary Navbar -->
+<div class="secondary-navbar bg-light py-2">
+    <div class="container d-flex justify-content-between align-items-center">
+        <select id="buildingSelector" class="form-select w-50">
+            <option value="" disabled selected>Select Building</option>
+        </select>
+        <button type="button" class="btn btn-primary" onclick="addFloor()" disabled>Add Floor</button>
+    </div>
+</div>
 
 <!-- Main Content -->
 <main class="container my-5">
-    <div class="container">
-        <h1>Security Personnel</h1>
-        <label for="buildingSelector">Select Building:</label>
-        <select id="buildingSelector" class="form-select w-50" onchange="displaySecurityPersonnel()">
-            <option value disabled selected>Select Building</option>
-            <!-- Building options will be appended here by JavaScript -->
-        </select>
-
-        <div id="securityPersonnelContainer" class="mt-4">
-            <!-- Security personnel cards will be displayed here -->
-        </div>
+    <div id="floorsContainer" class="mt-4">
+        <!-- Floors will be added here -->
     </div>
 </main>
 
@@ -57,6 +56,6 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../static/js/Company/security-personnel.js"></script>
+<script src="../../static/js/Company/organizations.js"></script>
 </body>
 </html>

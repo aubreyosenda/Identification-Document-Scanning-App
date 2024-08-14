@@ -3,6 +3,7 @@ package com.vanatel.sidar.Service.Impl;
 import com.vanatel.sidar.DataBaseRepository.CompanyRepository;
 import com.vanatel.sidar.Model.CompanyDetails;
 import com.vanatel.sidar.Service.CompanyService;
+import com.vanatel.sidar.Service.Impl.IdGenerators.CompanyIdGenerator;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;

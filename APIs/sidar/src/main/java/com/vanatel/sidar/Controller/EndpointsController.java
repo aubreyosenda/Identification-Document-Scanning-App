@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class landingPageController {
+public class EndpointsController {
 
     @GetMapping("/")
     public String landingPage() {
@@ -36,6 +36,16 @@ public class landingPageController {
     @GetMapping ("/company/profile")
     public String companyProfile() { return "./company/company-profile.html"; }
 
+    @GetMapping("/company/buildings")
+    public String buildings() { return "./company/buildings.html"; }
+
+    @GetMapping("/company/buildings/organizations")
+    public String organizations() { return "./company/organizations.html"; }
+
+    @GetMapping("/company/buildings/personnel")
+    public String buildingsPersonnel() { return "./company/personnel.html"; }
+
+
 
 //    Visitor Section
     @GetMapping ("/visitor")
@@ -55,6 +65,5 @@ public class landingPageController {
     public String signOutVisitor() {
         return "./visitor/signout-visitor.html";
     }
-
 
 }

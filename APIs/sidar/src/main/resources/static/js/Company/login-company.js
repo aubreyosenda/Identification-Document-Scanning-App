@@ -3,10 +3,8 @@ document.getElementById('show-passwords').addEventListener('change', function() 
     const password = document.getElementById('password');
     if (this.checked) {
         password.type = 'text';
-        confirmPassword.type = 'text';
     } else {
         password.type = 'password';
-        confirmPassword.type = 'password';
     }
 });
 
@@ -18,7 +16,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         companyPassword: document.getElementById('password').value.trim()
     };
 
-    fetch('http://localhost:5500/api/v1/company/login', {
+    fetch('/api/v1/company/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
