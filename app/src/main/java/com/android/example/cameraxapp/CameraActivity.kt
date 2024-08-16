@@ -32,6 +32,7 @@ import kotlin.math.min
 class CameraActivity : AppCompatActivity() {
     private var selectedDocument: String? = null
     private var selectedCountry: String? = null
+    private var vehicleNumberPlate: String? = null
     private lateinit var selectedDocumentText: TextView
     private lateinit var viewBinding: ActivityCameraBinding
     private var imageCapture: ImageCapture? = null
@@ -74,12 +75,14 @@ class CameraActivity : AppCompatActivity() {
         // Retrieve the selected document type and country name from intent
         val selectedDocument = intent.getStringExtra("selectedDocument")
         val selectedCountry = intent.getStringExtra("selectedCountry")
+        val vehicleNumberPlate = intent.getStringExtra("vehicleNumberPlate")
         this.selectedDocument = selectedDocument
         this.selectedCountry = selectedCountry
+        this.vehicleNumberPlate = vehicleNumberPlate
 
 
         // Display the selected document type and country name
-        selectedDocumentText.text = "Selected Document: $selectedDocument\nSelected Country: $selectedCountry"
+        selectedDocumentText.text = "Selected Document: $selectedDocument\nSelected Country: $selectedCountry\n Vehicle Numberplate $vehicleNumberPlate"
 
         // Set up the listener for the image capture button
         viewBinding.imageCaptureButton.setOnClickListener { takePhoto() }
@@ -131,6 +134,7 @@ class CameraActivity : AppCompatActivity() {
                             putExtra("extractedText", resultText)
                             putExtra("selectedDocument", selectedDocument)
                             putExtra("selectedCountry", selectedCountry)
+                            putExtra("vehicleNumberPlate", vehicleNumberPlate)
                         }
                         startActivity(intent)
                         finish()

@@ -1,5 +1,6 @@
 package com.vanatel.sidar.Service.Impl;
 
+import com.vanatel.sidar.DataBaseRepository.BuildingRepository;
 import com.vanatel.sidar.DataBaseRepository.SecurityPersonnelRepository;
 import com.vanatel.sidar.Model.SecurityPersonelDetails;
 import com.vanatel.sidar.Service.SecurityPersonnelService;
@@ -13,6 +14,8 @@ import java.util.Optional;
 public class SecurityPersonnelServiceImpl implements SecurityPersonnelService {
     @Autowired
     private SecurityPersonnelRepository securityPersonnelRepository;
+    @Autowired
+    private BuildingRepository buildingRepository;
 
     @Override
     public List<SecurityPersonelDetails> getSecurityPersonnelByBuildingId(String buildingId) {

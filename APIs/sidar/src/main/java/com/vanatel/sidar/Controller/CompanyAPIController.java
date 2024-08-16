@@ -110,6 +110,13 @@ public class CompanyAPIController {
         return new ResponseEntity<>(buildings, HttpStatus.OK);
     }
 
+    @GetMapping("/Building&Company-Name")
+    public ResponseEntity<Map<String, Object>> getCompanyAndBuildingNames(@RequestParam String buildingId) {
+        return buildingService.getCompanyAndBuildingNames(buildingId)
+                .map(details -> new ResponseEntity<>(details, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
 
     /********************************************************************
      *                      ORGANIZATIONS ENDPOINTS

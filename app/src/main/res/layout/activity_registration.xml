@@ -64,19 +64,42 @@
             android:layout_marginTop="16dp"
             android:layout_gravity="center" />
 
-        <EditText
-            android:id="@+id/vehicle_number_plate_input"
+        <!-- Vehicle number plate input and close button -->
+        <LinearLayout
+            android:id="@+id/vehicle_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:hint="Enter Vehicle Number Plate"
-            android:inputType="text"
-            android:background="@drawable/edit_text_rounded_corner"
-            android:elevation="5dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:visibility="gone"
-            android:layout_marginTop="18dp" />
-    </LinearLayout>
+            android:background="@drawable/edit_text_background"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="18dp">
 
+            <EditText
+                android:id="@+id/vehicle_number_plate_input"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:hint="Vehicle Number Plate"
+                android:inputType="text|textCapCharacters|textNoSuggestions"
+                android:background="@drawable/edit_text_rounded_corner"
+                android:elevation="5dp"/>
+
+            <!-- Close icon button -->
+            <ImageButton
+                android:id="@+id/close_vehicle_input_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/close_icon"
+                android:contentDescription="@string/close"
+                android:padding="8dp"/>
+        </LinearLayout>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/choose_document_text"
@@ -125,7 +148,7 @@
     </RadioGroup>
 
     <Button
-        android:id="@+id/button_add"
+        android:id="@+id/continue_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"

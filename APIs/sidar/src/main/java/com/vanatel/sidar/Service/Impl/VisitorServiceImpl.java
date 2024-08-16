@@ -23,10 +23,6 @@ public class VisitorServiceImpl implements VisitorService {
     public String registerVisitor(VisitorDetails visitorDetails) {
 //        Set the current time before saving
         visitorDetails.setSignInTime(new Timestamp(System.currentTimeMillis()));
-
-//        Set The Constant details Here (Bulding Name and Signed In account Name)
-        visitorDetails.setBuildingName("BID0001");
-        visitorDetails.setSignedInBy("GS9854");
         visitorRepository.save(visitorDetails);
         return "Visitor Registered Successfully";
     }

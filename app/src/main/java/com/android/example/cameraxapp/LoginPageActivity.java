@@ -1,9 +1,11 @@
 package com.android.example.cameraxapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -14,7 +16,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.example.cameraxapp.Model.SecurityPersonelDetails;
 import com.hbb20.CountryCodePicker;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class LoginPageActivity extends AppCompatActivity {
 
@@ -82,22 +92,86 @@ public class LoginPageActivity extends AppCompatActivity {
             Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
             return false;
         }
+        Log.d("Phone Number", phone);
+        Log.d("Password", password);
         return true;
     }
 
     private void performLogin(String phone, String password) {
-        // Mock login operation (replace with actual login logic)
-        // For demonstration, we assume login is always successful
-        boolean loginSuccess = true;
+        // Define the URL for the login request
+        String url = "https://e46a-41-203-219-167.ngrok-free.app/api/v1/company/personnel/login?phoneNumber=" + phone + "&nationalIdNumber=" + password;
 
-        if (loginSuccess) {
-            progressBar.setVisibility(View.GONE);
-            Intent intent = new Intent(LoginPageActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            progressBar.setVisibility(View.GONE);
-            Toast.makeText(this, "Login failed. Please try again.", Toast.LENGTH_SHORT).show();
-        }
+        // Create a new thread to handle the network request
+        new Thread(() -> {
+            try {
+                // Perform the network request
+                URL loginUrl = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) loginUrl.openConnection();
+                connection.setRequestMethod("GET");
+
+                // Read the response
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder responseBuilder = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    responseBuilder.append(line);
+                }
+                reader.close();
+
+                // Convert response to JSON
+                String response = responseBuilder.toString();
+                Log.d("LoginResponse", response);
+
+                // Parse the JSON response
+                JSONObject jsonResponse = new JSONObject(response);
+                int id = jsonResponse.getInt("id");
+                String fullName = jsonResponse.getString("fullName");
+                long nationalIdNumber = jsonResponse.getLong("nationalIdNumber");
+                String workIdNumber = jsonResponse.getString("workIdNumber");
+                long phoneNumber = jsonResponse.getLong("phoneNumber");
+                String buildingId = jsonResponse.getString("buildingId");
+                String buildingName = jsonResponse.getString("buildingName");
+                String companyID = jsonResponse.getString("companyId");
+                String companyName = jsonResponse.getString("companyName");
+
+                // Create a SecurityPersonelDetails object
+                SecurityPersonelDetails details = new SecurityPersonelDetails(
+                        id, fullName, nationalIdNumber, workIdNumber, phoneNumber, buildingId, buildingName, companyID, companyName
+                );
+
+                // Save user details
+                runOnUiThread(() -> {
+                    saveLoginDetails(details);
+                    progressBar.setVisibility(View.GONE);
+                    Intent intent = new Intent(LoginPageActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                runOnUiThread(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(LoginPageActivity.this, "Login failed. Please try again.", Toast.LENGTH_SHORT).show();
+                });
+            }
+        }).start();
     }
+
+
+    private void saveLoginDetails(SecurityPersonelDetails details) {
+        SharedPreferences sharedPreferences = getSharedPreferences("SecurityPersonnelPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("id", details.getId());
+        editor.putString("fullName", details.getFullName());
+        editor.putLong("nationalIdNumber", details.getNationalIdNumber());
+        editor.putString("workIdNumber", details.getWorkIdNumber());
+        editor.putLong("phoneNumber", details.getPhoneNumber());
+        editor.putString("buildingId", details.getBuildingId());
+        editor.putString("buildingName", details.getBuildingName());
+        editor.putString("companyId", details.getCompanyId());
+        editor.putString("companyName", details.getCompanyName());
+        editor.apply();
+    }
+
 }

@@ -18,6 +18,9 @@ public class Vistors {
         this.vehicleNumberPlate = vehicleNumberPlate;
     }
 
+    public Vistors(String selectedDocumentView, String textDocNoView, String textNameView, String textPhoneNoView, String selectedFloor, String selectedOrganization, String workId, String vehicle, String buildingId) {
+    }
+
     public String getDocumentType() {
         return documentType;
     }

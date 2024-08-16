@@ -4,6 +4,8 @@ import com.vanatel.sidar.Model.BuildingDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public interface BuildingService {
@@ -13,4 +15,6 @@ public interface BuildingService {
     void deleteBuilding(String buildingId);
 
     List<BuildingDetails> getBuildingsByCompanyId(String companyId);
+
+    Optional<Map<String, Object>> getCompanyAndBuildingNames(String buildingId);
 }

@@ -1,45 +1,35 @@
-package com.vanatel.sidar.Model;
+package com.vanatel.sidar.Model.dto;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "securitypersonnel")
-public class SecurityPersonelDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, updatable = false)
+public class SecurityPersonnelDetailsDTO {
     private int id;
-
-    @Column(name="full_name", nullable = false, length = 50)
     private String fullName;
-
-    @Column(name = "national_id_number", nullable = false)
     private Long nationalIdNumber;
-
-    @Column(name="work_id_number", nullable = false, length = 20)
     private String workIdNumber;
-
-    @Column(name="phone_number", nullable = false)
     private Long phoneNumber;
-
-    @Column(name = "building_id", nullable = false)
     private String buildingId;
+    private String buildingName;
+    private String companyId;
+    private String companyName;
 
-
-    public SecurityPersonelDetails() {
-
+    // Constructors
+    public SecurityPersonnelDetailsDTO() {
     }
 
-    public SecurityPersonelDetails(int id, String fullName, String workIdNumber,
-                                   Long nationalIdNumber, Long phoneNumber, String buildingId) {
+    public SecurityPersonnelDetailsDTO(int id, String fullName, Long nationalIdNumber,
+                                       String workIdNumber, Long phoneNumber, String buildingId,
+                                       String buildingName, String companyId, String companyName) {
         this.id = id;
         this.fullName = fullName;
-        this.workIdNumber = workIdNumber;
         this.nationalIdNumber = nationalIdNumber;
+        this.workIdNumber = workIdNumber;
         this.phoneNumber = phoneNumber;
         this.buildingId = buildingId;
+        this.buildingName = buildingName;
+        this.companyId = companyId;
+        this.companyName = companyName;
     }
 
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -85,15 +75,30 @@ public class SecurityPersonelDetails {
     }
 
     public void setBuildingId(String buildingId) {
+        this.buildingId = buildingId;
+    }
 
+    public String getBuildingName() {
+        return buildingName;
     }
 
     public void setBuildingName(String buildingName) {
+        this.buildingName = buildingName;
+    }
+
+    public String getCompanyId() {
+        return companyId;
     }
 
     public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyName() {
+        return companyName;
     }
 
     public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }
