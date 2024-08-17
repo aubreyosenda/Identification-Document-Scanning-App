@@ -11,7 +11,7 @@ async function loadBuildingOptions(companyID) {
     const buildingSelector = document.getElementById('buildingSelector');
 
     try {
-        const response = await fetch('http://localhost:5500/api/v1/company/buildings/list?companyID=' + companyID);
+        const response = await fetch('/api/v1/company/buildings/list?companyID=' + companyID);
         const buildings = await response.json();
 
         buildings.forEach((building) => {
@@ -58,7 +58,7 @@ async function displayOrganizations(floorNumber) {
 
     if (buildingId && organizationsContainer.style.display === 'none') {
         try {
-            const response = await fetch(`http://localhost:5500/api/v1/company/building/organizations/byFloor?BuildingID=${buildingId}&floorNumber=${floorNumber}`);
+            const response = await fetch(`/api/v1/company/building/organizations/byFloor?BuildingID=${buildingId}&floorNumber=${floorNumber}`);
             const organizations = await response.json();
 
             organizationsContainer.innerHTML = organizations.length > 0

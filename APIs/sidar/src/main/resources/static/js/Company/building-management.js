@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
         function loadBuildings() {
             const companyID = companyProfile.companyId;
 
-            fetch(`http://localhost:5500/api/v1/company/buildings/list?companyID=${companyID}`)
+            fetch(`/api/v1/company/buildings/list?companyID=${companyID}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Failed to fetch buildings');

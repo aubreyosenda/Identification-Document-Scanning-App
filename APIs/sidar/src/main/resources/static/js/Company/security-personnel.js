@@ -31,7 +31,7 @@ async function displaySecurityPersonnel() {
 
     if (buildingId) {
         try {
-            const response = await fetch(`http://localhost:5500/api/v1/company/building/securityPersonnel?BuildingID=${buildingId}`);
+            const response = await fetch(`/api/v1/company/building/securityPersonnel?BuildingID=${buildingId}`);
             const personnelList = await response.json();
 
             const personnelContainer = document.getElementById('securityPersonnelContainer');
