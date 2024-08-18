@@ -45,8 +45,8 @@ public class LoginPageActivity extends AppCompatActivity {
         topBar.setTitle("Login");
 
         // Initialize UI components
-        countryCodePicker = findViewById(R.id.country_code_picker);
-        phoneNumber = findViewById(R.id.phone_number);
+        countryCodePicker = findViewById(R.id.ccp);
+        phoneNumber = findViewById(R.id.phone_number_text);
         password = findViewById(R.id.input_password);
         togglePasswordVisibility = findViewById(R.id.toggle_password_visibility);
         letMeInButton = findViewById(R.id.let_me_in);
