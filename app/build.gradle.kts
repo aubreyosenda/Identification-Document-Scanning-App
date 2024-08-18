@@ -73,6 +73,8 @@ dependencies {
     implementation("com.google.guava:guava:31.0.1-android")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.11.0")
     implementation("com.hbb20:ccp:2.7.3")
+    runtimeOnly("com.google.android.material:material:1.12.0")
+
 
     // CameraX dependencies
     val camerax_version = "1.4.0-beta02"

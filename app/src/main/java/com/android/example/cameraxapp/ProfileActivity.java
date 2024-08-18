@@ -1,102 +1,90 @@
 package com.android.example.cameraxapp;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.android.example.cameraxapp.Model.UserModel;
-import com.android.example.cameraxapp.utils.FirebaseUtil;
 import com.bumptech.glide.Glide;
 import com.github.dhaval2404.imagepicker.ImagePicker;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageView profileImage;
-    private EditText usernameInput, fullNameInput, emailInput, phoneNumberInput;
-    private Button changePhotoButton, updateProfileButton;
-    private ProgressBar progressBar;
+    private Button changePhotoButton;
+    private TextView fullname;
+    private TextView phone_number;
+    private TextView work_id;
+    private TextView company_name;
+    private TextView building_name;
     private Uri imageUri;
-    private UserModel userModel;
+    private ProgressBar progressBar;
+    private Button updateProfileButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main_layoutprofile), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
+        // Find views by their IDs
         profileImage = findViewById(R.id.profileImage);
-        usernameInput = findViewById(R.id.username);
-        fullNameInput = findViewById(R.id.fullname);
-        emailInput = findViewById(R.id.email);
-        phoneNumberInput = findViewById(R.id.phone_number);
+        fullname = findViewById(R.id.fullname);
+        phone_number = findViewById(R.id.phone_number);
+        work_id = findViewById(R.id.work_id);
+        company_name = findViewById(R.id.company_name);
+        building_name = findViewById(R.id.building_name);
         changePhotoButton = findViewById(R.id.changePhotoButton);
-        updateProfileButton = findViewById(R.id.update_profile);
         progressBar = findViewById(R.id.Progressbar);
+//        updateProfileButton = findViewById(R.id.updateProfileButton);
 
-        loadUserProfile();
-
+        // Set onClickListener for the change photo button
         changePhotoButton.setOnClickListener(v -> openFileChooser());
-        updateProfileButton.setOnClickListener(v -> updateProfile());
+
+        // Load user profile from SharedPreferences
+        loadUserProfile();
     }
 
+    @SuppressLint("SetTextI18n")
     private void loadUserProfile() {
-        setInProgress(true);
-        DocumentReference userRef = FirebaseUtil.currentUserDetails();
-        if (userRef != null) {
-            userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    setInProgress(false);
-                    if (task.isSuccessful() && task.getResult() != null) {
-                        userModel = task.getResult().toObject(UserModel.class);
-                        if (userModel != null) {
-                            usernameInput.setText(userModel.getUsername());
-                            fullNameInput.setText(userModel.getFullName());
-                            emailInput.setText(userModel.getEmail());
-                            phoneNumberInput.setText(userModel.getPhone());
-                            if (userModel.getProfileImageUri() != null) {
-                                Glide.with(ProfileActivity.this).load(userModel.getProfileImageUri()).into(profileImage);
-                            }
-                        }
-                    } else {
-                        Toast.makeText(ProfileActivity.this, "Failed to load profile", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        } else {
-            setInProgress(false);
-            Toast.makeText(ProfileActivity.this, "Failed to get user details", Toast.LENGTH_SHORT).show();
+        SharedPreferences sharedPreferences = getSharedPreferences("SecurityPersonnelPrefs", MODE_PRIVATE);
+
+        // Retrieve and set user details
+        String fullName = sharedPreferences.getString("fullName", "Name");
+        long phoneNumberLong = sharedPreferences.getLong("phoneNumber", 0L); // Default to 0 if not found
+        String phoneNumber = String.valueOf(phoneNumberLong); // Convert to String for display
+        String workId = sharedPreferences.getString("workIdNumber", "Work ID");
+        String companyName = sharedPreferences.getString("companyName", "Company Name");
+        String buildingName = sharedPreferences.getString("buildingName", "Building Name");
+        String profileImageUri = sharedPreferences.getString("profileImageUri", null);
+
+        // Set text views
+        fullname.setText(fullName);
+        phone_number.setText(phoneNumber);
+        work_id.setText(workId);
+        company_name.setText(companyName);
+        building_name.setText(buildingName);
+
+        // Load profile image if it exists
+        if (profileImageUri != null) {
+            Glide.with(this).load(profileImageUri).into(profileImage);
         }
     }
 
@@ -117,81 +105,30 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    private void updateProfile() {
-        String username = usernameInput.getText().toString();
-        String fullName = fullNameInput.getText().toString();
-        String email = emailInput.getText().toString();
-        String phone = phoneNumberInput.getText().toString();
-
-        if (username.isEmpty() || username.length() < 3) {
-            usernameInput.setError("Username length should be at least 3 chars");
-            return;
-        }
-
-        setInProgress(true);
-
-        if (imageUri != null) {
-            uploadImageToFirebase(username, fullName, email, phone);
-        } else {
-            updateUserProfile(username, fullName, email, phone, null);
-        }
-    }
-
-    private void uploadImageToFirebase(String username, String fullName, String email, String phone) {
+    private void uploadImageToFirebase(String profileImageUri) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference("profile_images/" + UUID.randomUUID().toString());
-        storageReference.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                if (task.isSuccessful()) {
-                    storageReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Uri> task) {
-                            if (task.isSuccessful()) {
-                                Uri downloadUri = task.getResult();
-                                updateUserProfile(username, fullName, email, phone, downloadUri.toString());
-                            } else {
-                                setInProgress(false);
-                                Toast.makeText(ProfileActivity.this, "Failed to get download URL", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                } else {
-                    setInProgress(false);
-                    Toast.makeText(ProfileActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
-                }
+        storageReference.putFile(imageUri).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                storageReference.getDownloadUrl().addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        Uri downloadUri = task1.getResult();
+//                        updateUserProfile(profileImageUri = downloadUri.toString());
+                    } else {
+                        setInProgress(false);
+                        Toast.makeText(ProfileActivity.this, "Failed to get download URL", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                setInProgress(false);
+                Toast.makeText(ProfileActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void updateUserProfile(String username, String fullName, String email, String phone, String profileImageUri) {
-        DocumentReference userRef = FirebaseUtil.currentUserDetails();
-
-        if (userRef == null) {
-            Toast.makeText(ProfileActivity.this, "Failed to get user details", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Creating a map to hold the fields to update
-        Map<String, Object> updates = new HashMap<>();
-        updates.put("username", username);
-        updates.put("fullName", fullName);
-        updates.put("email", email);
-        updates.put("phone", phone);
-        if (profileImageUri != null) {
-            updates.put("profileImageUri", profileImageUri);
-        }
-
-        userRef.update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                setInProgress(false);
-                if (task.isSuccessful()) {
-                    Toast.makeText(ProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ProfileActivity.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+    private void updateUserProfile(String profileImageUri) {
+        // Assuming you have the logic to update the profile in SharedPreferences or Firestore
+        // After update, refresh the view or notify the user
+        Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
     }
 
     private void setInProgress(boolean inProgress) {

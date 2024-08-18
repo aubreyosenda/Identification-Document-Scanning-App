@@ -3,6 +3,7 @@ package com.android.example.cameraxapp;
 import static com.android.example.cameraxapp.Interfaces.RetrofitApi.BASE_URL;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -77,9 +78,15 @@ public class SignOutActivity extends AppCompatActivity {
 
         RetrofitApi retrofitAPI = retrofit.create(RetrofitApi.class);
 
+        // Fetch WorkID from SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("SecurityPersonnelPrefs", MODE_PRIVATE);
+
+        // Retrieve and set user details
+        String workId = sharedPreferences.getString("workIdNumber", "");
+
         SignOutRequest signOutRequest = new SignOutRequest();
         signOutRequest.setDocumentNo(documentNo);
-        signOutRequest.setSignedOutBy("Androi");
+        signOutRequest.setSignedOutBy(workId);
 
         Call<String> signOutCall = retrofitAPI.signOutVisitor(signOutRequest);
 

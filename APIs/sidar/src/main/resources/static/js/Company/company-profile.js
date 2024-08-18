@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', loadCompanyProfile);
 // Logout function
 document.getElementById('logout-button').addEventListener('click', function() {
     localStorage.removeItem('companyProfile');
-    window.location.href = '/login'; // Redirect to login page or homepage
+    window.location.href = '/company/login'; // Redirect to login page or homepage
 });
 
 // Dummy data for the charts

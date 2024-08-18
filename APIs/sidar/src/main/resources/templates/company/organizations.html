@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../static/css/Company/organization-styles.css">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">Company Portal</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/company/profile">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/company/buildings/organizations">Organizations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/company/buildings/personnel">Security Personnel</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Secondary Navbar -->
+<div class="secondary-navbar bg-light py-2">
+    <div class="container d-flex justify-content-between align-items-center">
+        <select id="buildingSelector" class="form-select w-50">
+            <option value="" disabled selected>Select Building</option>
+        </select>
+        <button type="button" class="btn btn-primary" onclick="addFloor()" disabled>Add Floor</button>
+    </div>
+</div>
+
+<!-- Main Content -->
+<main class="container my-5">
+    <div id="floorsContainer" class="mt-4">
+        <!-- Floors will be added here -->
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-3">
+    <p>&copy; By Vanatel Company. All rights reserved.</p>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../../static/js/Company/organizations.js"></script>
+</body>
+</html>

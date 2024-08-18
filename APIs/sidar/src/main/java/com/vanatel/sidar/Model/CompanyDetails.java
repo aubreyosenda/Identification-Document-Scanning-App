@@ -14,7 +14,7 @@ import org.springframework.lang.NonNull;
 import java.sql.Timestamp;
 
 @Entity
-@Table (name = "Company_Details")
+@Table (name = "Company")
 
 public class CompanyDetails {
 

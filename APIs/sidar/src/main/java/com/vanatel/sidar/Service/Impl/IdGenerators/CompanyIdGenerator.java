@@ -1,4 +1,4 @@
-package com.vanatel.sidar.Service.Impl;
+package com.vanatel.sidar.Service.Impl.IdGenerators;
 
 import org.springframework.stereotype.Service;
 

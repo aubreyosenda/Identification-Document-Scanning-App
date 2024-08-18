@@ -1,6 +1,7 @@
 package com.android.example.cameraxapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setListeners();
         setGreetingMessage();
         loadUserProfile();
+        displayFullName();
     }
 
     private void initializeViews() {
@@ -103,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     private void loadUserProfile() {
         DocumentReference userRef = FirebaseUtil.currentUserDetails();
         if (userRef != null) {
@@ -123,8 +124,13 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Failed to load user profile", Toast.LENGTH_SHORT).show();
                 }
             });
-        } else {
-            Toast.makeText(MainActivity.this, "User reference is null", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void displayFullName() {
+        SharedPreferences sharedPreferences = getSharedPreferences("SecurityPersonnelPrefs", MODE_PRIVATE);
+        String fullName = sharedPreferences.getString("fullName", "UserName");
+        String screenName = fullName.split(" ")[0];
+        welcomeUsername.setText(screenName);
     }
 }

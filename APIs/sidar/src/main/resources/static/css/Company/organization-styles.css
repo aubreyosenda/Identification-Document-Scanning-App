@@ -1,0 +1,120 @@
+/* General Body Style */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure body takes at least the full height of the viewport */
+    margin: 0;
+}
+
+/* Navbar Styles */
+.navbar {
+    z-index: 1000; /* Ensure it is above other content */
+}
+
+/* Secondary Navbar Styles */
+.secondary-navbar {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Adjust the space between primary and secondary navbar */
+body::before {
+    content: "";
+    display: block;
+    height: 70px; /* Height of the main navbar */
+}
+
+
+
+/* Main Content Style */
+main {
+    margin-top: 110px;
+    padding-bottom: 60px;
+}
+
+/* Fixed Controls (Select & Button) Styles */
+.fixed-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto; /* Center the controls */
+    max-width: 1200px; /* Set a max width for large screens */
+}
+
+#buildingSelector {
+    margin-top: 0;
+}
+
+button {
+    margin-top: 0;
+}
+
+/* Floors Container Styles */
+#floorsContainer {
+    margin-top: 0;
+}
+
+.floor {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Organization Input Styles */
+.organization-input {
+    margin-bottom: 10px;
+}
+
+/* Disabled Button Styles */
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.organizations-container {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+
+.organization {
+    padding: 0.5rem;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.organization:last-child {
+    border-bottom: none;
+}
+
+.organization input {
+    margin-bottom: 0.5rem;
+}
+
+.btn-secondary {
+    margin-top: 1rem;
+}
+
+.floor {
+    margin-bottom: 2rem;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #343a40; /* Same as the navbar for consistency */
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

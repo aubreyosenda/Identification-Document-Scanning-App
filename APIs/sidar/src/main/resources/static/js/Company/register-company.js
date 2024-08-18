@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             // Send data to the API
-            fetch('http://localhost:5500/api/v1/company/register', {
+            fetch('/api/v1/company/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
