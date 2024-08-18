@@ -21,7 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.example.cameraxapp.Interfaces.RetrofitApi;
 import com.android.example.cameraxapp.Model.Organization;
-import com.android.example.cameraxapp.Model.Vistors;
+import com.android.example.cameraxapp.Model.Visitors;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -115,7 +115,6 @@ public class DisplayActivity extends AppCompatActivity {
 
         retrofitAPI = retrofit.create(RetrofitApi.class);
 
-//        initialize the numberplate and selected document
         String documentType = intent.get().getStringExtra("selectedDocument");
 //        String country = intent.get().getStringExtra("selectedCountry");
         String phoneNumber = intent.get().getStringExtra("phoneNumber");
@@ -239,9 +238,26 @@ public class DisplayActivity extends AppCompatActivity {
 
         // Post data to API on Clicking "save button"
         buttonSave.setOnClickListener(v -> {
-            String documentNumber = textDocNoView.getText().toString();
-            PostData(documentType, documentNumber, fullName,
-                    phoneNumber, floorNumber, organizationName,
+            String documentNumber = textDocNoView.getText() == null ? null : textDocNoView.getText().toString();
+            String phoneNo = textPhoneNoView.getText() != null ? textPhoneNoView.getText().toString() : null;
+            String vehicleNumberPlate = numberPlateView.getText() == null ? null : numberPlateView.getText().toString();
+            String floorNumber = selectedFloor;
+            String organizationName = selectedOrganization;
+
+            Log.d("Selected Floor", selectedFloor != null ? selectedFloor : "null");
+            Log.d("Selected Organization", selectedOrganization != null ? selectedOrganization : "null");
+            Log.d("From Post Data btn: ", documentType != null ? documentType : "null");
+            Log.d("From Post Data btn: ", documentNumber != null ? documentNumber : "null");
+            Log.d("From Post Data btn: ", textNameView.getText() != null ? textNameView.getText().toString() : "null");
+            Log.d("From Post Data btn: ", phoneNo != null ? phoneNo : "null");
+            Log.d("From Post Data btn: ", vehicleNumberPlate != null ? vehicleNumberPlate : "null");
+            Log.d("From Post Data btn: ", workId != null ? workId : "null");
+            Log.d("From Post Data btn: ", buildingId != null ? buildingId : "null");
+
+
+
+            PostData(documentType, documentNumber, textNameView.getText().toString(),
+                    phoneNo, floorNumber, organizationName,
                     vehicleNumberPlate, workId, buildingId);
         });
     }
@@ -339,14 +355,14 @@ public class DisplayActivity extends AppCompatActivity {
     }
 
     public void PostData(String documentType, String documentNumber, String fullName,
-                         String phoneNumber, String floorNumber, String organizationName,
+                         String phoneNo, String floorNumber, String organizationName,
                          String vehicleNumberPlate, String workId, String buildingId) {
 
         Log.d("Debug", "PostData called with: ");
         Log.d("Debug", "Document: " + documentType);
         Log.d("Debug", "Doc Number: " + documentNumber);
         Log.d("Debug", "Name: " + fullName);
-        Log.d("Debug", "Phone Number: " + phoneNumber);
+        Log.d("Debug", "Phone Number: " + phoneNo);
         Log.d("Debug", "Floor: " + floorNumber);
         Log.d("Debug", "Organization: " + organizationName);
         Log.d("Debug", "Vehicle Number Plate: "+ vehicleNumberPlate);
@@ -355,11 +371,11 @@ public class DisplayActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        Vistors vistors = new Vistors(documentType, documentNumber, fullName,
-                phoneNumber, floorNumber, organizationName,
+        Visitors visitors = new Visitors(documentType, documentNumber, fullName,
+                phoneNo, floorNumber, organizationName,
                 vehicleNumberPlate, workId, buildingId);
 
-        Call<String> vistorsCall = retrofitAPI.registerVisitor(vistors);
+        Call<String> vistorsCall = retrofitAPI.registerVisitor(visitors);
         Log.v(TAG, "API Call: " + vistorsCall.toString());
 
         vistorsCall.enqueue(new Callback<String>() {
@@ -368,7 +384,6 @@ public class DisplayActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.INVISIBLE);
                 if (response.isSuccessful()) {
                     String successMsg = response.body();
-                    Log.v(TAG, "Full response body: " + successMsg);
                     showConfirmationDialog("Visitor Registered Successfully", true);
                 } else {
                     try {

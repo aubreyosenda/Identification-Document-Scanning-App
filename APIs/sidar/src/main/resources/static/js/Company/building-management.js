@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const companyID = companyProfile.companyId;
 
             // AJAX call to register the building
-            fetch('http://localhost:5500/api/v1/company/buildings/register', {
+            fetch('/api/v1/company/buildings/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (e.target.classList.contains('delete-building')) {
                 const buildingId = e.target.getAttribute('data-id');
 
-                fetch(`http://localhost:5500/api/v1/buildings/${buildingId}`, {
+                fetch(`/api/v1/buildings/${buildingId}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'

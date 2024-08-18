@@ -16,15 +16,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.example.cameraxapp.Interfaces.RetrofitApi;
 import com.android.example.cameraxapp.Model.SecurityPersonelDetails;
 import com.hbb20.CountryCodePicker;
 
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginPageActivity extends AppCompatActivity {
 
@@ -71,14 +71,12 @@ public class LoginPageActivity extends AppCompatActivity {
 
             if (validateInputs(phone, pwd)) {
                 progressBar.setVisibility(View.VISIBLE);
-                // Perform login operation (e.g., network request)
                 performLogin(phone, pwd);
             }
         });
 
         // Handle forgot password click
         forgotPassword.setOnClickListener(view -> {
-            // Handle forgot password functionality
             Toast.makeText(LoginPageActivity.this, "Forgot Password Clicked", Toast.LENGTH_SHORT).show();
         });
     }
@@ -98,66 +96,49 @@ public class LoginPageActivity extends AppCompatActivity {
     }
 
     private void performLogin(String phone, String password) {
-        // Define the URL for the login request
-        String url = "https://e46a-41-203-219-167.ngrok-free.app/api/v1/company/personnel/login?phoneNumber=" + phone + "&nationalIdNumber=" + password;
+        // Create a Retrofit instance
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(RetrofitApi.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        // Create a new thread to handle the network request
-        new Thread(() -> {
-            try {
-                // Perform the network request
-                URL loginUrl = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection) loginUrl.openConnection();
-                connection.setRequestMethod("GET");
+        // Create an instance of the RetrofitApi
+        RetrofitApi retrofitApi = retrofit.create(RetrofitApi.class);
 
-                // Read the response
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                StringBuilder responseBuilder = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    responseBuilder.append(line);
-                }
-                reader.close();
+        // Call the login method
+        Call<SecurityPersonelDetails> call = retrofitApi.login(phone, password);
 
-                // Convert response to JSON
-                String response = responseBuilder.toString();
-                Log.d("LoginResponse", response);
+        // Enqueue the call to execute asynchronously
+        call.enqueue(new Callback<SecurityPersonelDetails>() {
+            @Override
+            public void onResponse(Call<SecurityPersonelDetails> call, Response<SecurityPersonelDetails> response) {
+                progressBar.setVisibility(View.GONE);
+                if (response.isSuccessful() && response.body() != null) {
+                    // Handle successful login response
+                    SecurityPersonelDetails details = response.body();
 
-                // Parse the JSON response
-                JSONObject jsonResponse = new JSONObject(response);
-                int id = jsonResponse.getInt("id");
-                String fullName = jsonResponse.getString("fullName");
-                long nationalIdNumber = jsonResponse.getLong("nationalIdNumber");
-                String workIdNumber = jsonResponse.getString("workIdNumber");
-                long phoneNumber = jsonResponse.getLong("phoneNumber");
-                String buildingId = jsonResponse.getString("buildingId");
-                String buildingName = jsonResponse.getString("buildingName");
-                String companyID = jsonResponse.getString("companyId");
-                String companyName = jsonResponse.getString("companyName");
-
-                // Create a SecurityPersonelDetails object
-                SecurityPersonelDetails details = new SecurityPersonelDetails(
-                        id, fullName, nationalIdNumber, workIdNumber, phoneNumber, buildingId, buildingName, companyID, companyName
-                );
-
-                // Save user details
-                runOnUiThread(() -> {
+                    // Save user details
                     saveLoginDetails(details);
-                    progressBar.setVisibility(View.GONE);
+
+                    // Navigate to MainActivity
                     Intent intent = new Intent(LoginPageActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-                });
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                runOnUiThread(() -> {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(LoginPageActivity.this, "Login failed. Please try again.", Toast.LENGTH_SHORT).show();
-                });
+                } else {
+                    // Handle unsuccessful response
+                    Toast.makeText(LoginPageActivity.this, "Login failed. Please check your credentials.", Toast.LENGTH_SHORT).show();
+                }
             }
-        }).start();
-    }
 
+            @Override
+            public void onFailure(Call<SecurityPersonelDetails> call, Throwable t) {
+                // Handle failure in making the request
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(LoginPageActivity.this, "Login failed. Please try again.", Toast.LENGTH_SHORT).show();
+                Log.e("LoginError", t.getMessage(), t);
+            }
+        });
+    }
 
     private void saveLoginDetails(SecurityPersonelDetails details) {
         SharedPreferences sharedPreferences = getSharedPreferences("SecurityPersonnelPrefs", MODE_PRIVATE);
@@ -173,5 +154,4 @@ public class LoginPageActivity extends AppCompatActivity {
         editor.putString("companyName", details.getCompanyName());
         editor.apply();
     }
-
 }

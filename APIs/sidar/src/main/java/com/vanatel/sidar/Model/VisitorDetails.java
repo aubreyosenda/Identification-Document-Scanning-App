@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Visitor_Details")
+@Table(name = "Visitors")
 public class VisitorDetails {
 
     @Id

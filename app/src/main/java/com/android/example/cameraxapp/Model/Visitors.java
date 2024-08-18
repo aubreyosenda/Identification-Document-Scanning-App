@@ -1,14 +1,21 @@
 package com.android.example.cameraxapp.Model;
 
-public class Vistors {
+import java.math.BigInteger;
 
-    String documentType;
-    String visitorDocNo, visitorFullName, visitorPhone, floorNo, organization, vehicleNumberPlate;
+public class Visitors {
+    private String documentType;
+    private String visitorDocNo;
+    private String visitorFullName;
+    private String visitorPhone;
+    private String floorNo;
+    private String organization;
+    private String vehicleNumberPlate;
+    private String signedInBy;
+    private String BuildingID;
 
-    public Vistors() {
-    }
-
-    public Vistors(String documentType, String visitorDocNo, String visitorFullName, String visitorPhone, String floorNo, String organization, String vehicleNumberPlate) {
+    public Visitors(String documentType, String visitorDocNo, String visitorFullName,
+                    String visitorPhone, String floorNo, String organization,
+                    String vehicleNumberPlate, String signedInBy, String buildingID) {
         this.documentType = documentType;
         this.visitorDocNo = visitorDocNo;
         this.visitorFullName = visitorFullName;
@@ -16,9 +23,8 @@ public class Vistors {
         this.floorNo = floorNo;
         this.organization = organization;
         this.vehicleNumberPlate = vehicleNumberPlate;
-    }
-
-    public Vistors(String selectedDocumentView, String textDocNoView, String textNameView, String textPhoneNoView, String selectedFloor, String selectedOrganization, String workId, String vehicle, String buildingId) {
+        this.signedInBy = signedInBy;
+        BuildingID = buildingID;
     }
 
     public String getDocumentType() {
@@ -75,5 +81,21 @@ public class Vistors {
 
     public void setVehicleNumberPlate(String vehicleNumberPlate) {
         this.vehicleNumberPlate = vehicleNumberPlate;
+    }
+
+    public String getSignedInBy() {
+        return signedInBy;
+    }
+
+    public void setSignedInBy(String signedInBy) {
+        this.signedInBy = signedInBy;
+    }
+
+    public String getBuildingID() {
+        return BuildingID;
+    }
+
+    public void setBuildingID(String buildingID) {
+        BuildingID = buildingID;
     }
 }

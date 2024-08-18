@@ -82,7 +82,7 @@ class CameraActivity : AppCompatActivity() {
 
 
         // Display the selected document type and country name
-        selectedDocumentText.text = "Selected Document: $selectedDocument\nSelected Country: $selectedCountry\n Vehicle Numberplate $vehicleNumberPlate"
+//        selectedDocumentText.text = "Selected Document: $selectedDocument\nSelected Country: $selectedCountry\n Vehicle Numberplate $vehicleNumberPlate"
 
         // Set up the listener for the image capture button
         viewBinding.imageCaptureButton.setOnClickListener { takePhoto() }

@@ -124,8 +124,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Failed to load user profile", Toast.LENGTH_SHORT).show();
                 }
             });
-        } else {
-            Toast.makeText(MainActivity.this, "User reference is null", Toast.LENGTH_SHORT).show();
         }
     }
 
